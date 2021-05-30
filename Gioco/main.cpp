@@ -1,6 +1,7 @@
-#include <stdio.h>
+#include<iostream>
 
-int main() {
-	printf("Bella raga\n");
-	return 0;
+int main(int argc, char** argv)
+{
+    printf("Bella\n");
+    return 0;
 }
