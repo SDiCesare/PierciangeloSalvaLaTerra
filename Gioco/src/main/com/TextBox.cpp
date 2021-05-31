@@ -34,7 +34,7 @@ TextBox::TextBox(int w, int h, sf::Vector2f position) {
 }
 
 // update the position of textbox
-void TextBox::setPosition(sf::Vector2f position) { this->position = position; }
+void TextBox::setPosition(sf::Vector2f newPosition) { this->position = position; }
 
 void TextBox::setPosition(float x, float y) { position = sf::Vector2f(x, y); }
 
