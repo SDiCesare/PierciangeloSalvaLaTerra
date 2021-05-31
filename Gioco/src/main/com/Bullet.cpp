@@ -1,5 +1,11 @@
 #include "Bullet.h"
+<<<<<<< Updated upstream
 #include <iostream>
+=======
+#include "Entity.hpp"
+#include <iostream>
+#include <SFML/Graphics.hpp>
+>>>>>>> Stashed changes
 #include "Game.h"
 
 Bullet::Bullet(Entity *source) : Entity()
@@ -41,5 +47,8 @@ void Bullet::tick()
     if (x > Game::width || y > Game::height) {
         this->alive = false;
     }
+<<<<<<< Updated upstream
     this->sprite->setPosition(x, y);
+=======
+>>>>>>> Stashed changes
 }
