@@ -7,9 +7,11 @@ class Entity
 public:
     Entity(sf::Sprite);
     void setPosition(sf::Vector2f);
+    void tick();
+    sf::Sprite getSprite();
 
 protected:
-    sf::Sprite entitySprite;
+    sf::Sprite sprite;
 };
 
 #endif

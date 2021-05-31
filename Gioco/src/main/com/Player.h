@@ -1,3 +1,6 @@
 class Player {
 
+public:
+    Player();
+
 };

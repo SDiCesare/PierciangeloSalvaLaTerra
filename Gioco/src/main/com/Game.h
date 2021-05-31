@@ -1,11 +1,11 @@
 #include <SFML/Graphics.hpp>
+#include "World.h"
 
 class Game
 {
 private:
-    sf::RenderWindow window;
-    int x;
-    int y;
+    sf::RenderWindow *window;
+    World *world;
     void tick();
     void draw();
     void checkInput();
