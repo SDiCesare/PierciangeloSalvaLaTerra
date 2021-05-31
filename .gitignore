@@ -41,13 +41,14 @@
 *.exe
 *.out
 *.app
+*.bat
 
 ### VisualStudioCode ###
 .vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+# !.vscode/settings.json
+# !.vscode/tasks.json
+# !.vscode/launch.json
+# !.vscode/extensions.json
 *.code-workspace
 
 ### VisualStudioCode Patch ###
@@ -417,5 +418,8 @@ FodyWeavers.xsd
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 *.tlog
+
+# Cartella Edo
+bin/
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,c++
