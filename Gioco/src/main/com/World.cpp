@@ -1,6 +1,6 @@
 #include "World.h"
 #include "Enemy.h"
-#include <SFML/Graphics.hpp>
+#include <iostream>
 
 World::World() {
     entity = new Enemy();
@@ -11,13 +11,19 @@ World::World() {
 
 void World::tick()
 {
-    int index = 0;
+    /*int index = 0;
+    for (int i = 0; i < entities.size(); i++) {
+        Entity* entity = entities.begin()._M_node;
+        entity->tick();
+        if (!entity->isAlive()) {
+            entities.erase(entity);
+        }
+    }*/
     for (Entity* entity : entities) {
         entity->tick();
         if (!entity->isAlive()) {
-            entities.erase(entities.begin() + index);
+            entities.remove(entity);
         }
-        index++;
     }
 }
 
@@ -30,5 +36,9 @@ void World::display(sf::RenderWindow &window)
 
 
 void World::addEntity(Entity *entity) {
+    if (entities.size() == entities.max_size() - 1) {
+        std::cout << "Finito Spazio!\n";
+        return;
+    }
     entities.push_back(entity);
 }

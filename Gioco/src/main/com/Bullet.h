@@ -1,3 +1,6 @@
+#ifndef Bullet_h
+#define Bullet_h
+
 #include "Entity.hpp"
 #include <SFML/Graphics.hpp>
 
@@ -13,3 +16,5 @@ private:
     Entity *source;
     sf::Vector2f speed;
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef Player_h
+#define Player_h
+
 #include "Entity.hpp"
 #include <SFML/Graphics.hpp>
 
@@ -13,3 +16,5 @@ private:
 private:
     sf::Vector2f speed;
 };
+
+#endif

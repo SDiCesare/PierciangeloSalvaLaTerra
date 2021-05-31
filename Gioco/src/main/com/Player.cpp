@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "Entity.hpp"
 #include <iostream>
 #include "Bullet.h"
 

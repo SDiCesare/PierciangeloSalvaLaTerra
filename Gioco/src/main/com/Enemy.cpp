@@ -17,26 +17,20 @@ Enemy::Enemy() : Entity()
 
 void Enemy::tick()
 {
-    float xOff = Game::getRandFloat() * 2 - 1;
-    float yOff = Game::getRandFloat() * 2 - 1;
-    std::cout << xOff << "," << yOff << "\n";
-    float x = sprite->getPosition().x + xOff;
-    float y = sprite->getPosition().y + yOff;
-    if (x < 0)
-    {
-        x = 100;
-    }
-    if (x > 100)
-    {
-        x = 0;
-    }
-    if (y < 0)
-    {
-        y = 100;
-    }
-    if (y > 100)
-    {
-        y = 0;
-    }
-    sprite->setPosition(x, y);
+    float x = sprite->getPosition().x;
+    float y = sprite->getPosition().y;
+
+    float xSpeed = Game::getRandInt(0, 3) - 1.5f;
+    /*if (xSpeed < -1)
+        xSpeed = -1;
+    if (xSpeed > 1)
+        xSpeed = 1;*/
+
+    float ySpeed = Game::getRandInt(0, 3) - 1.5f;
+    /*if (ySpeed < -1)
+        ySpeed = -1;
+    if (ySpeed > 1)
+        ySpeed = 1;*/
+
+    sprite->setPosition(x + xSpeed, y + ySpeed);
 }

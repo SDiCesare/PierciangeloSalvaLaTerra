@@ -1,6 +1,9 @@
+#ifndef World_h
+#define World_h
+
 #include "Player.h"
 #include <SFML/Graphics.hpp>
-#include <vector>
+#include <list>
 
 class World
 {
@@ -14,5 +17,7 @@ public:
     void addEntity(Entity *entity);
 
 private:
-    std::vector<Entity*> entities;
+    std::list<Entity*> entities;
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef Game_h
+#define Game_h
+
 #include <SFML/Graphics.hpp>
 #include "World.h"
 
@@ -17,3 +20,5 @@ public:
     const static int width = 800;
     const static int height = 600;
 };
+
+#endif

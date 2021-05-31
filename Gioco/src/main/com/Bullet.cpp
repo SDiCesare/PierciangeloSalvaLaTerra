@@ -1,7 +1,5 @@
 #include "Bullet.h"
-#include "Entity.hpp"
 #include <iostream>
-#include <SFML/Graphics.hpp>
 #include "Game.h"
 
 Bullet::Bullet(Entity *source) : Entity()
@@ -43,4 +41,5 @@ void Bullet::tick()
     if (x > Game::width || y > Game::height) {
         this->alive = false;
     }
+    this->sprite->setPosition(x, y);
 }
