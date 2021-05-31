@@ -1,7 +1,7 @@
 #ifndef World_h
 #define World_h
 
-#include "Player.h"
+#include "entity\\Player.h"
 #include <SFML/Graphics.hpp>
 #include <list>
 

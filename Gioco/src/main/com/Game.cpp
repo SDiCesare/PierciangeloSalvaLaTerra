@@ -1,7 +1,8 @@
 #include "Game.h"
 #include <stdlib.h>
 #include <time.h>
-#include "Bullet.h"
+#include "entity\\Bullet.h"
+#include "entity\\Entity.hpp"
 
 Game::Game()
 {

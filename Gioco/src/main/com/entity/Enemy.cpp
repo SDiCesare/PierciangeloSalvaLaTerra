@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Enemy.h"
-#include "Game.h"
+#include "..\\Game.h"
 
 Enemy::Enemy() : Entity()
 {

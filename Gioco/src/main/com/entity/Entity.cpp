@@ -1,6 +1,6 @@
 #include "Entity.hpp"
 #include <iostream>
-#include "Game.h"
+#include "..\\Game.h"
 
 Entity::Entity(sf::Sprite *sprite)
 {
