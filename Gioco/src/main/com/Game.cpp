@@ -1,6 +1,8 @@
 
 #include <SFML/Graphics.hpp>
 #include "Game.h"
+#include <stdlib.h>
+#include <time.h>
 
 Game::Game()
 {
@@ -10,19 +12,18 @@ Game::Game()
 
 void Game::run()
 {
-    window->create(sf::VideoMode(800, 600), "My window");
-
-    while (window->isOpen())
+    window.create(sf::VideoMode(Game::width, Game::height), "My window");
+    window.setFramerateLimit(60.f);
+    while (window.isOpen())
     {
         sf::Event event;
-        while (window->pollEvent(event))
+        while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
             {
-                window->close();
+                window.close();
             }
         }
-        checkInput();
         tick();
         draw();
     }
@@ -35,22 +36,18 @@ void Game::tick()
 
 void Game::draw()
 {
-    window->clear();
+    window.clear();
     world->display(window);
-    window->display();
+    window.display();
 }
 
-void Game::checkInput() {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-        
-    }
+int Game::getRandInt(int min, int max)
+{
+    srand(time(NULL));
+    return (rand() % (max - min + 1)) + min;
+}
+
+float Game::getRandFloat()
+{
+    return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 }
