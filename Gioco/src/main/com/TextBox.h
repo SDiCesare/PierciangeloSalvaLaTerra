@@ -11,6 +11,8 @@ public:
     TextBox();
     void setPosition(sf::Vector2f);
     void setPosition(float x, float y);
+    void setSize(sf::Vector2f);
+    void setSize(float x, float y);
     
 
 private:
