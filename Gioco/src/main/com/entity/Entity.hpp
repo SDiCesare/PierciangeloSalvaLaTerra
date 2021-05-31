@@ -4,18 +4,20 @@
 
 class Entity
 {
-protected:
-    Entity(sf::Sprite);
+public:
+    Entity(sf::Sprite *sprite);
     Entity();
 
 public:
     void setPosition(sf::Vector2f);
-    void tick();
+    virtual void tick();
     sf::Sprite getSprite();
+    bool isAlive();
 
 protected:
-    sf::Sprite sprite;
-    sf::Texture texture;
+    sf::Sprite *sprite;
+    sf::Texture *texture;
+    bool alive;
 };
 
 #endif
