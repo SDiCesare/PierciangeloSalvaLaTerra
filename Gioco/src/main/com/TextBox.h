@@ -12,17 +12,23 @@ public:
     void setPosition(sf::Vector2f newPosition);
     void setPosition(float x, float y);
     sf::Sprite* getSprite();
+    sf::Sprite* getSpriteOverTime(int frame);
     void setString(std::string str);
-    void setColor(sf::Color color);
+    bool setColor(sf::Color color);
+    bool isPrinting();
     
 
 private:
     sf::Font font;
     sf::Text text;
+    sf::String string;
     sf::RenderTexture background;
     sf::Vector2f position;
     sf::Color color;
+    sf::Sprite sprite;
     void setInitialValue();
+    bool printing;
+    bool needToDraw;
 
 };
 
