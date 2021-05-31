@@ -4,5 +4,5 @@ class Enemy : public Entity
 {
 public:
     Enemy();
-    void tick();
+    void tick() override;
 };

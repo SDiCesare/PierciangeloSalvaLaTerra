@@ -1,13 +1,13 @@
-
-#include <SFML/Graphics.hpp>
 #include "Game.h"
+#include <SFML/Graphics.hpp>
 #include <stdlib.h>
 #include <time.h>
+#include "World.h"
+#include "Bullet.h"
 
 Game::Game()
 {
     world = new World();
-    world->setup();
 }
 
 void Game::run()
@@ -32,6 +32,10 @@ void Game::run()
 void Game::tick()
 {
     world->tick();
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+    {
+        world->addEntity(new Bullet(world->player));
+    }
 }
 
 void Game::draw()

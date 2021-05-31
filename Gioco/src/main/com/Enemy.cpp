@@ -2,15 +2,17 @@
 #include "Enemy.h"
 #include "Game.h"
 
-Enemy::Enemy()
+Enemy::Enemy() : Entity()
 {
-    if (!texture.loadFromFile("..\\resources\\textures\\entity\\enemy.png"))
+    texture = new sf::Texture();
+    if (!texture->loadFromFile("..\\resources\\textures\\entity\\enemy.png"))
     {
         std::cout << "Enemy Textures not found!"
                   << "\n";
     }
-    sprite.setTexture(texture);
-    sprite.setPosition(0, 0);
+    sprite = new sf::Sprite();
+    sprite->setTexture(*texture);
+    sprite->setPosition(0, 0);
 }
 
 void Enemy::tick()
@@ -18,8 +20,8 @@ void Enemy::tick()
     float xOff = Game::getRandFloat() * 2 - 1;
     float yOff = Game::getRandFloat() * 2 - 1;
     std::cout << xOff << "," << yOff << "\n";
-    float x = sprite.getPosition().x + xOff;
-    float y = sprite.getPosition().y + yOff;
+    float x = sprite->getPosition().x + xOff;
+    float y = sprite->getPosition().y + yOff;
     if (x < 0)
     {
         x = 100;
@@ -36,5 +38,5 @@ void Enemy::tick()
     {
         y = 0;
     }
-    sprite.setPosition(x, y);
+    sprite->setPosition(x, y);
 }

@@ -1,23 +1,32 @@
 #include "Player.h"
+#include "Entity.hpp"
 #include <iostream>
+#include "Bullet.h"
 
-Player::Player()
+Player::Player() : Entity()
 {
-    if (!texture.loadFromFile("..\\resources\\textures\\entity\\player.png"))
+    texture = new sf::Texture();
+    if (!texture->loadFromFile("..\\resources\\textures\\entity\\player.png"))
     {
-        std::cout << "Player Textures not found!"
+        std::cout << "Bullet Textures not found!"
                   << "\n";
     }
-    sprite.setTexture(texture);
-    sprite.setPosition(0, 0);
+    sprite = new sf::Sprite();
+    sprite->setTexture(*texture);
+    sprite->setPosition(0, 0);
     speed.x = 3;
     speed.y = 3;
 }
 
 void Player::tick()
 {
-    float x = sprite.getPosition().x;
-    float y = sprite.getPosition().y;
+    move();
+}
+
+void Player::move()
+{
+    float x = sprite->getPosition().x;
+    float y = sprite->getPosition().y;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         x -= speed.x;
@@ -34,5 +43,5 @@ void Player::tick()
     {
         y += speed.y;
     }
-    sprite.setPosition(x, y);
+    sprite->setPosition(x, y);
 }
