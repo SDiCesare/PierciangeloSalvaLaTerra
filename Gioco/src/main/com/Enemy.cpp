@@ -4,7 +4,7 @@
 
 Enemy::Enemy()
 {
-    if (!texture.loadFromFile("resources\\textures\\entity\\enemy.png"))
+    if (!texture.loadFromFile("..\\resources\\textures\\entity\\enemy.png"))
     {
         std::cout << "Enemy Textures not found!"
                   << "\n";

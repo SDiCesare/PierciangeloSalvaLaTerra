@@ -3,7 +3,7 @@
 
 Player::Player()
 {
-    if (!texture.loadFromFile("resources\\textures\\entity\\player.png"))
+    if (!texture.loadFromFile("..\\resources\\textures\\entity\\player.png"))
     {
         std::cout << "Player Textures not found!"
                   << "\n";
