@@ -54,6 +54,11 @@ void TextBox::setString(std::string str) {
     text.setString(str);
 }
 
+//update the color that will be used after background.clear
+void TextBox::setColor(sf::Color color) {
+    this->color = color;
+}
+
 // return the pointer of a sprite to which the background and text was applied
 sf::Sprite* TextBox::getSprite() {
     // create white background
@@ -62,7 +67,7 @@ sf::Sprite* TextBox::getSprite() {
     background.draw(text);
 
     background.display();
-    
+
     // put texture in a sprite and set the position
     sf::Sprite sprite(background.getTexture());
     sprite.setPosition(position);

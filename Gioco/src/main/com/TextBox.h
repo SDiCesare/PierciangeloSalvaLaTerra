@@ -12,7 +12,8 @@ public:
     void setPosition(sf::Vector2f newPosition);
     void setPosition(float x, float y);
     sf::Sprite* getSprite();
-    void setString(std::string newText);
+    void setString(std::string str);
+    void setColor(sf::Color color);
     
 
 private:
@@ -21,6 +22,7 @@ private:
     sf::RenderTexture background;
     sf::Vector2f position;
     sf::Color color;
+    void setInitialValue();
 
 };
 
