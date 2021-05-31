@@ -1,38 +1,62 @@
 #include "TextBox.h"
 
-//value are passed through Vector2f
-TextBox::TextBox(sf::Vector2f position, sf::Vector2f size){
-    background = sf::RectangleShape(position);
-    background.setSize(size);
+//create texture with W x H size, save position to 0,0
+TextBox::TextBox(int w, int h){
+    if(!background.create(w, h)){
+        //TODO create exception class
+        throw 1;
+    }
+
+    position = sf::Vector2f(0.f, 0.f);
+    color = sf::Color::White;
 }
 
-//value are passed through float
-TextBox::TextBox(float x, float y, float w, float h){
-    background = sf::RectangleShape(sf::Vector2f(x, y));
-    background.setSize(sf::Vector2f(w, h));
+//create texture with W x H size and save position
+TextBox::TextBox(int w, int h, float x, float y){
+    if(!background.create(w, h)){
+        //TODO create exception class
+        throw 1;
+    }
+
+    position = sf::Vector2f(x, y);
+    color = sf::Color::White;
 }
 
 //use if want set position and size later
-TextBox::TextBox(){
-     background = sf::RectangleShape();
+TextBox::TextBox(int w, int h, sf::Vector2f position){
+     if(!background.create(w, h)){
+        //TODO create exception class
+        throw 1;
+    }
+
+    this->position = position;
+    color = sf::Color::White;
 }
+
 
 //update the position of textbox
 void TextBox::setPosition(sf::Vector2f position){
-    background.setPosition(position);
+    this->position = position;
 }
 
 void TextBox::setPosition(float x, float y){
-    background.setPosition(sf::Vector2f(x, y));
+    position = sf::Vector2f(x, y);
 }
 
 
-//update the size of textbox
-void TextBox::setSize(sf::Vector2f position){
-    background.setSize(position);
-}
+//return the pointer of a sprite to which the background and text was applied
+sf::Sprite* TextBox::getSprite(){
 
-void TextBox::setSize(float x, float y){
-    background.setSize(sf::Vector2f(x, y));
+    //create white background
+    background.clear(color);
+    //draw text on background
+    background.draw(text);
+
+    background.display();
+    //put texture in a sprite and set the position
+    sf::Sprite sprite(background.getTexture());
+    sprite.setPosition(position);
+
+    return &sprite;
 }
 

@@ -6,18 +6,19 @@
 class TextBox{
 
 public:
-    TextBox(sf::Vector2f position, sf::Vector2f size);
-    TextBox(float x, float y, float w, float h);
-    TextBox();
+    TextBox(int w, int h);
+    TextBox(int w, int h, float x, float y);
+    TextBox(int w, int h, sf::Vector2f position);
     void setPosition(sf::Vector2f);
     void setPosition(float x, float y);
-    void setSize(sf::Vector2f);
-    void setSize(float x, float y);
+    sf::Sprite* getSprite();
     
 
 private:
-    std::string text;
-    sf::RectangleShape background;
+    sf::Text text;
+    sf::RenderTexture background;
+    sf::Vector2f position;
+    sf::Color color;
 
 };
 
