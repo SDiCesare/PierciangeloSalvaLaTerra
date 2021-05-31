@@ -12,7 +12,7 @@ public:
     void setPosition(sf::Vector2f newPosition);
     void setPosition(float x, float y);
     sf::Sprite* getSprite();
-    sf::Sprite* getSpriteOverTime(int frame);
+    sf::Sprite* typewriter(int frame);
     void setString(std::string str);
     bool setColor(sf::Color color);
     bool isPrinting();

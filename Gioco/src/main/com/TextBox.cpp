@@ -96,7 +96,7 @@ sf::Sprite* TextBox::getSprite() {
     return &sprite;
 }
 
-sf::Sprite* TextBox::getSpriteOverTime(int frame) {
+sf::Sprite* TextBox::typewriter(int frame) {
     if (!printing) {
         printing = true;
         needToDraw = true;
