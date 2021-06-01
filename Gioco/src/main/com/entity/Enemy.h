@@ -2,12 +2,13 @@
 #define Enemy_h
 
 #include "Entity.hpp"
-
+class World;
 class Enemy : public Entity
 {
 public:
-    Enemy();
+    Enemy(World *World);
     void tick() override;
+    void checkplayer();
 };
 
 #endif

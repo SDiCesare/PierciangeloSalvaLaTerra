@@ -1,5 +1,5 @@
-#ifndef TextBox_hpp
-#define TextBox_hpp
+#ifndef TextBox_h
+#define TextBox_h
 #include <SFML/Graphics.hpp>
 #include <string>
 
