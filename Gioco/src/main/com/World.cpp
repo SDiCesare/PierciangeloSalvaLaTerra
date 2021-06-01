@@ -2,12 +2,11 @@
 #include "entity\\Enemy.h"
 #include <iostream>
 
-World::World() {
+World::World() : textbox(100, 100, 100.f, 100.f) {
     entity = new Enemy();
     player = new Player();
     entities.push_back(player);
     entities.push_back(entity);
-    textbox.setPosition(100.f, 100.f);
 }
 
 void World::tick()

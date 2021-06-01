@@ -35,10 +35,6 @@ TextBox::TextBox(int w, int h, sf::Vector2f position) {
     setInitialValue();
 }
 
-TextBox::TextBox(){
-    setInitialValue();
-}
-
 //initialize the other TextBox variable
 void TextBox::setInitialValue() {
     color = sf::Color::White;

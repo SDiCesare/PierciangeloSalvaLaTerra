@@ -9,7 +9,6 @@ public:
     TextBox(int w, int h);
     TextBox(int w, int h, float x, float y);
     TextBox(int w, int h, sf::Vector2f position);
-    TextBox();
     void setPosition(sf::Vector2f newPosition);
     void setPosition(float x, float y);
     sf::Sprite* getSprite();
