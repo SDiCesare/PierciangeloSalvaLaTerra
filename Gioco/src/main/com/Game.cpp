@@ -12,6 +12,7 @@ Game::Game()
 void Game::run()
 {
     window.create(sf::VideoMode(Game::width, Game::height), "My window");
+    window.setFramerateLimit(60);
     window.setFramerateLimit(60.f);
     while (window.isOpen())
     {
