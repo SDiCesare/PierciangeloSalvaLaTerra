@@ -94,7 +94,7 @@ sf::Sprite* TextBox::getSprite() {
     background.display();
 
     // put texture in a sprite and set the position
-    sf::Sprite sprite(background.getTexture());
+    sprite.setTexture(background.getTexture());
     sprite.setPosition(position);
 
     return &sprite;
