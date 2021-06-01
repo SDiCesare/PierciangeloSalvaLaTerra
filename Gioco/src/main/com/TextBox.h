@@ -1,5 +1,5 @@
-#ifndef Entity_hpp
-#define Entity_hpp
+#ifndef TextBox_hpp
+#define TextBox_hpp
 #include <SFML/Graphics.hpp>
 #include <string>
 
@@ -9,6 +9,7 @@ public:
     TextBox(int w, int h);
     TextBox(int w, int h, float x, float y);
     TextBox(int w, int h, sf::Vector2f position);
+    TextBox();
     void setPosition(sf::Vector2f newPosition);
     void setPosition(float x, float y);
     sf::Sprite* getSprite();

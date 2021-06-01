@@ -2,6 +2,7 @@
 #define World_h
 
 #include "entity\\Player.h"
+#include "TextBox.h"
 #include <SFML/Graphics.hpp>
 #include <list>
 
@@ -18,6 +19,7 @@ public:
 
 private:
     std::list<Entity*> entities;
+    TextBox textbox;
 };
 
 #endif
