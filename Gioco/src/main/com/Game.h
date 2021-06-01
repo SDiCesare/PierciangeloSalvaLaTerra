@@ -11,6 +11,7 @@ private:
     World *world;
     void tick();
     void draw();
+    void checkInput();
 
 public:
     Game();

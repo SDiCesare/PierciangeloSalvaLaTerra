@@ -2,19 +2,23 @@
 #define Player_h
 
 #include "Entity.hpp"
+#include "..\\item\\Gun.h"
+#include "Bullet.h"
 #include <SFML/Graphics.hpp>
 
+class World;
 class Player : public Entity
 {
 public:
-    Player();
+    Player(World *world);
     void tick() override;
-
-private:
-    void move();
+    Bullet *shoot();
+    sf::Vector2f getSpeed();
 
 private:
     sf::Vector2f speed;
+    Gun *gun;
+    float lastShoot;
 };
 
 #endif

@@ -23,6 +23,7 @@ void Game::run()
                 window.close();
             }
         }
+        checkInput();
         tick();
         draw();
     }
@@ -31,11 +32,33 @@ void Game::run()
 void Game::tick()
 {
     world->tick();
+}
+
+void Game::checkInput()
+{
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
     {
-        Bullet* bullet = new Bullet(world->player);
-        bullet->setPosition(world->player->getSprite().getPosition());
-        world->addEntity(bullet);
+        Bullet *bullet = world->player->shoot();
+        if (bullet != nullptr)
+        {
+            world->addEntity(bullet);
+        }
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    {
+        world->player->move(-world->player->getSpeed().x, 0);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    {
+        world->player->move(world->player->getSpeed().x, 0);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    {
+        world->player->move(0, -world->player->getSpeed().y);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    {
+        world->player->move(0, world->player->getSpeed().y);
     }
 }
 

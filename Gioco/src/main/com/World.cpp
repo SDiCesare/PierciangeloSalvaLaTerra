@@ -2,9 +2,10 @@
 #include "entity\\Enemy.h"
 #include <iostream>
 
-World::World() {
-    entity = new Enemy();
-    player = new Player();
+World::World()
+{
+    entity = new Enemy(this);
+    player = new Player(this);
     entities.push_back(player);
     entities.push_back(entity);
 }
@@ -19,9 +20,11 @@ void World::tick()
             entities.erase(entity);
         }
     }*/
-    for (Entity* entity : entities) {
+    for (Entity *entity : entities)
+    {
         entity->tick();
-        if (!entity->isAlive()) {
+        if (!entity->isAlive())
+        {
             entities.remove(entity);
         }
     }
@@ -29,14 +32,16 @@ void World::tick()
 
 void World::display(sf::RenderWindow &window)
 {
-    for (Entity* entity : entities) {
+    for (Entity *entity : entities)
+    {
         window.draw(entity->getSprite());
     }
 }
 
-
-void World::addEntity(Entity *entity) {
-    if (entities.size() == entities.max_size() - 1) {
+void World::addEntity(Entity *entity)
+{
+    if (entities.size() == entities.max_size() - 1)
+    {
         std::cout << "Finito Spazio!\n";
         return;
     }
