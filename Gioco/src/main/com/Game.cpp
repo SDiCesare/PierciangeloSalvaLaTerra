@@ -36,6 +36,14 @@ void Game::tick()
 
 void Game::checkInput()
 {
+    if (!world->player->isAlive() || !world->entity->isAlive())
+    {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+        {
+            world = new World();
+        }
+        return;
+    }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
     {
         Bullet *bullet = world->player->shoot();

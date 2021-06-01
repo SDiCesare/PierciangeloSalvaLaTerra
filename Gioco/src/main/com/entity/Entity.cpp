@@ -9,6 +9,7 @@ Entity::Entity(sf::Sprite *sprite, World *world)
     this->facing.x = 0;
     this->facing.y = 1;
     this->world = world;
+    this->health = -1;
 }
 
 Entity::Entity(World *world) : Entity(nullptr, world)
@@ -16,6 +17,10 @@ Entity::Entity(World *world) : Entity(nullptr, world)
 }
 
 void Entity::tick()
+{
+}
+
+void Entity::onHit(Entity *source)
 {
 }
 
@@ -56,20 +61,26 @@ void Entity::updateSprite()
 {
     if (this->facing.x == 1)
     {
-        this->sprite->setTextureRect(sf::IntRect(0, 0, 16, 16));
+        this->sprite->setTextureRect(sf::IntRect(0, 0, this->width, this->height));
     }
     if (this->facing.x == -1)
     {
-        this->sprite->setTextureRect(sf::IntRect(0, 16, 16, 16));
+        this->sprite->setTextureRect(sf::IntRect(0, this->height, this->width, this->height));
     }
     if (this->facing.y == 1)
     {
-        this->sprite->setTextureRect(sf::IntRect(0, 32, 16, 16));
+        this->sprite->setTextureRect(sf::IntRect(0, this->height * 2, this->width, this->height));
     }
     if (this->facing.y == -1)
     {
-        this->sprite->setTextureRect(sf::IntRect(0, 48, 16, 16));
+        this->sprite->setTextureRect(sf::IntRect(0, this->height * 3, this->width, this->height));
     }
+}
+
+void Entity::setupSize(int width, int height)
+{
+    this->width = width;
+    this->height = height;
 }
 
 sf::Sprite Entity::getSprite()
@@ -95,4 +106,24 @@ sf::Vector2f Entity::getPosition()
 World *Entity::getWorld()
 {
     return this->world;
+}
+
+int Entity::getWidth()
+{
+    return this->width;
+}
+
+int Entity::getHeight()
+{
+    return this->height;
+}
+
+void Entity::setHealth(float health)
+{
+    this->health = health;
+}
+
+float Entity::getHealth()
+{
+    return this->health;
 }

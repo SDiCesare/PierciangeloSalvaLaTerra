@@ -3,7 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
-class TextBox{
+class TextBox
+{
 
 public:
     TextBox(int w, int h);
@@ -11,13 +12,14 @@ public:
     TextBox(int w, int h, sf::Vector2f position);
     void setPosition(sf::Vector2f newPosition);
     void setPosition(float x, float y);
-    sf::Sprite* getSprite();
-    sf::Sprite* typewriter();
+    sf::Sprite *getSprite();
+    sf::Sprite *typewriter();
     bool setString(std::string str);
     bool setBackgroundColor(sf::Color color);
     bool setTextColor(sf::Color color);
     bool isPrinting();
-    
+    void setCharTime(float time);
+    float getCharTime();
 
 private:
     sf::Font font;
@@ -33,7 +35,7 @@ private:
     sf::Clock clock;
     int indexTWChar;
     int sizeString;
-
+    float charTime;
 };
 
 #endif

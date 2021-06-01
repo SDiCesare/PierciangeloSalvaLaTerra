@@ -13,6 +13,7 @@ public:
     Bullet(Entity *source, sf::Vector2f speed);
     void tick() override;
     void setStrength(float strength);
+    void onHit(Entity *entity) override;
 
 private:
     Entity *source;

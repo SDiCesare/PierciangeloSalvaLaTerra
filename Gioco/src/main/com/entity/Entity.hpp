@@ -19,6 +19,14 @@ public:
     void move(float x, float y);
     void moveTo(float x, float y);
     World *getWorld();
+    virtual void onHit(Entity *entity);
+    int getWidth();
+    int getHeight();
+    float getHealth();
+    void setHealth(float health);
+
+protected:
+    void setupSize(int width, int height);
 
 protected:
     sf::Sprite *sprite;
@@ -26,6 +34,11 @@ protected:
     bool alive;
     sf::Vector2f facing;
     World *world;
+    float health;
+
+private:
+    int width;
+    int height;
 };
 
 #endif

@@ -14,6 +14,7 @@ public:
     void tick() override;
     Bullet *shoot();
     sf::Vector2f getSpeed();
+    void onHit(Entity *entity) override;
 
 private:
     sf::Vector2f speed;

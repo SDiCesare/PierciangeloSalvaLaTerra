@@ -16,10 +16,13 @@ public:
     void setup();
     void display(sf::RenderWindow &window);
     void addEntity(Entity *entity);
+    void checkCollision();
+    bool isHitted(Entity e1, Entity e2);
 
 private:
-    std::list<Entity*> entities;
-    TextBox textbox;
+    std::list<Entity *> entities;
+    TextBox deathTextBox;
+    TextBox winTextBox;
 };
 
 #endif

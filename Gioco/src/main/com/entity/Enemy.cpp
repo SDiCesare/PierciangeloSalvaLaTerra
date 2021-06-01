@@ -10,10 +10,21 @@ Enemy::Enemy(World *world) : Entity(world)
         std::cout << "Enemy Textures not found!"
                   << "\n";
     }
+    this->setupSize(32, 32);
     sprite = new sf::Sprite();
     sprite->setTexture(*texture);
-    sprite->setTextureRect(sf::IntRect(0, 0, 16, 16));
+    sprite->setTextureRect(sf::IntRect(0, 0, this->getWidth(), this->getHeight()));
     sprite->setPosition(0, 0);
+    this->health = 4.5f;
+}
+
+void Enemy::onHit(Entity *entity)
+{
+    if (Player *player = dynamic_cast<Player *>(entity))
+    {
+        player->setHealth(player->getHealth() - 2.f);
+        std::cout << "Hit Player!\n";
+    }
 }
 
 void Enemy::tick()
@@ -37,5 +48,9 @@ void Enemy::tick()
     if (distY < 0)
     {
         move(0, -1);
+    }
+    if (health < 0)
+    {
+        alive = false;
     }
 }

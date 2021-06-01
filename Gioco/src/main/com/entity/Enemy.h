@@ -9,6 +9,7 @@ public:
     Enemy(World *World);
     void tick() override;
     void checkplayer();
+    void onHit(Entity *entity) override;
 };
 
 #endif
