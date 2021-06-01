@@ -7,6 +7,7 @@ World::World() {
     player = new Player();
     entities.push_back(player);
     entities.push_back(entity);
+    textbox.setPosition(100.f, 100.f);
 }
 
 void World::tick()
