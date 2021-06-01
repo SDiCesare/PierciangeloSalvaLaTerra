@@ -1,6 +1,6 @@
 #include "TextBox.h"
 
-#include <stdlib.h>
+#include <iostream>
 
 // create texture with W x H size, save position to 0,0
 TextBox::TextBox(int w, int h) {
@@ -37,8 +37,8 @@ TextBox::TextBox(int w, int h, sf::Vector2f position) {
 
 //initialize the other TextBox variable
 void TextBox::setInitialValue() {
-    color = sf::Color::White;
-    background.clear(color);
+    backgroundColor = sf::Color::White;
+    background.clear(backgroundColor);
     if (!font.loadFromFile("..\\resources\\fonts\\ArialUnicodeMS.ttf")) {
         // TODO create exception class
         throw 2;
@@ -47,6 +47,11 @@ void TextBox::setInitialValue() {
     printing = false;
     needToDraw = false;
     text.setFont(font);
+    text.setFillColor(sf::Color::Black);
+    text.setPosition(0.f, 0.f);
+    indexTWChar = 0;
+    sizeString = 0;
+    text.setPosition(0.f, 0.f);
 }
 
 // update the position of textbox
@@ -61,15 +66,28 @@ void TextBox::setPosition(float x, float y) {
 }
 
 //update the string in the drawable text
-void TextBox::setString(std::string str) {
-    string = str;
+bool TextBox::setString(std::string str) {
+    if (!printing) {
+        string = str;
+        sizeString = string.getSize();
+        return true;
+    }
+    return false;
 }
 
-//update the color, this will clear the texture, return True if change was applied
-bool TextBox::setColor(sf::Color color) {
+//update the backgroundColor, this will clear the texture, return True if change was applied
+bool TextBox::setBackgroundColor(sf::Color color) {
     if (!printing) {
-        this->color = color;
-        background.clear(color);
+        this->backgroundColor = color;
+        return true;
+    }
+    return false;
+}
+
+//update the textColor, this will clear the texture, return True if change was applied
+bool TextBox::setTextColor(sf::Color color) {
+    if (!printing) {
+        text.setFillColor(color);
         return true;
     }
     return false;
@@ -82,7 +100,7 @@ bool TextBox::isPrinting() {
 // return the pointer of a sprite to which the background and text was applied
 sf::Sprite* TextBox::getSprite() {
     // create white background
-    background.clear(color);
+    background.clear(backgroundColor);
     // draw text on background
     text.setString(string);
     background.draw(text);
@@ -91,31 +109,45 @@ sf::Sprite* TextBox::getSprite() {
 
     // put texture in a sprite and set the position
     sprite.setTexture(background.getTexture());
-    sprite.setPosition(position);
+    // sprite.setPosition(position);
 
     return &sprite;
 }
 
-sf::Sprite* TextBox::typewriter(int frame) {
+sf::Sprite* TextBox::typewriter() {
     if (!printing) {
         printing = true;
         needToDraw = true;
+        clock.restart();
+        indexTWChar = 0;
+        std::cout << "partito\n";
     }
 
-    int framePerChar = 6;
+    float secPerChar = 2;
+    float time = clock.getElapsedTime().asMicroseconds();
+    std::cout << time << std::endl;
+    //update every secPerChar second or if needToDraw is on (for now only when change sprite position)
+    if (time >= secPerChar || needToDraw) {
+        //add the new size
+        std::cout << "disegna char\n";
+        indexTWChar += static_cast<int>(time / secPerChar);
 
-    //more efficent way to get both quotient and remainder
-    div_t divresult = div(frame, framePerChar);
-
-    //update every 6 frame or if needToDraw is on (for now only when change sprite position)
-    if (divresult.rem == 0 || needToDraw) {
-        needToDraw = false;
-        sf::String partStr = string.substring(0, divresult.quot);
-        sprite.setTexture(background.getTexture());
-
-        if (partStr.getSize() == string.getSize()) {
+        //if indexTWChar reach sizeString the printing is finished,
+        //assign indexTWChar = sizeString in case indexTWChar is greather than sizeString
+        if (indexTWChar >= sizeString) {
             printing = false;
+            indexTWChar = sizeString;
         }
+
+        needToDraw = false;
+
+        sf::String partStr = string.substring(0, indexTWChar);
+        text.setString(partStr);
+
+        background.clear(backgroundColor);
+        background.draw(text);
+        background.display();
+        sprite.setTexture(background.getTexture());
     }
 
     return &sprite;

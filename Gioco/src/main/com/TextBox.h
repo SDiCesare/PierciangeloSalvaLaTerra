@@ -12,9 +12,10 @@ public:
     void setPosition(sf::Vector2f newPosition);
     void setPosition(float x, float y);
     sf::Sprite* getSprite();
-    sf::Sprite* typewriter(int frame);
-    void setString(std::string str);
-    bool setColor(sf::Color color);
+    sf::Sprite* typewriter();
+    bool setString(std::string str);
+    bool setBackgroundColor(sf::Color color);
+    bool setTextColor(sf::Color color);
     bool isPrinting();
     
 
@@ -24,11 +25,14 @@ private:
     sf::String string;
     sf::RenderTexture background;
     sf::Vector2f position;
-    sf::Color color;
+    sf::Color backgroundColor;
     sf::Sprite sprite;
     void setInitialValue();
     bool printing;
     bool needToDraw;
+    sf::Clock clock;
+    int indexTWChar;
+    int sizeString;
 
 };
 

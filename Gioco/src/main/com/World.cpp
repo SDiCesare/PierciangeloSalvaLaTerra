@@ -2,11 +2,12 @@
 #include "entity\\Enemy.h"
 #include <iostream>
 
-World::World() : textbox(100, 100, 100.f, 100.f) {
+World::World() : textbox(100, 100, 200.f, 200.f) {
     entity = new Enemy();
     player = new Player();
     entities.push_back(player);
     entities.push_back(entity);
+    textbox.setString("prova");
 }
 
 void World::tick()
@@ -29,6 +30,7 @@ void World::tick()
 
 void World::display(sf::RenderWindow &window)
 {
+    window.draw(*textbox.typewriter());
     for (Entity* entity : entities) {
         window.draw(entity->getSprite());
     }
