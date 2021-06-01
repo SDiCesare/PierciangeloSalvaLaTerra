@@ -2,7 +2,7 @@
 #include "entity\\Enemy.h"
 #include <iostream>
 
-World::World() : textbox(100, 100)
+World::World() : textbox(100, 100, 100.f, 100.f)
 {
     entity = new Enemy(this);
     player = new Player(this);
@@ -33,6 +33,9 @@ void World::tick()
 
 void World::display(sf::RenderWindow &window)
 {
+    // need to be set in a if clause,
+    // use isPrinting() method to know if print is endend
+    // window.draw(*textbox.typewriter());
     for (Entity *entity : entities)
     {
         window.draw(entity->getSprite());

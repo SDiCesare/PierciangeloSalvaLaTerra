@@ -1,6 +1,5 @@
 #include "TextBox.h"
 
-#include <iostream>
 
 // create texture with W x H size, save position to 0,0
 TextBox::TextBox(int w, int h) {
@@ -70,6 +69,7 @@ bool TextBox::setString(std::string str) {
     if (!printing) {
         string = str;
         sizeString = string.getSize();
+        indexTWChar = 0;
         return true;
     }
     return false;
@@ -115,21 +115,18 @@ sf::Sprite* TextBox::getSprite() {
 }
 
 sf::Sprite* TextBox::typewriter() {
-    if (!printing) {
+    if (!printing && indexTWChar==0) {
         printing = true;
         needToDraw = true;
         clock.restart();
         indexTWChar = 0;
-        std::cout << "partito\n";
     }
 
-    float secPerChar = 2;
-    float time = clock.getElapsedTime().asMicroseconds();
-    std::cout << time << std::endl;
+    float secPerChar = 2.f*1000.f;
+    float time = clock.getElapsedTime().asMilliseconds();
     //update every secPerChar second or if needToDraw is on (for now only when change sprite position)
     if (time >= secPerChar || needToDraw) {
         //add the new size
-        std::cout << "disegna char\n";
         indexTWChar += static_cast<int>(time / secPerChar);
 
         //if indexTWChar reach sizeString the printing is finished,
@@ -144,10 +141,14 @@ sf::Sprite* TextBox::typewriter() {
         sf::String partStr = string.substring(0, indexTWChar);
         text.setString(partStr);
 
+        //draw and set texture to sprite
         background.clear(backgroundColor);
         background.draw(text);
         background.display();
         sprite.setTexture(background.getTexture());
+
+        //restart the clock, otherwise next cicles will print new chars
+        clock.restart();
     }
 
     return &sprite;
