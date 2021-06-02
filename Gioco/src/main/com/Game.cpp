@@ -6,6 +6,7 @@
 
 Game::Game()
 {
+    srand(time(NULL));
     world = new World();
 }
 
@@ -36,7 +37,7 @@ void Game::tick()
 
 void Game::checkInput()
 {
-    if (!world->player->isAlive() || !world->entity->isAlive())
+    if (world->end)
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
         {
@@ -79,7 +80,6 @@ void Game::draw()
 
 int Game::getRandInt(int min, int max)
 {
-    srand(time(NULL));
     return (rand() % (max - min + 1)) + min;
 }
 

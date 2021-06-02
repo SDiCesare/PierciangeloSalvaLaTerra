@@ -2,6 +2,8 @@
 #define Entity_hpp
 #include <SFML/Graphics.hpp>
 
+#include "..\\tile\\Tile.h"
+
 class World;
 class Entity
 {
@@ -10,8 +12,9 @@ public:
     Entity(World *world);
 
 public:
-    void setPosition(sf::Vector2f);
-    sf::Vector2f getPosition();
+    void setPos(sf::Vector2f);
+    void setPos(float x, float y);
+    sf::Vector2f getPos();
     virtual void tick();
     void updateSprite();
     sf::Sprite getSprite();
@@ -20,6 +23,7 @@ public:
     void moveTo(float x, float y);
     World *getWorld();
     virtual void onHit(Entity *entity);
+    virtual void onHit(Tile *tile);
     int getWidth();
     int getHeight();
     float getHealth();
