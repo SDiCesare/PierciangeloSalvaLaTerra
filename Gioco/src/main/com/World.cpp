@@ -1,6 +1,7 @@
 #include "World.h"
 #include "entity\\Enemy.h"
 #include <iostream>
+#include <vector>
 
 World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.f, 250.f)
 {
@@ -13,6 +14,8 @@ World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.
     deathTextBox.setCharTime(0.3f * 1000.f);
     winTextBox.setString("WIN");
     winTextBox.setCharTime(0.5f * 1000.f);
+    std::string temp[] = {"aaaa", "lniksdfbfk"};
+    menu.setVoices(temp, 2);
 }
 
 void World::tick()
@@ -71,6 +74,7 @@ void World::display(sf::RenderWindow &window)
 {
     // need to be set in a if clause,
     // use isPrinting() method to know if print is endend
+    menu.getSprite();
     if (!player->isAlive())
     {
         window.draw(*deathTextBox.typewriter());

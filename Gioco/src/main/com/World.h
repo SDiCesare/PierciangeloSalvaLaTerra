@@ -5,6 +5,7 @@
 #include "TextBox.h"
 #include <SFML/Graphics.hpp>
 #include <list>
+#include "Menu.h"
 
 class World
 {
@@ -23,6 +24,7 @@ private:
     std::list<Entity *> entities;
     TextBox deathTextBox;
     TextBox winTextBox;
+    Menu menu;
 };
 
 #endif
