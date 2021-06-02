@@ -1,11 +1,9 @@
 #ifndef Menu_h
 #define Menu_h
 #include <SFML/Graphics.hpp>
-#include <string>
-#include <vector>
 
 /**
- * @brief Implementation of graphic menu in SFML
+ * \brief Implementation of graphic menu in SFML
  * 
  * Simple way to represent Menu in SFML giving the strings to be represented,
  * their disposition and the position of the menu in the window
@@ -104,6 +102,7 @@ class Menu {
     unsigned short rows;
     bool spriteReady;
     void setDefaultValue();
+    float takeDistance();
 };
 
 #endif

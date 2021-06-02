@@ -18,7 +18,7 @@ World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.
     menu.setVoices(temp, 7);
     menu.setPosition(200.f, 200.f);
     menu.setDimension(400, 400);
-    menu.setDisposition(3, 2);
+    menu.setDisposition(2, 3);
     winTextBox.setCharTime(0.3f * 1000.f);
     end = false;
 }
