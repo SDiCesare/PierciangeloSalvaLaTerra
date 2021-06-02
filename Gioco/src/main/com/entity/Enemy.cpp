@@ -14,7 +14,6 @@ Enemy::Enemy(World *world) : Entity(world)
     sprite = new sf::Sprite();
     sprite->setTexture(*texture);
     sprite->setTextureRect(sf::IntRect(0, 0, this->getWidth(), this->getHeight()));
-    sprite->setPosition(0, 0);
     this->health = 4.5f;
 }
 
@@ -29,8 +28,8 @@ void Enemy::onHit(Entity *entity)
 
 void Enemy::tick()
 {
-    sf::Vector2f playerPos = world->player->getPosition();
-    sf::Vector2f pos = this->getPosition();
+    sf::Vector2f playerPos = world->player->getPos();
+    sf::Vector2f pos = this->getPos();
     int distX = playerPos.x - pos.x;
     int distY = playerPos.y - pos.y;
     if (distX > 0)

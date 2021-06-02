@@ -2,6 +2,7 @@
 #define Bullet_h
 
 #include "Entity.hpp"
+#include "..\\tile\Tile.h"
 #include <SFML/Graphics.hpp>
 
 class World;
@@ -14,6 +15,7 @@ public:
     void tick() override;
     void setStrength(float strength);
     void onHit(Entity *entity) override;
+    void onHit(Tile *tile) override;
 
 private:
     Entity *source;

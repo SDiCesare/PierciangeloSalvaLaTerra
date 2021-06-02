@@ -1,15 +1,14 @@
 #include "World.h"
 #include "entity\\Enemy.h"
+#include "tile\\Rock.h"
+#include "tile\\Floor.h"
 #include <iostream>
-#include <vector>
+#include "Game.h"
 
 World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.f, 250.f)
 {
-    entity = new Enemy(this);
-    player = new Player(this);
-    player->setPosition(sf::Vector2f(300, 100));
-    entities.push_back(player);
-    entities.push_back(entity);
+    generateWorld();
+    //TextBox Element
     deathTextBox.setString("DEFEAT");
     deathTextBox.setCharTime(0.3f * 1000.f);
     winTextBox.setString("WIN");
@@ -20,19 +19,86 @@ World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.
     menu.setPosition(200.f, 200.f);
     menu.setDimension(400, 400);
     menu.setDisposition(3, 2);
+    winTextBox.setCharTime(0.3f * 1000.f);
+    end = false;
+}
+
+void World::generateWorld()
+{
+    //Add Player to world
+    player = new Player(this);
+    player->setPos(sf::Vector2f(300, 100));
+    entities.push_back(player);
+    //Add n[1-4] enemy to world
+    int numEnemy = Game::getRandInt(1, 4);
+    for (int i = 0; i < numEnemy; i++)
+    {
+        Enemy *enemy = new Enemy(this);
+        float x = Game::getRandInt(0, Game::width);
+        float y = Game::getRandInt(0, Game::height);
+        std::cout << "Adding Enemy to " << x << "," << y << "\n";
+        enemy->setPos(x, y);
+        entities.push_back(enemy);
+    }
+    //Tile Injection
+    for (int i = 0; i < Game::width / 16; i++)
+    {
+        for (int j = 0; j < Game::height / 16; j++)
+        {
+            Floor *floor = new Floor();
+            floor->setPos(i * 16, j * 16);
+            tiles.push_back(floor);
+        }
+    }
+    for (int i = 0; i < 10; i++)
+    {
+        Rock *rock = new Rock();
+        float x = Game::getRandInt(0, Game::width);
+        float y = Game::getRandInt(0, Game::height);
+        std::cout << "Adding Rock to " << x << "," << y << "\n";
+        rock->setPos(x, y);
+        tiles.push_back(rock);
+    }
 }
 
 void World::tick()
 {
-    if (!player->isAlive())
+    if (end)
+    {
         return;
+    }
+    if (!player->isAlive() || entities.size() == 1)
+    {
+        end = true;
+        return;
+    }
 
     for (Entity *entity : entities)
     {
         entity->tick();
     }
+    //TODO Add Entity to block, and iter only those who has one
 
     checkCollision();
+}
+
+//Check if an entity e can move to (x, y)
+bool World::canMove(Entity *e, float x, float y, float width, float height)
+{
+    for (Tile *tile : tiles)
+    {
+        sf::Sprite sprite = tile->getSprite();
+        float x1 = tile->getPos().x;
+        float y1 = tile->getPos().y;
+        float width1 = sprite.getTextureRect().width;
+        float height1 = sprite.getTextureRect().height;
+        if (collideRect(x, y, width, height, x1, y1, width1, height1) && !tile->isAir())
+        {
+            e->onHit(tile);
+            return false;
+        }
+    }
+    return true;
 }
 
 void World::checkCollision()
@@ -54,18 +120,8 @@ void World::checkCollision()
     }
 }
 
-bool World::isHitted(Entity e1, Entity e2)
+bool World::collideRect(float x1, float y1, float width1, float height1, float x2, float y2, float width2, float height2)
 {
-    float x1 = e1.getPosition().x;
-    float y1 = e1.getPosition().y;
-    float width1 = e1.getWidth();
-    float height1 = e1.getHeight();
-
-    float x2 = e2.getPosition().x;
-    float y2 = e2.getPosition().y;
-    float width2 = e2.getWidth();
-    float height2 = e2.getHeight();
-
     if (x1 < x2 + width2 && x1 + width1 > x2 && y1 < y2 + height2 && y1 + height1 > y2)
     {
         return true;
@@ -74,20 +130,41 @@ bool World::isHitted(Entity e1, Entity e2)
     return false;
 }
 
+bool World::isHitted(Entity e1, Entity e2)
+{
+    float x1 = e1.getPos().x;
+    float y1 = e1.getPos().y;
+    float width1 = e1.getWidth();
+    float height1 = e1.getHeight();
+
+    float x2 = e2.getPos().x;
+    float y2 = e2.getPos().y;
+    float width2 = e2.getWidth();
+    float height2 = e2.getHeight();
+
+    return collideRect(x1, y1, width1, height1, x2, y2, width2, height2);
+}
+
 void World::display(sf::RenderWindow &window)
 {
     // need to be set in a if clause,
     // use isPrinting() method to know if print is endend
     window.draw(menu.getSprite());
-    if (!player->isAlive())
+    if (end)
     {
-        window.draw(*deathTextBox.typewriter());
+        if (player->isAlive())
+        {
+            window.draw(*winTextBox.typewriter());
+        }
+        else
+        {
+            window.draw(*deathTextBox.typewriter());
+        }
         return;
     }
-    if (!entity->isAlive())
+    for (Tile *tile : tiles)
     {
-        window.draw(*winTextBox.typewriter());
-        return;
+        window.draw(tile->getSprite());
     }
     for (Entity *entity : entities)
     {

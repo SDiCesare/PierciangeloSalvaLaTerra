@@ -16,7 +16,6 @@ Bullet::Bullet(Entity *source, sf::Vector2f speed) : Entity(source->getWorld())
     }
     sprite = new sf::Sprite();
     sprite->setTexture(*texture);
-    sprite->setPosition(0, 0);
     this->source = source;
     this->speed = speed;
     this->strength = 0.f;
@@ -33,9 +32,18 @@ void Bullet::onHit(Entity *entity)
     }
 }
 
+void Bullet::onHit(Tile *tile)
+{
+    this->alive = false;
+}
+
 void Bullet::tick()
 {
     this->move(this->speed.x, this->speed.y);
+    if (this->getPos().x < 0 || this->getPos().y < 0 || this->getPos().x > Game::width || this->getPos().y > Game::height)
+    {
+        this->alive = false;
+    }
 }
 
 void Bullet::setStrength(float strength)
