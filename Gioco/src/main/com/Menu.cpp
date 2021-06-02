@@ -16,6 +16,7 @@ Menu::Menu(unsigned int w, unsigned int h, sf::Vector2f position) {
     setDefaultValue();
 }
 
+// @brief set the default value, created not to repeat same code in all constructors
 void Menu::setDefaultValue() {
     backgroundColor = sf::Color::White;
     if (!font.loadFromFile("..\\resources\\fonts\\ArialUnicodeMS.ttf")) {
