@@ -5,14 +5,14 @@
 #include <vector>
 
 /**
- * Implementation of Menu
+ * @brief Implementation of graphic menu in SFML
  * 
  * Simple way to represent Menu in SFML giving the strings to be represented,
  * their disposition and the position of the menu in the window
  */
 class Menu {
    public:
-   
+
     /**
      * \brief Default constructor
      * Creates Menu with no voices, no setted disposition and no dimension
@@ -45,31 +45,6 @@ class Menu {
      * \param menuVoices Array of voices
      * \param size Lenght of menuVoices
      */
-    void setVoices(std::string menuVoices[], size_t size);
-
-    /**
-     * \brief Set the voices of the menu
-     * 
-     * The voices will be disposed in base of values passed to the methodsetDisposition
-     * \param menuVoices Vector of voices
-     */
-    void setVoices(std::vector<std::string>& menuVoices);
-
-    /**
-     * \brief Set the voices of the menu
-     * 
-     * The voices will be disposed in base of values passed to the methodsetDisposition
-     * \param menuVoices Vector of voices
-     */
-    void setVoices(std::vector<sf::String> menuVoices);
-
-    /**
-     * \brief Set the voices of the menu
-     * 
-     * The voices will be disposed in base of values passed to the methodsetDisposition
-     * \param menuVoices Array of voices
-     * \param size Lenght of menuVoices
-     */
     void setVoices(sf::String menuVoices[], size_t size);
 
     /**
@@ -86,6 +61,13 @@ class Menu {
      * \param y Y coordinate of the menu
      */
     void setPosition(float x, float y);
+
+    /**
+     * \brief Set the dimension of menu
+     * 
+     * \param w Width of the menu
+     * \param h Height of the menu
+     */
     void setDimension(unsigned int w, unsigned int h);
 
     /**
@@ -107,8 +89,14 @@ class Menu {
      */
     const sf::Sprite& getSprite();
 
+    // virtual ~Menu();
+
+    size_t* getSize();
+
    private:
-    std::vector<sf::String> voices;
+    // std::vector<sf::String> voices;
+    sf::String* voices;
+    size_t size;
     sf::Font font;
     sf::Text text;
     sf::RenderTexture background;

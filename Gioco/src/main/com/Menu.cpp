@@ -1,5 +1,7 @@
 #include "Menu.h"
 
+#include <algorithm>  //std::copy
+
 Menu::Menu() {
     setDefaultValue();
 }
@@ -16,7 +18,7 @@ Menu::Menu(unsigned int w, unsigned int h, sf::Vector2f position) {
     setDefaultValue();
 }
 
-// @brief set the default value, created not to repeat same code in all constructors
+// set the default value, created not to repeat same code in all constructors
 void Menu::setDefaultValue() {
     backgroundColor = sf::Color::White;
     if (!font.loadFromFile("..\\resources\\fonts\\ArialUnicodeMS.ttf")) {
@@ -32,39 +34,16 @@ void Menu::setDefaultValue() {
     rows = 0;
     sprite.setPosition(0.f, 0.f);
     spriteReady = false;
-}
-
-void Menu::setVoices(std::vector<sf::String> menuVoices) {
-    voices = menuVoices;
-    spriteReady = false;
-}
-
-void Menu::setVoices(std::vector<std::string>& menuVoices) {
-    size_t size = menuVoices.size();
-    // set the dimension needed once
-    voices.resize(size);
-    for (size_t i = 0; i < size; i++) {
-        voices[i] = menuVoices[i];
-    }
-    spriteReady = false;
-}
-
-void Menu::setVoices(std::string menuVoices[], size_t size) {
-    // set the dimension needed once
-    voices.resize(size);
-    for (size_t i = 0; i < size; i++) {
-        voices[i] = *(menuVoices + i);
-    }
-    spriteReady = false;
+    size = 0;
 }
 
 void Menu::setVoices(sf::String menuVoices[], size_t size) {
-    // set the dimension needed once
-    voices.resize(size);
-    for (size_t i = 0; i < size; i++) {
-        voices[i] = *(menuVoices + i);
-    }
-    spriteReady = false;
+    if(size > 0)
+        delete[] voices;
+
+    this->size = size;
+    voices = new sf::String[size]; //(std::string*)malloc(size);
+    std::copy(menuVoices, menuVoices + size, voices);
 }
 
 void Menu::setDisposition(unsigned short c, unsigned short r) {
@@ -97,7 +76,9 @@ const sf::Sprite& Menu::getSprite() {
         sf::Vector2f currTextPos = position;
         short i = 0;
         short j = 0;
-        for (auto& str : voices) {
+        // for (auto& str : voices) {
+        for (size_t i = 0; i < size; i++) {
+            std::string str = *(voices+i);
             text.setPosition(currTextPos);
             text.setString(str);
             background.draw(text);
@@ -118,3 +99,13 @@ const sf::Sprite& Menu::getSprite() {
     }
     return sprite;
 }
+
+
+
+// size_t* Menu::getSize(){
+//     return &size;
+// }
+
+// Menu::~Menu(){
+//     delete[] voices;
+// }
