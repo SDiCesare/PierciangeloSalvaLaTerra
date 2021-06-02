@@ -32,6 +32,7 @@ private:
     unsigned short columns;
     unsigned short rows;
     bool spriteReady;
+    void setDefaultValue();
 
 };
 

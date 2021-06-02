@@ -1,8 +1,22 @@
 #include "Menu.h"
 
-#include <iostream>
-
 Menu::Menu() {
+    setDefaultValue();
+}
+
+Menu::Menu(unsigned int w, unsigned int h, float x, float y) {
+    sprite.setPosition(x, y);
+    setDimension(w, h);
+    setDefaultValue();
+}
+
+Menu::Menu(unsigned int w, unsigned int h, sf::Vector2f position) {
+    sprite.setPosition(position);
+    setDimension(w, h);
+    setDefaultValue();
+}
+
+void Menu::setDefaultValue() {
     backgroundColor = sf::Color::White;
     if (!font.loadFromFile("..\\resources\\fonts\\ArialUnicodeMS.ttf")) {
         // TODO create exception class
@@ -66,12 +80,12 @@ void Menu::setDimension(unsigned int w, unsigned h) {
     spriteReady = false;
 }
 
-void Menu::setPosition(sf::Vector2f position){
+void Menu::setPosition(sf::Vector2f position) {
     sprite.setPosition(position);
 }
 
-void Menu::setPosition(float x, float y){
-    sprite.setPosition(x,y);
+void Menu::setPosition(float x, float y) {
+    sprite.setPosition(x, y);
 }
 
 const sf::Sprite& Menu::getSprite() {
