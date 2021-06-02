@@ -20,9 +20,6 @@ World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.
     menu.setPosition(200.f, 200.f);
     menu.setDimension(400, 400);
     menu.setDisposition(3, 2);
-    // Menu menu2;
-    // menu2.setVoices(temp, 7);
-    // this->temp = menu2.getSize();
 }
 
 void World::tick()
@@ -81,7 +78,6 @@ void World::display(sf::RenderWindow &window)
 {
     // need to be set in a if clause,
     // use isPrinting() method to know if print is endend
-    // std::cout << *this->temp << std::endl;
     window.draw(menu.getSprite());
     if (!player->isAlive())
     {

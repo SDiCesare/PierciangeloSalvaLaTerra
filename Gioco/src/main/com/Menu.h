@@ -12,7 +12,6 @@
  */
 class Menu {
    public:
-
     /**
      * \brief Default constructor
      * Creates Menu with no voices, no setted disposition and no dimension
@@ -89,9 +88,7 @@ class Menu {
      */
     const sf::Sprite& getSprite();
 
-    // virtual ~Menu();
-
-    size_t* getSize();
+    virtual ~Menu();
 
    private:
     // std::vector<sf::String> voices;

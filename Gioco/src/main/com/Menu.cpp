@@ -38,7 +38,7 @@ void Menu::setDefaultValue() {
 }
 
 void Menu::setVoices(sf::String menuVoices[], size_t size) {
-    if(size > 0)
+    if(this->size > 0)
         delete[] voices;
 
     this->size = size;
@@ -101,11 +101,6 @@ const sf::Sprite& Menu::getSprite() {
 }
 
 
-
-// size_t* Menu::getSize(){
-//     return &size;
-// }
-
-// Menu::~Menu(){
-//     delete[] voices;
-// }
+Menu::~Menu(){
+    delete[] voices;
+}

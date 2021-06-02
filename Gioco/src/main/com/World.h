@@ -25,7 +25,6 @@ private:
     TextBox deathTextBox;
     TextBox winTextBox;
     Menu menu;
-    size_t* temp;
 };
 
 #endif
