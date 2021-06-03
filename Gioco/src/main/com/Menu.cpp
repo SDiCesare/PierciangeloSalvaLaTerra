@@ -108,12 +108,30 @@ bool Menu::selectVoice(int8_t directions) {
     }
 }
 
+void Menu::setTextColor(sf::Color color){
+    text.setFillColor(color);
+}
+
+void Menu::setSelectedVoiceColor(sf::Color color){
+    selectedVoiceColor = color;
+}
+
+void Menu::setCharSize(unsigned int charSize){
+    text.setCharacterSize(charSize);
+}
+
+void Menu::setSelectedVoiceSize(unsigned int charSize){
+    selectedVoiceSize = charSize;
+}
+
 const sf::Sprite& Menu::getSprite() {
     //avoid to elaborate again the same sprite
     if (!spriteReady) {
         background.clear(backgroundColor);
         short k = 0;
         short j = 0;
+        sf::Color textColor = text.getFillColor();
+        unsigned int charSize = text.getCharacterSize();
         if (!positionReady)
             takeDistance();
 
@@ -124,7 +142,11 @@ const sf::Sprite& Menu::getSprite() {
             text.setString(str);
             if (k == voiceX && j == voiceY) {
                 text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+                text.setFillColor(selectedVoiceColor);
+                text.setCharacterSize(selectedVoiceSize);
                 background.draw(text);
+                text.setCharacterSize(charSize);
+                text.setFillColor(textColor);
                 text.setStyle(sf::Text::Regular);
             } else {
                 background.draw(text);
@@ -169,19 +191,21 @@ void Menu::setDefaultValue() {
     positionReady = false;
     voiceX = 0;
     voiceY = 0;
+    selectedVoiceColor = sf::Color::Black;
+    selectedVoiceSize = 16;
 }
 
 // calculate distancec between voices
 void Menu::takeDistance() {
-    //find the max bound, maybe there is a better way to calculate it
     if (columns <= 1) {
         distance = 0.f;
         position.x = 0.f;
         return;
     }
 
+    //find the max bound, maybe there is a better way to calculate it
     sf::Text temp;
-    temp.setCharacterSize(16);
+    temp.setCharacterSize(selectedVoiceSize);
     temp.setFont(font);
     temp.setPosition(0.f, 0.f);
     float max = 0.f;
@@ -193,9 +217,10 @@ void Menu::takeDistance() {
             max = bounds.width;
     }
 
-    float w = static_cast<float>(background.getSize().x);
-    float columnsF = static_cast<float>(columns);
-    distance = (w - max * columnsF) / (columnsF - 1.f) + max;
+    
+        float w = static_cast<float>(background.getSize().x);
+        float columnsF = static_cast<float>(columns);
+        distance = (w - max * columnsF) / (columnsF - 1.f) + max;
     position.x = 0.f;
 }
 

@@ -19,6 +19,8 @@ World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.
     menu.setPosition(40.f, 40.f);
     menu.setDimension(400, 400);
     menu.setDisposition(3, 2);
+    menu.setSelectedVoiceSize(24);
+    menu.setSelectedVoiceColor(sf::Color::Red);
     winTextBox.setCharTime(0.3f * 1000.f);
     end = false;
     //counter = 0; //debugging
