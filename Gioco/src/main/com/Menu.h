@@ -6,7 +6,9 @@
  * \brief Implementation of graphic menu in SFML
  * 
  * Simple way to represent Menu in SFML giving the strings to be represented,
- * their disposition and the position of the menu in the window
+ * their disposition and the position of the menu in the window, it has only
+ * graphical purpose, it isn't designed to return values in base of the 
+ * selected voice
  */
 class Menu {
    public:
