@@ -1,5 +1,7 @@
 #include "Menu.h"
 
+#include <stdlib.h>  // div, div_t
+
 #include <algorithm>  //std::copy
 #include <iostream>
 
@@ -26,12 +28,15 @@ void Menu::setVoices(sf::String menuVoices[], size_t size) {
     this->size = size;
     voices = new sf::String[size];  //(std::string*)malloc(size);
     std::copy(menuVoices, menuVoices + size, voices);
+    positionReady = false;
+    spriteReady = false;
 }
 
-void Menu::setDisposition(unsigned short c, unsigned short r) {
+void Menu::setDisposition(uint8_t c, uint8_t r) {
     columns = c;
     rows = r;
     spriteReady = false;
+    positionReady = false;
 }
 
 void Menu::setDimension(unsigned int w, unsigned int h) {
@@ -40,6 +45,7 @@ void Menu::setDimension(unsigned int w, unsigned int h) {
         throw 1;
     }
     spriteReady = false;
+    positionReady = false;
 }
 
 void Menu::setPosition(sf::Vector2f position) {
@@ -50,23 +56,81 @@ void Menu::setPosition(float x, float y) {
     sprite.setPosition(x, y);
 }
 
+bool Menu::selectVoice(int8_t directions) {
+    sf::Vector2<int8_t> vect = takeLastVoiceIdx();
+    std::cout << unsigned(vect.x) << " - " << unsigned(vect.y) << std::endl;
+    std::cout << "previous pos " << voiceX << " - " << voiceY << std::endl;
+    short prevX = voiceX;
+    short prevY = voiceY;
+    switch (directions) {
+        case 1:
+            if (--voiceY < 0) {
+                if (voiceX > vect.x)
+                    voiceX = vect.x;
+                voiceY = vect.y;
+            }
+
+            break;
+
+        case 2:
+            if ((++voiceX >= vect.x && voiceY == vect.y) || voiceX >= columns) {
+                voiceX = 0;
+            }
+            break;
+
+        case 3:
+            if (++voiceY >= rows) {
+                voiceY = 0;
+            } else if (voiceX >= vect.x && voiceY == vect.y) {
+                voiceX = vect.x;
+            }
+
+            break;
+
+        case 4:
+            if (--voiceX < 0) {
+                if (voiceY == vect.y)
+                    voiceX = vect.x;
+                else
+                    voiceX = columns - 1;
+            }
+            break;
+
+        default:
+            return false;
+    }
+
+    if (prevX != voiceX && prevY != voiceY) {
+        spriteReady = false;
+        return true;
+    } else {
+        return false;
+    }
+}
+
 const sf::Sprite& Menu::getSprite() {
     //avoid to elaborate again the same sprite
     if (!spriteReady) {
         background.clear(backgroundColor);
         short k = 0;
         short j = 0;
-        float distance = takeDistance();
+        if (!positionReady)
+            takeDistance();
+
         sf::Vector2f currTextPos = position;
-        std::cout << distance << std::endl;
         for (size_t i = 0; i < size; i++) {
-            std::cout << k << " " << j << std::endl;
             std::string str = *(voices + i);
             text.setPosition(currTextPos);
             text.setString(str);
-            sf::FloatRect textRect = text.getLocalBounds();
-            text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-            background.draw(text);
+            if (k == voiceX && j == voiceY) {
+                text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+                background.draw(text);
+                text.setStyle(sf::Text::Regular);
+            } else {
+                background.draw(text);
+            }
+            // sf::FloatRect textRect = text.getLocalBounds();
+            // text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
             currTextPos.x += distance;
             if (++k == columns) {
                 if (++j == rows) {
@@ -102,28 +166,49 @@ void Menu::setDefaultValue() {
     sprite.setPosition(0.f, 0.f);
     spriteReady = false;
     size = 0;
+    positionReady = false;
+    voiceX = 0;
+    voiceY = 0;
 }
 
 // calculate distancec between voices
-float Menu::takeDistance() {
-    //find the max lenght
-    size_t max = 0;
-    for (size_t i = 0; i < size; i++) {
-        size_t dimensionStr = (voices + i)->getSize();
-
-        if (dimensionStr > max)
-            max = dimensionStr;
+void Menu::takeDistance() {
+    //find the max bound, maybe there is a better way to calculate it
+    if (columns <= 1) {
+        distance = 0.f;
+        position.x = 0.f;
+        return;
     }
 
-    max *= 1;  //16 -> char size
+    sf::Text temp;
+    temp.setCharacterSize(16);
+    temp.setFont(font);
+    temp.setPosition(0.f, 0.f);
+    float max = 0.f;
+    for (size_t i = 0; i < size; i++) {
+        temp.setString(*(voices + i));
+        sf::FloatRect bounds = temp.getLocalBounds();
 
-    size_t w = background.getSize().x;
-    std::cout << "w: " << w << "  max:" << max * columns << std::endl;
-    size_t rem = w - max * columns;
-    std::cout << rem << " " << static_cast<float>(columns + 1) << std::endl;
-    float distance = static_cast<float>(rem) / static_cast<float>(columns + 1);
-    position.x += distance;
-    return distance;
+        if (bounds.width > max)
+            max = bounds.width;
+    }
+
+    float w = static_cast<float>(background.getSize().x);
+    float columnsF = static_cast<float>(columns);
+    distance = (w - max * columnsF) / (columnsF - 1.f) + max;
+    position.x = 0.f;
+}
+
+sf::Vector2<int8_t> Menu::takeLastVoiceIdx() {
+    if (size > columns * rows) {
+        return sf::Vector2<int8_t>(columns - 1, rows - 1);
+    } else {
+        div_t divRes = div(size, columns);
+        std::cout << divRes.quot << " - resto " << divRes.rem << std::endl;
+        int8_t r = (divRes.quot >= rows) ? rows - 1 : divRes.quot + (divRes.rem > 0) - 1;
+        int8_t c = (r > 0 && divRes.rem == 0) ? columns - 1 : divRes.rem - 1;
+        return sf::Vector2<int8_t>(c, r);
+    }
 }
 
 Menu::~Menu() {

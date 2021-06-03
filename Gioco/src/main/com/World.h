@@ -34,6 +34,7 @@ private:
     TextBox deathTextBox;
     TextBox winTextBox;
     Menu menu;
+    //int counter; //for debugging, it counts how many time the loop was executed
 };
 
 #endif

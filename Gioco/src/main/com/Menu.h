@@ -75,16 +75,34 @@ class Menu {
      * \param c Number of colomuns
      * \param r Number of rows
      */
-    void setDisposition(unsigned short c, unsigned short r);
+    void setDisposition(uint8_t c, uint8_t r);
 
     /**
      * \brief Generate the sprite representing the menu
      * 
      * If not all essential value have been set, the menu will not be drawn
      * 
-     * \return const sf::Sprite& A const reference to the sprite of the menu
+     * \return A const reference to the sprite of the menu
      */
     const sf::Sprite& getSprite();
+
+     /**
+     * \brief Select another voice, the ones above, those below,
+     *  those on the right and those on the left can be selected
+     * 
+     * At the beginning the voices selected is the one on the top left
+     * 
+     * \param direction in which direction is the wanted voice
+     * \code
+     * menu.selectVoice(0); //keep the current selected voice
+     * menu.selectVoice(1); //select the voice above
+     * menu.selectVoice(2); //select the voice on the right
+     * menu.selectVoice(3); //select the voice below
+     * menu.selectVoice(4); //select the voice on the left
+     * \endcode
+     * \return If the selected voice is changed
+     */
+    bool selectVoice(int8_t direction);
 
     virtual ~Menu();
 
@@ -98,11 +116,20 @@ class Menu {
     sf::Vector2f position;
     sf::Color backgroundColor;
     sf::Sprite sprite;
-    unsigned short columns;
-    unsigned short rows;
+    uint8_t columns;
+    uint8_t rows;
+    float distance;
+
+    //save the position of the selected voices
+    short voiceX;
+    short voiceY;
+
     bool spriteReady;
+    bool positionReady;
     void setDefaultValue();
-    float takeDistance();
+    void takeDistance();
+    //get the last element position in the menu disposition
+    sf::Vector2<int8_t> takeLastVoiceIdx();
 };
 
 #endif

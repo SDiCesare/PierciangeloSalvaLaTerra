@@ -14,13 +14,14 @@ World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.
     winTextBox.setString("WIN");
     winTextBox.setCharTime(0.5f * 1000.f);
     
-    sf::String temp[] = {"aaaa", "porca", "dkadkjsadsa", "djosakdja", "pppp", "llll", "cvcvcv"};
+    sf::String temp[] = {"porcaporca", "porca", "porca", "porcaporca", "porca", "porca", "porca"};
     menu.setVoices(temp, 7);
-    menu.setPosition(200.f, 200.f);
+    menu.setPosition(40.f, 40.f);
     menu.setDimension(400, 400);
-    menu.setDisposition(2, 3);
+    menu.setDisposition(3, 2);
     winTextBox.setCharTime(0.3f * 1000.f);
     end = false;
+    //counter = 0; //debugging
 }
 
 void World::generateWorld()
@@ -147,8 +148,13 @@ bool World::isHitted(Entity e1, Entity e2)
 
 void World::display(sf::RenderWindow &window)
 {
-    // need to be set in a if clause,
-    // use isPrinting() method to know if print is endend
+    // debugging
+    // if(++counter % 240 == 0){
+    //     menu.selectVoice(3);
+    //     counter = 0;
+    // }else if(counter% 120 == 0){
+    //     menu.selectVoice(4);
+    // }
     window.draw(menu.getSprite());
     if (end)
     {
