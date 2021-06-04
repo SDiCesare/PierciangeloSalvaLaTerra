@@ -58,6 +58,7 @@ void TextBox::setInitialValue()
     indexTWChar = 0;
     sizeString = 0;
     text.setPosition(0.f, 0.f);
+    charTime = 0.4f;
 }
 
 // update the position of textbox
@@ -74,7 +75,7 @@ void TextBox::setPosition(float x, float y)
 }
 
 //update the string in the drawable text
-bool TextBox::setString(const std::string& str)
+bool TextBox::setString(const sf::String& str)
 {
     if (!printing)
     {
@@ -114,7 +115,7 @@ bool TextBox::isPrinting()
 }
 
 // return the pointer of a sprite to which the background and text was applied
-sf::Sprite *TextBox::getSprite()
+const sf::Sprite &TextBox::getSprite()
 {
     // create white background
     background.clear(backgroundColor);
@@ -128,7 +129,7 @@ sf::Sprite *TextBox::getSprite()
     sprite.setTexture(background.getTexture());
     // sprite.setPosition(position);
 
-    return &sprite;
+    return sprite;
 }
 
 float TextBox::getCharTime()
@@ -141,7 +142,7 @@ void TextBox::setCharTime(float charTime)
     this->charTime = charTime;
 }
 
-sf::Sprite *TextBox::typewriter()
+const sf::Sprite &TextBox::typewriter()
 {
     if (!printing && indexTWChar == 0)
     {
@@ -181,5 +182,5 @@ sf::Sprite *TextBox::typewriter()
         clock.restart();
     }
 
-    return &sprite;
+    return sprite;
 }

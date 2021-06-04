@@ -162,11 +162,11 @@ void World::display(sf::RenderWindow &window)
     {
         if (player->isAlive())
         {
-            window.draw(*winTextBox.typewriter());
+            window.draw(winTextBox.typewriter());
         }
         else
         {
-            window.draw(*deathTextBox.typewriter());
+            window.draw(deathTextBox.typewriter());
         }
         return;
     }
