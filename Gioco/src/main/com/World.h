@@ -1,8 +1,9 @@
 #ifndef World_h
 #define World_h
 
-#include "entity\\Player.h"
-#include "tile\\Tile.h"
+#include "entity\Player.h"
+#include "tile\Tile.h"
+#include "HUD\HealthBar.h"
 #include "TextBox.h"
 #include <SFML/Graphics.hpp>
 #include <list>
@@ -34,7 +35,8 @@ private:
     TextBox deathTextBox;
     TextBox winTextBox;
     Menu menu;
-    //int counter; //for debugging, it counts how many time the loop was executed
+    HealthBar healthBar;
+    int counter; //for debugging, it counts how many time the loop was executed
 };
 
 #endif

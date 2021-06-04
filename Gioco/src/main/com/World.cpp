@@ -23,7 +23,10 @@ World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.
     menu.setSelectedVoiceColor(sf::Color::Red);
     winTextBox.setCharTime(0.3f * 1000.f);
     end = false;
-    //counter = 0; //debugging
+    healthBar.setPosition(10.f, 10.f);
+    counter = 0; //debugging
+    healthBar.setMaxHealth(70);
+    healthBar.setBar(sf::Vector2f(200.f, 30.f));
 }
 
 void World::generateWorld()
@@ -151,12 +154,13 @@ bool World::isHitted(Entity e1, Entity e2)
 void World::display(sf::RenderWindow &window)
 {
     // debugging
-    // if(++counter % 240 == 0){
-    //     menu.selectVoice(3);
-    //     counter = 0;
-    // }else if(counter% 120 == 0){
-    //     menu.selectVoice(4);
-    // }
+    if(++counter % 240 == 0){
+        
+        counter = 0;
+    }else if(counter% 120 == 0){
+    }
+    // end debugging section
+    
     window.draw(menu.getSprite());
     if (end)
     {
@@ -178,6 +182,7 @@ void World::display(sf::RenderWindow &window)
     {
         window.draw(entity->getSprite());
     }
+    window.draw(healthBar);
 }
 
 void World::addEntity(Entity *entity)
