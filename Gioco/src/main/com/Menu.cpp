@@ -15,7 +15,7 @@ Menu::Menu(unsigned int w, unsigned int h, float x, float y) {
     setDefaultValue();
 }
 
-Menu::Menu(unsigned int w, unsigned int h, sf::Vector2f position) {
+Menu::Menu(unsigned int w, unsigned int h, const sf::Vector2f& position) {
     sprite.setPosition(position);
     setDimension(w, h);
     setDefaultValue();
@@ -48,7 +48,7 @@ void Menu::setDimension(unsigned int w, unsigned int h) {
     positionReady = false;
 }
 
-void Menu::setPosition(sf::Vector2f position) {
+void Menu::setPosition(const sf::Vector2f& position) {
     sprite.setPosition(position);
 }
 
@@ -108,11 +108,11 @@ bool Menu::selectVoice(int8_t directions) {
     }
 }
 
-void Menu::setTextColor(sf::Color color){
+void Menu::setTextColor(const sf::Color& color){
     text.setFillColor(color);
 }
 
-void Menu::setSelectedVoiceColor(sf::Color color){
+void Menu::setSelectedVoiceColor(const sf::Color& color){
     selectedVoiceColor = color;
 }
 

@@ -36,7 +36,7 @@ class Menu {
      * @param h Height of menu
      * @param position The position of the menu
      */
-    Menu(unsigned int w, unsigned int h, sf::Vector2f position);
+    Menu(unsigned int w, unsigned int h, const sf::Vector2f& position);
 
     /**
      * @brief Set the voices of the menu
@@ -52,7 +52,7 @@ class Menu {
      * 
      * @param position The new position of the menu
      */
-    void setPosition(sf::Vector2f position);
+    void setPosition(const sf::Vector2f& position);
 
     /**
      * @brief Set the position of the menu in the window
@@ -114,7 +114,7 @@ class Menu {
      * 
      * @param color The new text color
      */
-    void setTextColor(sf::Color color);
+    void setTextColor(const sf::Color& color);
 
     /**
      * @brief Set the text color of the selected voice
@@ -123,7 +123,7 @@ class Menu {
      * 
      * @param color The new elected voice color
      */
-    void setSelectedVoiceColor(sf::Color color);
+    void setSelectedVoiceColor(const sf::Color& color);
 
     /**
      * @brief Set the text character size
