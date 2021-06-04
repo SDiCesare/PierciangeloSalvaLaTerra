@@ -27,7 +27,7 @@ TextBox::TextBox(int w, int h, float x, float y)
 }
 
 // create texture with W x H size and save position in a Vector2f
-TextBox::TextBox(int w, int h, sf::Vector2f position)
+TextBox::TextBox(int w, int h, const sf::Vector2f& position)
 {
     if (!background.create(w, h))
     {
@@ -61,7 +61,7 @@ void TextBox::setInitialValue()
 }
 
 // update the position of textbox
-void TextBox::setPosition(sf::Vector2f newPosition)
+void TextBox::setPosition(const sf::Vector2f& newPosition)
 {
     sprite.setPosition(position);
     needToDraw = true;
@@ -74,7 +74,7 @@ void TextBox::setPosition(float x, float y)
 }
 
 //update the string in the drawable text
-bool TextBox::setString(std::string str)
+bool TextBox::setString(const std::string& str)
 {
     if (!printing)
     {
@@ -87,7 +87,7 @@ bool TextBox::setString(std::string str)
 }
 
 //update the backgroundColor, this will clear the texture, return True if change was applied
-bool TextBox::setBackgroundColor(sf::Color color)
+bool TextBox::setBackgroundColor(const sf::Color& color)
 {
     if (!printing)
     {
@@ -98,7 +98,7 @@ bool TextBox::setBackgroundColor(sf::Color color)
 }
 
 //update the textColor, this will clear the texture, return True if change was applied
-bool TextBox::setTextColor(sf::Color color)
+bool TextBox::setTextColor(const sf::Color& color)
 {
     if (!printing)
     {

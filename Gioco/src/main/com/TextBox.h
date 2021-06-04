@@ -1,6 +1,7 @@
 #ifndef TextBox_h
 #define TextBox_h
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Transformable.hpp>
 #include <string>
 
 class TextBox
@@ -9,14 +10,14 @@ class TextBox
 public:
     TextBox(int w, int h);
     TextBox(int w, int h, float x, float y);
-    TextBox(int w, int h, sf::Vector2f position);
-    void setPosition(sf::Vector2f newPosition);
+    TextBox(int w, int h, const sf::Vector2f& position);
+    void setPosition(const sf::Vector2f& newPosition);
     void setPosition(float x, float y);
     sf::Sprite *getSprite();
     sf::Sprite *typewriter();
-    bool setString(std::string str);
-    bool setBackgroundColor(sf::Color color);
-    bool setTextColor(sf::Color color);
+    bool setString(const std::string& str);
+    bool setBackgroundColor(const sf::Color& color);
+    bool setTextColor(const sf::Color& color);
     bool isPrinting();
     void setCharTime(float time);
     float getCharTime();
