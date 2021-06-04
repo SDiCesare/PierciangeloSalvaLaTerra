@@ -170,7 +170,8 @@ class Menu {
     void setDefaultValue();
     void takeDistance();
     //get the last element position in the menu disposition
-    sf::Vector2<int8_t> takeLastVoiceIdx();
+    void takeLastVoiceIdx();
+    sf::Vector2<int8_t> lastVoiceIdx;
 };
 
 #endif

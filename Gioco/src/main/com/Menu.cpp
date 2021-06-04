@@ -57,23 +57,26 @@ void Menu::setPosition(float x, float y) {
 }
 
 bool Menu::selectVoice(int8_t directions) {
-    sf::Vector2<int8_t> vect = takeLastVoiceIdx();
-    std::cout << unsigned(vect.x) << " - " << unsigned(vect.y) << std::endl;
+    // sf::Vector2<int8_t> vect = takeLastVoiceIdx();
+    if (!positionReady) {
+        takeLastVoiceIdx();
+    }
+    std::cout << unsigned(lastVoiceIdx.x) << " - " << unsigned(lastVoiceIdx.y) << std::endl;
     std::cout << "previous pos " << voiceX << " - " << voiceY << std::endl;
     short prevX = voiceX;
     short prevY = voiceY;
     switch (directions) {
         case 1:
             if (--voiceY < 0) {
-                if (voiceX > vect.x)
-                    voiceX = vect.x;
-                voiceY = vect.y;
+                if (voiceX > lastVoiceIdx.x)
+                    voiceX = lastVoiceIdx.x;
+                voiceY = lastVoiceIdx.y;
             }
 
             break;
 
         case 2:
-            if ((++voiceX >= vect.x && voiceY == vect.y) || voiceX >= columns) {
+            if ((++voiceX >= lastVoiceIdx.x && voiceY == lastVoiceIdx.y) || voiceX >= columns) {
                 voiceX = 0;
             }
             break;
@@ -81,16 +84,16 @@ bool Menu::selectVoice(int8_t directions) {
         case 3:
             if (++voiceY >= rows) {
                 voiceY = 0;
-            } else if (voiceX >= vect.x && voiceY == vect.y) {
-                voiceX = vect.x;
+            } else if (voiceX >= lastVoiceIdx.x && voiceY == lastVoiceIdx.y) {
+                voiceX = lastVoiceIdx.x;
             }
 
             break;
 
         case 4:
             if (--voiceX < 0) {
-                if (voiceY == vect.y)
-                    voiceX = vect.x;
+                if (voiceY == lastVoiceIdx.y)
+                    voiceX = lastVoiceIdx.x;
                 else
                     voiceX = columns - 1;
             }
@@ -100,27 +103,29 @@ bool Menu::selectVoice(int8_t directions) {
             return false;
     }
 
-    if (prevX != voiceX && prevY != voiceY) {
+    if (prevX != voiceX || prevY != voiceY) {
+        std::cout << "da ridisegnare" << std::endl;
         spriteReady = false;
         return true;
     } else {
+        std::cout << prevX << " = " << voiceX << "   " << prevY << " = " << voiceY << std::endl;
         return false;
     }
 }
 
-void Menu::setTextColor(const sf::Color& color){
+void Menu::setTextColor(const sf::Color& color) {
     text.setFillColor(color);
 }
 
-void Menu::setSelectedVoiceColor(const sf::Color& color){
+void Menu::setSelectedVoiceColor(const sf::Color& color) {
     selectedVoiceColor = color;
 }
 
-void Menu::setCharSize(unsigned int charSize){
+void Menu::setCharSize(unsigned int charSize) {
     text.setCharacterSize(charSize);
 }
 
-void Menu::setSelectedVoiceSize(unsigned int charSize){
+void Menu::setSelectedVoiceSize(unsigned int charSize) {
     selectedVoiceSize = charSize;
 }
 
@@ -193,6 +198,7 @@ void Menu::setDefaultValue() {
     voiceY = 0;
     selectedVoiceColor = sf::Color::Black;
     selectedVoiceSize = 16;
+    lastVoiceIdx = sf::Vector2<int8_t>(0, 0);
 }
 
 // calculate distancec between voices
@@ -217,22 +223,23 @@ void Menu::takeDistance() {
             max = bounds.width;
     }
 
-    
-        float w = static_cast<float>(background.getSize().x);
-        float columnsF = static_cast<float>(columns);
-        distance = (w - max * columnsF) / (columnsF - 1.f) + max;
+    float w = static_cast<float>(background.getSize().x);
+    float columnsF = static_cast<float>(columns);
+    distance = (w - max * columnsF) / (columnsF - 1.f) + max;
     position.x = 0.f;
 }
 
-sf::Vector2<int8_t> Menu::takeLastVoiceIdx() {
+void Menu::takeLastVoiceIdx() {
     if (size > columns * rows) {
-        return sf::Vector2<int8_t>(columns - 1, rows - 1);
+        lastVoiceIdx.x = columns - 1;
+        lastVoiceIdx.y = rows - 1;
     } else {
         div_t divRes = div(size, columns);
         std::cout << divRes.quot << " - resto " << divRes.rem << std::endl;
         int8_t r = (divRes.quot >= rows) ? rows - 1 : divRes.quot + (divRes.rem > 0) - 1;
         int8_t c = (r > 0 && divRes.rem == 0) ? columns - 1 : divRes.rem - 1;
-        return sf::Vector2<int8_t>(c, r);
+        lastVoiceIdx.x = c;
+        lastVoiceIdx.y = r;
     }
 }
 
