@@ -52,7 +52,6 @@ public:
      * @brief Generate the textbox
      * 
      * Will generate the textbox with full text
-     * @return The sprite in which the textbox was drawn
      */
     void makeInstantText();
 
@@ -65,7 +64,6 @@ public:
      * 
      * @see isPrinting
      * 
-     * @return The sprite in which the textbox was drawn
      */
     void typewriter();
 
