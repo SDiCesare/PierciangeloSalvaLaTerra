@@ -1,7 +1,6 @@
 #ifndef TextBox_h
 #define TextBox_h
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/Transformable.hpp>
 #include <string>
 
 
@@ -12,7 +11,7 @@
  * or in typewriter mode
  * 
  */
-class TextBox
+class TextBox: public sf::Drawable, public sf::Transformable
 {
 
 public:
@@ -50,27 +49,12 @@ public:
     TextBox(int w, int h, const sf::Vector2f& position);
 
     /**
-     * @brief Update the textbox position
-     * 
-     * @param position The new textbox position
-     */
-    void setPosition(const sf::Vector2f& position);
-
-    /**
-     * @brief Update the textbox position
-     * 
-     * @param x The X coordinate of the new textbox position
-     * @param y The Y coordinate of the new textbox position
-     */
-    void setPosition(float x, float y);
-
-    /**
      * @brief Generate the textbox
      * 
      * Will generate the textbox with full text
      * @return The sprite in which the textbox was drawn
      */
-    const sf::Sprite &getSprite();
+    void makeInstantText();
 
     /**
      * @brief Generate the textbox in typewriter mode
@@ -83,7 +67,7 @@ public:
      * 
      * @return The sprite in which the textbox was drawn
      */
-    const sf::Sprite &typewriter();
+    void typewriter();
 
     /**
      * @brief Update the text in the textbox
@@ -119,25 +103,24 @@ public:
     /**
      * @brief Update the elapsed time between two characters
      * 
-     * This parameter is needed to typewriter process, default value is 0.4
-     * @param time The time in seconds that needs to pass between the print of two characters
+     * This parameter is needed to typewriter process, default value is 400
+     * @param time The time in milliseconds that needs to pass between the print of two characters
      */
-    void setCharTime(float time);
+    void setCharTime(int time);
 
     /**
      * @brief Get the elapsed time between two characters
      * 
-     * @return The elapsed time between two characters
+     * @return The elapsed time between two characters in milliseconds
      */
-    float getCharTime();
+    int getCharTime();
 
 private:
     sf::Font font;
     sf::Text text;
     sf::String string;
-    sf::RenderTexture background;
+    sf::RectangleShape background;
     sf::Vector2f position;
-    sf::Color backgroundColor;
     sf::Sprite sprite;
     void setInitialValue();
     bool printing;
@@ -146,6 +129,7 @@ private:
     int indexTWChar;
     int sizeString;
     float charTime;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 #endif

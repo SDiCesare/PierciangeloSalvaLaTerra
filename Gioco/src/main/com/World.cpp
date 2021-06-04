@@ -10,9 +10,9 @@ World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.
     generateWorld();
     //TextBox Element
     deathTextBox.setString("DEFEAT");
-    deathTextBox.setCharTime(0.3f * 1000.f);
+    deathTextBox.setCharTime(300);
     winTextBox.setString("WIN");
-    winTextBox.setCharTime(0.5f * 1000.f);
+    winTextBox.setCharTime(500);
     
     sf::String temp[] = {"porcaporca", "porca", "porca", "porcaporca", "porca", "porca", "porca"};
     menu.setVoices(temp, 7);
@@ -166,11 +166,13 @@ void World::display(sf::RenderWindow &window)
     {
         if (player->isAlive())
         {
-            window.draw(winTextBox.typewriter());
+            winTextBox.typewriter();
+            window.draw(winTextBox);
         }
         else
         {
-            window.draw(deathTextBox.typewriter());
+            deathTextBox.typewriter();
+            window.draw(deathTextBox);
         }
         return;
     }

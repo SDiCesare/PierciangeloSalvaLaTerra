@@ -1,51 +1,28 @@
 #include "TextBox.h"
 
 // create texture with W x H size, save position to 0,0
-TextBox::TextBox(int w, int h)
-{
-    if (!background.create(w, h))
-    {
-        // TODO create exception class
-        throw 1;
-    }
-
-    sprite.setPosition(0.f, 0.f);
+TextBox::TextBox(int w, int h) {
+    setPosition(0.f, 0.f);
     setInitialValue();
 }
 
 // create texture with W x H size and save position in a Vector2f
-TextBox::TextBox(int w, int h, float x, float y)
-{
-    if (!background.create(w, h))
-    {
-        // TODO create exception class
-        throw 1;
-    }
-
-    sprite.setPosition(x, y);
+TextBox::TextBox(int w, int h, float x, float y) {
+    setPosition(x, y);
     setInitialValue();
 }
 
 // create texture with W x H size and save position in a Vector2f
-TextBox::TextBox(int w, int h, const sf::Vector2f& position)
-{
-    if (!background.create(w, h))
-    {
-        // TODO create exception class
-        throw 1;
-    }
-
-    sprite.setPosition(position);
+TextBox::TextBox(int w, int h, const sf::Vector2f& position) {
+    setPosition(position);
     setInitialValue();
 }
 
 //initialize the other TextBox variable
-void TextBox::setInitialValue()
-{
-    backgroundColor = sf::Color::White;
-    background.clear(backgroundColor);
-    if (!font.loadFromFile("..\\resources\\fonts\\ArialUnicodeMS.ttf"))
-    {
+void TextBox::setInitialValue() {
+    background.setFillColor(sf::Color::White);
+    background.setPosition(0.f, 0.f);
+    if (!font.loadFromFile("..\\resources\\fonts\\ArialUnicodeMS.ttf")) {
         // TODO create exception class
         throw 2;
     }
@@ -58,129 +35,95 @@ void TextBox::setInitialValue()
     indexTWChar = 0;
     sizeString = 0;
     text.setPosition(0.f, 0.f);
-    charTime = 0.4f;
-}
-
-// update the position of textbox
-void TextBox::setPosition(const sf::Vector2f& newPosition)
-{
-    sprite.setPosition(position);
-    needToDraw = true;
-}
-
-void TextBox::setPosition(float x, float y)
-{
-    sprite.setPosition(x, y);
-    needToDraw = true;
+    charTime = 400;
 }
 
 //update the string in the drawable text
-bool TextBox::setString(const sf::String& str)
-{
-    if (!printing)
-    {
+bool TextBox::setString(const sf::String& str) {
+    if (!printing) {
         string = str;
         sizeString = string.getSize();
         indexTWChar = 0;
+        needToDraw = true;
         return true;
     }
     return false;
 }
 
 //update the backgroundColor, this will clear the texture, return True if change was applied
-bool TextBox::setBackgroundColor(const sf::Color& color)
-{
-    if (!printing)
-    {
-        this->backgroundColor = color;
+bool TextBox::setBackgroundColor(const sf::Color& color) {
+    if (!printing) {
+        this->background.setFillColor(color);
         return true;
     }
     return false;
 }
 
 //update the textColor, this will clear the texture, return True if change was applied
-bool TextBox::setTextColor(const sf::Color& color)
-{
-    if (!printing)
-    {
+bool TextBox::setTextColor(const sf::Color& color) {
+    if (!printing) {
         text.setFillColor(color);
         return true;
     }
     return false;
 }
 
-bool TextBox::isPrinting()
-{
+bool TextBox::isPrinting() {
     return printing;
 }
 
 // return the pointer of a sprite to which the background and text was applied
-const sf::Sprite &TextBox::getSprite()
-{
-    // create white background
-    background.clear(backgroundColor);
+void TextBox::makeInstantText() {
     // draw text on background
-    text.setString(string);
-    background.draw(text);
-
-    background.display();
-
-    // put texture in a sprite and set the position
-    sprite.setTexture(background.getTexture());
-    // sprite.setPosition(position);
-
-    return sprite;
+    if (needToDraw)
+        text.setString(string);
 }
 
-float TextBox::getCharTime()
-{
+int TextBox::getCharTime() {
     return this->charTime;
 }
 
-void TextBox::setCharTime(float charTime)
-{
+void TextBox::setCharTime(int charTime) {
     this->charTime = charTime;
 }
 
-const sf::Sprite &TextBox::typewriter()
-{
-    if (!printing && indexTWChar == 0)
-    {
-        printing = true;
-        needToDraw = true;
-        clock.restart();
-        indexTWChar = 0;
+void TextBox::typewriter() {
+    if (!printing) {
+        if (indexTWChar == 0) {
+            printing = true;
+            needToDraw = true;
+            clock.restart();
+            indexTWChar = 0;
+        } else {
+            return;
+        }
     }
 
-    float time = clock.getElapsedTime().asMilliseconds();
+    int time = clock.getElapsedTime().asMilliseconds();
     //update every charTime second or if needToDraw is on (for now only when change sprite position)
-    if (time >= charTime || needToDraw)
-    {
+    if (time >= charTime || needToDraw) {
+        needToDraw = false;
         //add the new size
         indexTWChar += static_cast<int>(time / charTime);
 
         //if indexTWChar reach sizeString the printing is finished,
         //assign indexTWChar = sizeString in case indexTWChar is greather than sizeString
-        if (indexTWChar >= sizeString)
-        {
+        if (indexTWChar >= sizeString) {
             printing = false;
             indexTWChar = sizeString;
         }
 
-        needToDraw = false;
-
         sf::String partStr = string.substring(0, indexTWChar);
         text.setString(partStr);
-
-        //draw and set texture to sprite
-        background.clear(backgroundColor);
-        background.draw(text);
-        background.display();
-        sprite.setTexture(background.getTexture());
 
         //restart the clock, otherwise next cicles will print new chars
         clock.restart();
     }
+}
 
-    return sprite;
+void TextBox::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+    // You can draw other high-level objects
+    sf::Transform t = getTransform();
+    target.draw(background, t);
+    target.draw(text, t);
 }
