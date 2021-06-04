@@ -7,7 +7,8 @@
  * @class HealthBar
  * 
  * HealthBar is a class that will keep health point of the player (or whatever you want)
- * and will display it on the window
+ * and will display it on the window.
+ * It's a subclass of sf::Drawable and sf::Transformable
  */
 class HealthBar : public sf::Drawable, public sf::Transformable {
    public:
