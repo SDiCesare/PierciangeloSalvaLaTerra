@@ -16,11 +16,12 @@ World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.
     
     sf::String temp[] = {"porcaporca", "porca", "porca", "porcaporca", "porca", "porca", "porca"};
     menu.setVoices(temp, 7);
-    menu.setPosition(40.f, 40.f);
+    menu.setPosition(100.f, 200.f);
     menu.setDimension(400, 400);
     menu.setDisposition(3, 2);
     menu.setSelectedVoiceSize(24);
     menu.setSelectedVoiceColor(sf::Color::Red);
+    menu.selectVoice(2);
     winTextBox.setCharTime(0.3f * 1000.f);
     end = false;
     healthBar.setPosition(10.f, 10.f);
@@ -161,7 +162,8 @@ void World::display(sf::RenderWindow &window)
     }
     // end debugging section
     
-    window.draw(menu.getSprite());
+    menu.makeMenu();
+    window.draw(menu);
     if (end)
     {
         if (player->isAlive())

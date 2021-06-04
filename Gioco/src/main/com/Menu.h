@@ -11,7 +11,7 @@
  * graphical purpose, it isn't designed to return values in base of the 
  * selected voice
  */
-class Menu {
+class Menu : public sf::Drawable, public sf::Transformable{
    public:
     /**
      * @brief Default constructor
@@ -48,21 +48,6 @@ class Menu {
     void setVoices(sf::String menuVoices[], size_t size);
 
     /**
-     * @brief Set the position of the menu in the window
-     * 
-     * @param position The new position of the menu
-     */
-    void setPosition(const sf::Vector2f& position);
-
-    /**
-     * @brief Set the position of the menu in the window
-     * 
-     * @param x X coordinate of the menu
-     * @param y Y coordinate of the menu
-     */
-    void setPosition(float x, float y);
-
-    /**
      * @brief Set the dimension of menu
      * 
      * @param w Width of the menu
@@ -81,13 +66,11 @@ class Menu {
     void setDisposition(uint8_t c, uint8_t r);
 
     /**
-     * @brief Generate the sprite representing the menu
+     * @brief Generate the graphical menu
      * 
      * If not all essential value have been set, the menu will not be drawn
-     * 
-     * @return A const reference to the sprite of the menu
      */
-    const sf::Sprite& getSprite();
+    void makeMenu();
 
      /**
      * @brief Select another voice, the ones above, those below,
@@ -172,6 +155,7 @@ class Menu {
     //get the last element position in the menu disposition
     void takeLastVoiceIdx();
     sf::Vector2<int8_t> lastVoiceIdx;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 #endif

@@ -10,13 +10,13 @@ Menu::Menu() {
 }
 
 Menu::Menu(unsigned int w, unsigned int h, float x, float y) {
-    sprite.setPosition(x, y);
+    setPosition(x, y);
     setDimension(w, h);
     setDefaultValue();
 }
 
 Menu::Menu(unsigned int w, unsigned int h, const sf::Vector2f& position) {
-    sprite.setPosition(position);
+    setPosition(position);
     setDimension(w, h);
     setDefaultValue();
 }
@@ -46,14 +46,6 @@ void Menu::setDimension(unsigned int w, unsigned int h) {
     }
     spriteReady = false;
     positionReady = false;
-}
-
-void Menu::setPosition(const sf::Vector2f& position) {
-    sprite.setPosition(position);
-}
-
-void Menu::setPosition(float x, float y) {
-    sprite.setPosition(x, y);
 }
 
 bool Menu::selectVoice(int8_t directions) {
@@ -129,7 +121,7 @@ void Menu::setSelectedVoiceSize(unsigned int charSize) {
     selectedVoiceSize = charSize;
 }
 
-const sf::Sprite& Menu::getSprite() {
+void Menu::makeMenu() {
     //avoid to elaborate again the same sprite
     if (!spriteReady) {
         background.clear(backgroundColor);
@@ -173,7 +165,6 @@ const sf::Sprite& Menu::getSprite() {
         sprite.setTexture(background.getTexture());
         spriteReady = true;
     }
-    return sprite;
 }
 
 // set the default value, created not to repeat same code in all constructors
@@ -241,6 +232,11 @@ void Menu::takeLastVoiceIdx() {
         lastVoiceIdx.x = c;
         lastVoiceIdx.y = r;
     }
+}
+
+void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const{
+    sf::Transform t = getTransform();
+    target.draw(sprite, t);
 }
 
 Menu::~Menu() {
