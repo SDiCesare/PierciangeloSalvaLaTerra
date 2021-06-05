@@ -167,15 +167,14 @@ void Menu::makeMenu() {
     }
 }
 
+void Menu::setFont(sf::Font& font){
+    text.setFont(font);
+}
+
 // set the default value, created not to repeat same code in all constructors
 void Menu::setDefaultValue() {
     backgroundColor = sf::Color::White;
-    if (!font.loadFromFile("..\\resources\\fonts\\ArialUnicodeMS.ttf")) {
-        // TODO create exception class
-        throw 2;
-    }
     text.setCharacterSize(16);
-    text.setFont(font);
     text.setFillColor(sf::Color::Black);
     position = sf::Vector2f(0.f, 50.f);
     text.setPosition(0.f, 50.f);
@@ -203,7 +202,7 @@ void Menu::takeDistance() {
     //find the max bound, maybe there is a better way to calculate it
     sf::Text temp;
     temp.setCharacterSize(selectedVoiceSize);
-    temp.setFont(font);
+    temp.setFont(*text.getFont());
     temp.setPosition(0.f, 0.f);
     float max = 0.f;
     for (size_t i = 0; i < size; i++) {

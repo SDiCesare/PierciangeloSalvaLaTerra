@@ -113,8 +113,15 @@ public:
      */
     int getCharTime();
 
+    /**
+     * @brief Set the text font
+     * 
+     * @param font The font to use
+     * @return If the update has been applied
+     */
+    bool setFont(sf::Font& font);
+
 private:
-    sf::Font font;
     sf::Text text;
     sf::String string;
     sf::RectangleShape background;

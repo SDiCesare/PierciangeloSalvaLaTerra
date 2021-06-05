@@ -28,7 +28,7 @@ class HealthBar : public sf::Drawable, public sf::Transformable {
      * @param maxHealth The max health and the initial health
      * @param size The size of the bar
      */
-    HealthBar(unsigned int maxHealth, const sf::Vector2f& size);
+    HealthBar(int maxHealth, const sf::Vector2f& size);
 
     /**
      * @brief Update the health based on the damage suffered by the player
@@ -38,7 +38,7 @@ class HealthBar : public sf::Drawable, public sf::Transformable {
      * @param damage The number of health point to remove
      * @return If the player is alive
      */
-    bool takeDamage(int damage);
+    virtual bool takeDamage(int damage);
 
     /**
      * @brief Set the size of the bar
@@ -46,7 +46,7 @@ class HealthBar : public sf::Drawable, public sf::Transformable {
      * The size referes to the size with max health
      * @param size The size of the bar
      */
-    void setBar(const sf::Vector2f& size);
+    virtual void setBar(const sf::Vector2f& size);
 
     /**
      * @brief Update the player's current health
@@ -55,7 +55,7 @@ class HealthBar : public sf::Drawable, public sf::Transformable {
      * 
      * @param health The player'scurrent health
      */
-    void setHealth(int health);
+    virtual void setHealth(int health);
 
     /**
      * @brief Update the player's max health
@@ -67,7 +67,7 @@ class HealthBar : public sf::Drawable, public sf::Transformable {
      * @param maxHealth The player's max health
      * @param propotionalHealth If the current heatlh needs to be proportional to new max health
      */
-    void setMaxHealth(int maxHealth, bool propotionalHealth = true);
+    virtual void setMaxHealth(int maxHealth, bool propotionalHealth = true);
 
     /**
      * @brief Update the current health and the max health
@@ -77,7 +77,7 @@ class HealthBar : public sf::Drawable, public sf::Transformable {
      * @param health The player'scurrent health
      * @param maxHealth The player's max health
      */
-    void setHealthStat(int health, int maxHealth);
+    virtual void setHealthStat(int health, int maxHealth);
 
     /**
      * @brief Get the the player's current health
@@ -100,14 +100,16 @@ class HealthBar : public sf::Drawable, public sf::Transformable {
      */
     bool isAlive();
 
-   private:
+   protected:
     int maxHealth;
     int health;
     sf::RectangleShape rect;
     sf::Texture textureHealth;
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     sf::Vector2f maxSize;
     void renderHealthBar();
+
+   private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 #endif

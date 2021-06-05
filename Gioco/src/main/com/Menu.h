@@ -126,6 +126,8 @@ class Menu : public sf::Drawable, public sf::Transformable{
      */
     void setSelectedVoiceSize(unsigned int charSize);
 
+    void setFont(sf::Font& font);
+
     virtual ~Menu();
 
    private:

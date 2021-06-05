@@ -22,14 +22,9 @@ TextBox::TextBox(int w, int h, const sf::Vector2f& position) {
 void TextBox::setInitialValue() {
     background.setFillColor(sf::Color::White);
     background.setPosition(0.f, 0.f);
-    if (!font.loadFromFile("..\\resources\\fonts\\ArialUnicodeMS.ttf")) {
-        // TODO create exception class
-        throw 2;
-    }
     text.setCharacterSize(16);
     printing = false;
     needToDraw = false;
-    text.setFont(font);
     text.setFillColor(sf::Color::Black);
     text.setPosition(0.f, 0.f);
     indexTWChar = 0;
@@ -85,6 +80,14 @@ int TextBox::getCharTime() {
 
 void TextBox::setCharTime(int charTime) {
     this->charTime = charTime;
+}
+
+bool TextBox::setFont(sf::Font& font) {
+    if (!printing) {
+        text.setFont(font);
+        return true;
+    }
+    return false;
 }
 
 void TextBox::typewriter() {

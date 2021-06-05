@@ -5,9 +5,12 @@ HealthBar::HealthBar() {
     health = 0;
 }
 
-HealthBar::HealthBar(unsigned int health, const sf::Vector2f& size) {
-    maxHealth = health;
-    this->health = health;
+HealthBar::HealthBar(int health, const sf::Vector2f& size) {
+    if(health < 0)
+        maxHealth = 0;
+    else
+        maxHealth = health;
+    this->health = maxHealth;
     this->setBar(size);
 }
 
