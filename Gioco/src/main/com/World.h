@@ -3,6 +3,7 @@
 
 #include "entity\Player.hpp"
 #include "tile\Tile.h"
+#include "hud\HealthBarNum.h"
 #include "hud\HealthBar.h"
 #include "TextBox.h"
 #include <SFML/Graphics.hpp>
@@ -34,8 +35,9 @@ private:
     std::list<Tile *> tiles;
     TextBox deathTextBox;
     TextBox winTextBox;
+    sf::Font font;
     Menu menu;
-    HealthBar healthBar;
+    HealthBarNum healthBar;
     int counter; //for debugging, it counts how many time the loop was executed
 };
 

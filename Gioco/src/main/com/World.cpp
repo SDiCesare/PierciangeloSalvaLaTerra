@@ -7,12 +7,19 @@
 
 World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.f, 250.f)
 {
+    //load a font to pass to other class
+    if (!font.loadFromFile("..\\resources\\fonts\\ArialUnicodeMS.ttf")) {
+        // TODO create exception class
+        throw 2;
+    }
     generateWorld();
     //TextBox Element
     deathTextBox.setString("DEFEAT");
     deathTextBox.setCharTime(300);
+    deathTextBox.setFont(font);
     winTextBox.setString("WIN");
     winTextBox.setCharTime(500);
+    winTextBox.setFont(font);
     
     sf::String temp[] = {"porcaporca", "porca", "porca", "porcaporca", "porca", "porca", "porca"};
     menu.setVoices(temp, 7);
@@ -22,9 +29,11 @@ World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.
     menu.setSelectedVoiceSize(24);
     menu.setSelectedVoiceColor(sf::Color::Red);
     menu.selectVoice(2);
-    winTextBox.setCharTime(0.3f * 1000.f);
+    menu.setFont(font);
+    
     end = false;
     healthBar.setPosition(10.f, 10.f);
+    healthBar.setFont(font);
     counter = 0; //debugging
     healthBar.setMaxHealth(70);
     healthBar.setBar(sf::Vector2f(200.f, 30.f));
@@ -161,7 +170,6 @@ void World::display(sf::RenderWindow &window)
     }else if(counter% 120 == 0){
     }
     // end debugging section
-    
     menu.makeMenu();
     window.draw(menu);
     if (end)
