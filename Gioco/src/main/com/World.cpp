@@ -169,6 +169,7 @@ void World::display(sf::RenderWindow &window)
 
         counter = 0;
     }
+    
     else if (counter % 120 == 0)
     {
     }
