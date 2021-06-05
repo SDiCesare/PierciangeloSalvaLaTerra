@@ -1,9 +1,9 @@
 #ifndef World_h
 #define World_h
 
-#include "entity\Player.h"
+#include "entity\Player.hpp"
 #include "tile\Tile.h"
-#include "HUD\HealthBar.h"
+#include "hud\HealthBar.h"
 #include "TextBox.h"
 #include <SFML/Graphics.hpp>
 #include <list>

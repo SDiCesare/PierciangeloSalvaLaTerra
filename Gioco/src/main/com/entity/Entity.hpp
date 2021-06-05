@@ -1,48 +1,106 @@
 #ifndef Entity_hpp
 #define Entity_hpp
+
 #include <SFML/Graphics.hpp>
+#include "..\\Direction.hpp"
 
-#include "..\\tile\\Tile.h"
-
-class World;
-class Entity
+class Entity : public sf::Drawable, public sf::Transformable
 {
-public:
-    Entity(sf::Sprite *sprite, World *world);
-    Entity(World *world);
 
 public:
-    void setPos(sf::Vector2f);
-    void setPos(float x, float y);
-    sf::Vector2f getPos();
+    /**
+    * @brief Create an Entity with a representative Texture
+    * 
+    * @param texture The Texture with size [(nX4n) or (n*n)]
+    * */
+    Entity(sf::Texture texture);
+
+    /**
+     * @brief Called every tick from the World that contains this Entity
+     * */
     virtual void tick();
-    void updateSprite();
-    sf::Sprite getSprite();
-    bool isAlive();
+
+    /**
+     * @brief Called When the Entity hits another one
+     * 
+     * @param entity The Entity that this one hits
+     * */
+    virtual void onHit(Entity &entity);
+
+    /**
+     * @brief Set the position of the Entity at x, y
+     * 
+     * @param x The X coordinate
+     * @param y The Y coordinate
+     * */
+    void setPosition(float x, float y);
+
+    /**
+     * @return The current position of the Entity
+     * */
+    sf::Vector2f getPosition();
+
+    /**
+     * @brief Move the Entity of (x, y)
+     * 
+     * @param x The movement on X axis
+     * @param y The movement on Y axis
+     * */
     void move(float x, float y);
-    void moveTo(float x, float y);
-    World *getWorld();
-    virtual void onHit(Entity *entity);
-    virtual void onHit(Tile *tile);
+
+    /**
+     * @brief Move the Entity of vector (move)
+     * 
+     * @param move The movement vector
+     * */
+    void move(sf::Vector2f move);
+
+    /**
+     * @brief Set flag alive of this Entity
+     * 
+     * @param alive
+     * */
+    void setAlive(bool alive);
+
+    /**
+     * @return If thecurrent Entity is alive
+     * */
+    bool isAlive();
+
+    /**
+     * @return The Entity width
+     * */
     int getWidth();
+
+    /**
+     * @return The Entity Height
+     * */
     int getHeight();
-    float getHealth();
-    void setHealth(float health);
-
-protected:
-    void setupSize(int width, int height);
-
-protected:
-    sf::Sprite *sprite;
-    sf::Texture *texture;
-    bool alive;
-    sf::Vector2f facing;
-    World *world;
-    float health;
 
 private:
-    int width;
-    int height;
+    /**
+     * @brief Draw the Entity on the screen based on (texture) & (texturebox)
+     * 
+     * @param target The target drawed by the window
+     * @param states The render states of the window
+     * */
+    virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+
+    /**
+     * @brief Update the texture to the facing direction (Only if the texture's size is [nx4n])
+     * 
+     * @param dir The entity direction
+     * */
+    void updateFacing(Direction dir);
+
+protected:
+    sf::Texture texture;
+
+private:
+    sf::VertexArray textureBox;
+    float width;
+    float height;
+    bool alive;
 };
 
 #endif

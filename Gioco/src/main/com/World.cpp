@@ -1,5 +1,5 @@
 #include "World.h"
-#include "entity\\Enemy.h"
+#include "entity\\Enemy.hpp"
 #include "tile\\Rock.h"
 #include "tile\\Floor.h"
 #include <iostream>
@@ -33,18 +33,18 @@ World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.
 void World::generateWorld()
 {
     //Add Player to world
-    player = new Player(this);
-    player->setPos(sf::Vector2f(300, 100));
+    player = new Player();
+    player->setPosition(300, 100);
     entities.push_back(player);
     //Add n[1-4] enemy to world
     int numEnemy = Game::getRandInt(1, 4);
     for (int i = 0; i < numEnemy; i++)
     {
-        Enemy *enemy = new Enemy(this);
+        Enemy *enemy = new Enemy();
         float x = Game::getRandInt(0, Game::width);
         float y = Game::getRandInt(0, Game::height);
         std::cout << "Adding Enemy to " << x << "," << y << "\n";
-        enemy->setPos(x, y);
+        enemy->setPosition(x, y);
         entities.push_back(enemy);
     }
     //Tile Injection
@@ -101,7 +101,7 @@ bool World::canMove(Entity *e, float x, float y, float width, float height)
         float height1 = sprite.getTextureRect().height;
         if (collideRect(x, y, width, height, x1, y1, width1, height1) && !tile->isAir())
         {
-            e->onHit(tile);
+            //e->onHit(tile);
             return false;
         }
     }
@@ -116,7 +116,7 @@ void World::checkCollision()
         {
             if (e != entity && isHitted(*entity, *e))
             {
-                entity->onHit(e);
+                entity->onHit(*e);
             }
         }
         if (!entity->isAlive())
@@ -139,13 +139,13 @@ bool World::collideRect(float x1, float y1, float width1, float height1, float x
 
 bool World::isHitted(Entity e1, Entity e2)
 {
-    float x1 = e1.getPos().x;
-    float y1 = e1.getPos().y;
+    float x1 = e1.getPosition().x;
+    float y1 = e1.getPosition().y;
     float width1 = e1.getWidth();
     float height1 = e1.getHeight();
 
-    float x2 = e2.getPos().x;
-    float y2 = e2.getPos().y;
+    float x2 = e2.getPosition().x;
+    float y2 = e2.getPosition().y;
     float width2 = e2.getWidth();
     float height2 = e2.getHeight();
 
@@ -184,7 +184,7 @@ void World::display(sf::RenderWindow &window)
     }
     for (Entity *entity : entities)
     {
-        window.draw(entity->getSprite());
+        window.draw(*entity);
     }
     window.draw(healthBar);
 }

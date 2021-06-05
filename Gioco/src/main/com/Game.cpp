@@ -1,7 +1,6 @@
 #include "Game.h"
 #include <stdlib.h>
 #include <time.h>
-#include "entity\\Bullet.h"
 #include "entity\\Entity.hpp"
 
 Game::Game()
@@ -47,27 +46,23 @@ void Game::checkInput()
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
     {
-        Bullet *bullet = world->player->shoot();
-        if (bullet != nullptr)
-        {
-            world->addEntity(bullet);
-        }
+        //TODO Shooting
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        world->player->move(-world->player->getSpeed().x, 0);
+        world->player->move(-1, 0);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        world->player->move(world->player->getSpeed().x, 0);
+        world->player->move(1, 0);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
-        world->player->move(0, -world->player->getSpeed().y);
+        world->player->move(0, -1);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
-        world->player->move(0, world->player->getSpeed().y);
+        world->player->move(0, 1);
     }
 }
 
