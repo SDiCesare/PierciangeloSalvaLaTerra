@@ -1,4 +1,4 @@
-#include "HealthBar.h"
+#include "HealthBar.hpp"
 
 HealthBar::HealthBar() {
     maxHealth = 0;

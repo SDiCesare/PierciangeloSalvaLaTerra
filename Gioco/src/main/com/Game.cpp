@@ -1,7 +1,6 @@
-#include "Game.h"
+#include "Game.hpp"
 #include <stdlib.h>
 #include <time.h>
-#include "entity\\Entity.hpp"
 
 Game::Game()
 {
@@ -50,19 +49,31 @@ void Game::checkInput()
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        world->player->move(-1, 0);
+        if (world->canMove(*world->player, world->player->getPosition().x - 3, world->player->getPosition().y, world->player->getWidth(), world->player->getHeight()))
+        {
+            world->player->move(-3, 0);
+        }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        world->player->move(1, 0);
+        if (world->canMove(*world->player, world->player->getPosition().x + 3, world->player->getPosition().y, world->player->getWidth(), world->player->getHeight()))
+        {
+            world->player->move(3, 0);
+        }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
-        world->player->move(0, -1);
+        if (world->canMove(*world->player, world->player->getPosition().x, world->player->getPosition().y - 3, world->player->getWidth(), world->player->getHeight()))
+        {
+            world->player->move(0, -3);
+        }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
-        world->player->move(0, 1);
+        if (world->canMove(*world->player, world->player->getPosition().x, world->player->getPosition().y + 3, world->player->getWidth(), world->player->getHeight()))
+        {
+            world->player->move(0, 3);
+        }
     }
 }
 

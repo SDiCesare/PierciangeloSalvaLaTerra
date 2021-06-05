@@ -1,5 +1,5 @@
-#ifndef Item_h
-#define Item_h
+#ifndef Item_hpp
+#define Item_hpp
 #include <string>
 
 class Item

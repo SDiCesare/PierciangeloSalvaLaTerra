@@ -3,14 +3,16 @@
 
 LivingEntity::LivingEntity(sf::Texture texture) : Entity(texture)
 {
-    this->entityInit();
 }
 
-void LivingEntity::entityInit()
+bool LivingEntity::isInvulnerable()
 {
-    this->maxHealth = 0.f;
-    this->health = 0.f;
-    this->maxSpeed = sf::Vector2f(0.f, 0.f);
+    return false;
+}
+
+void LivingEntity::damage(float amount)
+{
+    this->health -= amount;
 }
 
 //Setter

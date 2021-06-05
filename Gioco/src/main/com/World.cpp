@@ -1,9 +1,8 @@
-#include "World.h"
+#include "World.hpp"
 #include "entity\\Enemy.hpp"
-#include "tile\\Rock.h"
-#include "tile\\Floor.h"
+#include "tile\\Rock.hpp"
 #include <iostream>
-#include "Game.h"
+#include "Game.hpp"
 
 World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.f, 250.f)
 {
@@ -47,6 +46,7 @@ void World::generateWorld()
     entities.push_back(player);
     //Add n[1-4] enemy to world
     int numEnemy = Game::getRandInt(1, 4);
+    std::cout << "Adding " << numEnemy << " enemy\n";
     for (int i = 0; i < numEnemy; i++)
     {
         Enemy *enemy = new Enemy();
@@ -57,22 +57,14 @@ void World::generateWorld()
         entities.push_back(enemy);
     }
     //Tile Injection
-    for (int i = 0; i < Game::width / 16; i++)
-    {
-        for (int j = 0; j < Game::height / 16; j++)
-        {
-            Floor *floor = new Floor();
-            floor->setPos(i * 16, j * 16);
-            tiles.push_back(floor);
-        }
-    }
+    std::cout << "Adding 10 Rock\n";
     for (int i = 0; i < 10; i++)
     {
         Rock *rock = new Rock();
         float x = Game::getRandInt(0, Game::width);
         float y = Game::getRandInt(0, Game::height);
         std::cout << "Adding Rock to " << x << "," << y << "\n";
-        rock->setPos(x, y);
+        rock->setPosition(x, y);
         tiles.push_back(rock);
     }
 }
@@ -92,25 +84,33 @@ void World::tick()
     for (Entity *entity : entities)
     {
         entity->tick();
+        if (!canMove(*entity, entity->getPosition().x, entity->getPosition().y, entity->getWidth(), entity->getHeight()))
+        {
+            entity->setPosition(entity->getOldPosition().x, entity->getOldPosition().y);
+        }
     }
     //TODO Add Entity to block, and iter only those who has one
 
     checkCollision();
+    this->healthBar.setHealthStat(player->getHealth(), player->getMaxHealth());
 }
 
 //Check if an entity e can move to (x, y)
-bool World::canMove(Entity *e, float x, float y, float width, float height)
+bool World::canMove(Entity &e, float x, float y, float width, float height)
 {
     for (Tile *tile : tiles)
     {
-        sf::Sprite sprite = tile->getSprite();
-        float x1 = tile->getPos().x;
-        float y1 = tile->getPos().y;
-        float width1 = sprite.getTextureRect().width;
-        float height1 = sprite.getTextureRect().height;
-        if (collideRect(x, y, width, height, x1, y1, width1, height1) && !tile->isAir())
+        float x1 = tile->getPosition().x;
+        float y1 = tile->getPosition().y;
+        float width1 = tile->getWidth();
+        float height1 = tile->getHeight();
+        if (collideRect(x, y, width, height, x1, y1, width1, height1) && tile->isSolid())
         {
-            //e->onHit(tile);
+            e.onHit(*tile);
+            if (tile->isBreakableTo(e))
+            {
+                tile->onBreak(e);
+            }
             return false;
         }
     }
@@ -164,10 +164,13 @@ bool World::isHitted(Entity e1, Entity e2)
 void World::display(sf::RenderWindow &window)
 {
     // debugging
-    if(++counter % 240 == 0){
-        
+    if (++counter % 240 == 0)
+    {
+
         counter = 0;
-    }else if(counter% 120 == 0){
+    }
+    else if (counter % 120 == 0)
+    {
     }
     // end debugging section
     menu.makeMenu();
@@ -186,23 +189,25 @@ void World::display(sf::RenderWindow &window)
         }
         return;
     }
+    //Render Entities and Tiles
     for (Tile *tile : tiles)
     {
-        window.draw(tile->getSprite());
+        window.draw(*tile);
     }
     for (Entity *entity : entities)
     {
         window.draw(*entity);
     }
+    //Render GUI
     window.draw(healthBar);
 }
 
-void World::addEntity(Entity *entity)
+void World::addEntity(Entity &entity)
 {
     if (entities.size() == entities.max_size() - 1)
     {
-        std::cout << "Finito Spazio!\n";
+        std::cout << "Too Much Entity!\n";
         return;
     }
-    entities.push_back(entity);
+    entities.push_back(&entity);
 }

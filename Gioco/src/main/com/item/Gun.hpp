@@ -1,7 +1,7 @@
-#ifndef Gun_h
-#define Gun_h
+#ifndef Gun_hpp
+#define Gun_hpp
 
-#include "Item.h"
+#include "Item.hpp"
 
 class Gun : public Item
 {

@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "..\\Direction.hpp"
+#include "..\\tile\\Tile.hpp"
 
 class Entity : public sf::Drawable, public sf::Transformable
 {
@@ -11,7 +12,8 @@ public:
     /**
     * @brief Create an Entity with a representative Texture
     * 
-    * @param texture The Texture with size [(nX4n) or (n*n)]
+    * @param world The world in which this entity lives
+    * @param texture The Texture with size [(nX4n) or (nXn)]
     * */
     Entity(sf::Texture texture);
 
@@ -28,6 +30,13 @@ public:
     virtual void onHit(Entity &entity);
 
     /**
+     * @brief Called When the Entity hits a tile
+     * 
+     * @param entity The Tile that this entity hits
+     * */
+    virtual void onHit(Tile &tile);
+
+    /**
      * @brief Set the position of the Entity at x, y
      * 
      * @param x The X coordinate
@@ -39,6 +48,11 @@ public:
      * @return The current position of the Entity
      * */
     sf::Vector2f getPosition();
+
+    /**
+     * @return The previous position of the Entity
+     * */
+    sf::Vector2f getOldPosition();
 
     /**
      * @brief Move the Entity of (x, y)
@@ -73,9 +87,21 @@ public:
     int getWidth();
 
     /**
-     * @return The Entity Height
+     * @return The Entity height
      * */
     int getHeight();
+
+    /**
+     * @brief Set facing direction of this Entity
+     * 
+     * @param facing The new facing direction
+     * */
+    void setFacing(Direction facing);
+
+    /**
+     * @return The facing direction of the Entity
+     * */
+    Direction getFacing();
 
 private:
     /**
@@ -95,12 +121,14 @@ private:
 
 protected:
     sf::Texture texture;
+    sf::Vector2f oldPosition;
 
 private:
     sf::VertexArray textureBox;
     float width;
     float height;
     bool alive;
+    Direction facing = Direction::SOUTH;
 };
 
 #endif

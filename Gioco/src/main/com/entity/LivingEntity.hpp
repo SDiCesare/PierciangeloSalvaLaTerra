@@ -51,11 +51,17 @@ public:
      * */
     void setMaxSpeed(sf::Vector2f maxSpeed);
 
-protected:
     /**
-     * @brief Called from the Constructor of LivingEntity. Override to set-up the stats
+     * @return If this entity is invulnerable to damage
      * */
-    virtual void entityInit();
+    virtual bool isInvulnerable();
+
+    /**
+     * @brief Damage the LivingEntity by the amount
+     * 
+     * @param amount The Damage amount
+     * */
+    virtual void damage(float amount);
 
 private:
     sf::Vector2f maxSpeed;

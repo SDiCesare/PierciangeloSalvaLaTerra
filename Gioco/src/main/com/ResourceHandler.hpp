@@ -9,6 +9,7 @@ class ResourceHandler
 public:
     static sf::Texture PLAYER_TEXTURE;
     static sf::Texture SNAKE_TEXTURE;
+    static sf::Texture ROCK_TEXTURE;
 
     static void loadResources()
     {
@@ -20,6 +21,10 @@ public:
         if (SNAKE_TEXTURE.loadFromFile("..\\resources\\textures\\entity\\enemy.png"))
         {
             std::cout << "Loaded Enemy Snake Texture: " << &SNAKE_TEXTURE << "\n";
+        }
+        if (ROCK_TEXTURE.loadFromFile("..\\resources\\textures\\tile\\rock.png"))
+        {
+            std::cout << "Loaded Tile Rock Texture: " << &ROCK_TEXTURE << "\n";
         }
         std::cout << "Resource Loaded\n================================\n";
     }

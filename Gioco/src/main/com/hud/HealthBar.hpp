@@ -1,5 +1,5 @@
-#ifndef HealthBar_h
-#define HealthBar_h
+#ifndef HealthBar_hpp
+#define HealthBar_hpp
 
 #include <SFML/Graphics.hpp>
 
