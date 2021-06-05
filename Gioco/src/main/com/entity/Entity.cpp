@@ -7,7 +7,6 @@ Entity::Entity(sf::Texture texture) : textureBox(sf::TriangleStrip, 4)
     this->texture = texture;
     this->width = this->texture.getSize().x;
     this->height = this->texture.getSize().x;
-    std::cout << width << "X" << height << "\n";
     textureBox[0].position = sf::Vector2f(0, 0);
     textureBox[1].position = sf::Vector2f(0, this->height);
     textureBox[2].position = sf::Vector2f(this->width, 0);
@@ -18,6 +17,10 @@ Entity::Entity(sf::Texture texture) : textureBox(sf::TriangleStrip, 4)
 }
 
 void Entity::onHit(Entity &entity)
+{
+}
+
+void Entity::onHit(Tile &tile)
 {
 }
 
@@ -42,6 +45,7 @@ void Entity::move(sf::Vector2f move)
 
 void Entity::updateFacing(Direction dir)
 {
+    this->facing = dir;
     //0: North, 1: South, 2: West, 3: East
     switch (dir.getOrdinal())
     {
@@ -94,6 +98,8 @@ void Entity::setAlive(bool alive)
 
 void Entity::setPosition(float x, float y)
 {
+    this->oldPosition.x = this->getPosition().x;
+    this->oldPosition.y = this->getPosition().y;
     sf::Transformable::setPosition(x, y);
 }
 
@@ -117,4 +123,9 @@ int Entity::getHeight()
 sf::Vector2f Entity::getPosition()
 {
     return sf::Transformable::getPosition();
+}
+
+sf::Vector2f Entity::getOldPosition()
+{
+    return this->oldPosition;
 }

@@ -1,8 +1,8 @@
-#ifndef Game_h
-#define Game_h
+#ifndef Game_hpp
+#define Game_hpp
 
 #include <SFML/Graphics.hpp>
-#include "World.h"
+#include "World.hpp"
 
 class Game
 {

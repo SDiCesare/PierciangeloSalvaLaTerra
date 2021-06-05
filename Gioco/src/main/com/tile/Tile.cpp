@@ -1,45 +1,54 @@
-#include "Tile.h"
+#include "Tile.hpp"
+#include <iostream>
 
-Tile::Tile()
+Tile::Tile(sf::Texture texture) : textureBox(sf::TriangleStrip, 4)
 {
+    this->texture = texture;
+    this->width = this->texture.getSize().x;
+    this->height = this->texture.getSize().x;
+    textureBox[0].position = sf::Vector2f(0, 0);
+    textureBox[1].position = sf::Vector2f(0, this->height);
+    textureBox[2].position = sf::Vector2f(this->width, 0);
+    textureBox[3].position = sf::Vector2f(this->width, this->height);
 }
 
-bool Tile::isAir()
+void Tile::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+    states.transform *= getTransform();
+    states.texture = &texture;
+    target.draw(textureBox, states);
+}
+
+bool Tile::isSolid()
 {
     return true;
 }
 
-void Tile::setSprite(sf::Sprite *sprite)
+bool Tile::isBreakableTo(Entity &entity)
 {
-    this->sprite = sprite;
+    return false;
 }
 
-void Tile::setTexture(sf::Texture *texture)
+void Tile::onBreak(Entity &entity)
 {
-    this->texture = texture;
 }
 
-void Tile::setPos(sf::Vector2f pos)
+void Tile::setPosition(float x, float y)
 {
-    this->sprite->setPosition(pos);
+    sf::Transformable::setPosition(x, y);
 }
 
-void Tile::setPos(float x, float y)
+int Tile::getWidth()
 {
-    this->sprite->setPosition(x, y);
+    return this->width;
 }
 
-sf::Sprite Tile::getSprite()
+int Tile::getHeight()
 {
-    return *(this->sprite);
+    return this->height;
 }
 
-sf::Texture Tile::getTexture()
+sf::Vector2f Tile::getPosition()
 {
-    return *(this->texture);
-}
-
-sf::Vector2f Tile::getPos()
-{
-    return this->sprite->getPosition();
+    return sf::Transformable::getPosition();
 }

@@ -1,21 +1,17 @@
-#include "Rock.h"
+#include "Rock.hpp"
 #include <iostream>
+#include "..\\ResourceHandler.hpp"
 
-Rock::Rock()
+Rock::Rock() : Tile(ResourceHandler::ROCK_TEXTURE)
 {
-    sf::Texture *texture = new sf::Texture();
-    if (!texture->loadFromFile("..\\resources\\textures\\tile\\rock.png"))
-    {
-        std::cout << "Rock Textures not found!"
-                  << "\n";
-    }
-    this->setTexture(texture);
-    sf::Sprite *sprite = new sf::Sprite();
-    sprite->setTexture(*texture);
-    this->setSprite(sprite);
 }
 
-bool Rock::isAir()
+bool Rock::isBreakableTo(Entity &entity)
 {
+    //TODO Break Rock with some stuff (explosion and so on)
     return false;
+}
+
+void Rock::onBreak(Entity &entity)
+{
 }

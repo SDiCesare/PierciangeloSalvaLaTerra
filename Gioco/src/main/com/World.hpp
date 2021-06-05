@@ -1,9 +1,9 @@
-#ifndef World_h
-#define World_h
+#ifndef World_hpp
+#define World_hpp
 
 #include "entity\Player.hpp"
-#include "tile\Tile.h"
-#include "hud\HealthBar.h"
+#include "tile\Tile.hpp"
+#include "hud\HealthBar.hpp"
 #include "TextBox.h"
 #include <SFML/Graphics.hpp>
 #include <list>
@@ -19,10 +19,10 @@ public:
     void tick();
     void setup();
     void display(sf::RenderWindow &window);
-    void addEntity(Entity *entity);
+    void addEntity(Entity &entity);
     bool collideRect(float x1, float y1, float width1, float height1, float x2, float y2, float width2, float height2);
     void checkCollision();
-    bool canMove(Entity *e, float x, float y, float width, float height);
+    bool canMove(Entity &e, float x, float y, float width, float height);
     bool isHitted(Entity e1, Entity e2);
     bool end;
 

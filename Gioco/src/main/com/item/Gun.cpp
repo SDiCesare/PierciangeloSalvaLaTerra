@@ -1,4 +1,4 @@
-#include "Gun.h"
+#include "Gun.hpp"
 
 Gun::Gun(std::string name, float strength, float delay, float speedFactor) : Item(name)
 {
