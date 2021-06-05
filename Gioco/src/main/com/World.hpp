@@ -2,13 +2,13 @@
 #define World_hpp
 
 #include "entity\Player.hpp"
-#include "tile\Tile.h"
-#include "HUD\HealthBarNum.h"
-#include "HUD\HealthBar.h"
-#include "TextBox.h"
+#include "tile\Tile.hpp"
+#include "HUD\HealthBarNum.hpp"
+#include "HUD\HealthBar.hpp"
+#include "TextBox.hpp"
 #include <SFML/Graphics.hpp>
 #include <list>
-#include "Menu.h"
+#include "Menu.hpp"
 
 //class Game;
 

@@ -1,6 +1,6 @@
 #ifndef HealthBarNum_h
 #define HealthBarNum_h
-#include "HealthBar.h"
+#include "HealthBar.hpp"
 
 class HealthBarNum : public HealthBar {
     public:

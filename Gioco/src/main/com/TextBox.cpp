@@ -1,4 +1,4 @@
-#include "TextBox.h"
+#include "TextBox.hpp"
 
 // create texture with W x H size, save position to 0,0
 TextBox::TextBox(int w, int h) {
