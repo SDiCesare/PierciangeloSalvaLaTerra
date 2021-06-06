@@ -12,11 +12,14 @@ public:
     void tick() override;
     bool isInvulnerable() override;
     void damage(float amount) override;
+    Gun getGun();
+    Bullet *shoot();
 
 private:
     Gun gun;
     float invincibilityTime;
     float invincibilityFrames;
+    float gunDelay;
 };
 
 #endif

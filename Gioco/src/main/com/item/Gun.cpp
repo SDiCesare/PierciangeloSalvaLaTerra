@@ -21,3 +21,13 @@ float Gun::getDelay()
 {
     return this->delay;
 }
+
+void Gun::setDelay(float delay)
+{
+    this->delay = delay;
+}
+
+Bullet *Gun::generateBullet(Direction facing, Entity &source)
+{
+    return new Bullet(this->strength, facing, this->speedFactor, source);
+}

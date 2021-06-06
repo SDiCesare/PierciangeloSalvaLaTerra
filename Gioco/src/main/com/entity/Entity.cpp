@@ -130,3 +130,8 @@ sf::Vector2f Entity::getOldPosition()
 {
     return this->oldPosition;
 }
+
+Direction Entity::getFacing()
+{
+    return this->facing;
+}

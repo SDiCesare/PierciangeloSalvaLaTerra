@@ -6,7 +6,7 @@ Tile::Tile(std::string name) : textureBox(sf::TriangleStrip, 4)
 {
     this->texture = ResourceHandler::getOrCreate("tile", name);
     this->width = this->texture.getSize().x;
-    this->height = this->texture.getSize().x;
+    this->height = this->texture.getSize().y;
     textureBox[0].position = sf::Vector2f(0, 0);
     textureBox[1].position = sf::Vector2f(0, this->height);
     textureBox[2].position = sf::Vector2f(this->width, 0);

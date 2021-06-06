@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include <stdlib.h>
 #include <time.h>
+#include "item\\Gun.hpp"
 
 Game::Game()
 {
@@ -45,7 +46,11 @@ void Game::checkInput()
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
     {
-        //TODO Shooting
+        Bullet *bullet = world->player->shoot();
+        if (bullet != NULL)
+        {
+            world->addEntity(*bullet);
+        }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {

@@ -11,6 +11,13 @@ class Entity : public sf::Drawable, public sf::Transformable
 
 public:
     /**
+     * @brief Default Empty Constructor for Entity Class
+     * */
+    Entity()
+    {
+    }
+
+    /**
     * @brief Create an Entity with a representative Texture
     * 
     * @param world The world in which this entity lives
