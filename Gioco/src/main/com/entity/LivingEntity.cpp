@@ -1,7 +1,7 @@
 #include "LivingEntity.hpp"
 #include <iostream>
 
-LivingEntity::LivingEntity(sf::Texture texture) : Entity(texture)
+LivingEntity::LivingEntity(std::string name) : Entity(name)
 {
 }
 

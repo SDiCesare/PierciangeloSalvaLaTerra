@@ -1,5 +1,5 @@
 #include "ResourceHandler.hpp"
 
-sf::Texture ResourceHandler::PLAYER_TEXTURE = sf::Texture();
-sf::Texture ResourceHandler::SNAKE_TEXTURE = sf::Texture();
-sf::Texture ResourceHandler::ROCK_TEXTURE = sf::Texture();
+sf::Texture ResourceHandler::DEFAULT_TEXTURE = sf::Texture();
+std::vector<std::string> ResourceHandler::TEXTURES_LOCATION = std::vector<std::string>();
+std::vector<sf::Texture> ResourceHandler::TEXTURES = std::vector<sf::Texture>();

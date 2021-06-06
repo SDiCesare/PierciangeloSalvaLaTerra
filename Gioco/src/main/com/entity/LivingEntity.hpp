@@ -11,9 +11,9 @@ public:
     /**
      * @brief The Constructor of the class
      * 
-     * @param texture The Texture Entity
+     * @param name The Entity Name
      * */
-    LivingEntity(sf::Texture texture);
+    LivingEntity(std::string name);
 
     /**
      * @return The Max Health of this Living Entity

@@ -3,30 +3,50 @@
 
 #include <SFML\\Graphics.hpp>
 #include <iostream>
+#include <string>
+#include <map>
 
 class ResourceHandler
 {
 public:
-    static sf::Texture PLAYER_TEXTURE;
-    static sf::Texture SNAKE_TEXTURE;
-    static sf::Texture ROCK_TEXTURE;
+    static std::vector<std::string> TEXTURES_LOCATION;
+    static std::vector<sf::Texture> TEXTURES;
+    static sf::Texture DEFAULT_TEXTURE;
 
-    static void loadResources()
+    static void loadDefault()
     {
-        std::cout << "Loading Resource...\n";
-        if (PLAYER_TEXTURE.loadFromFile("..\\resources\\textures\\entity\\player.png"))
+        if (DEFAULT_TEXTURE.loadFromFile("..\\resources\\textures\\default.png"))
         {
-            std::cout << "Loaded Player Texture: " << &PLAYER_TEXTURE << "\n";
+            std::cout << "Loaded Default Texture\n";
         }
-        if (SNAKE_TEXTURE.loadFromFile("..\\resources\\textures\\entity\\enemy.png"))
+    }
+
+    static sf::Texture getOrCreate(std::string textureDir, std::string textureName)
+    {
+        std::string texturePath = "..\\resources\\textures\\" + textureDir + "\\" + textureName + ".png";
+        int size = TEXTURES_LOCATION.size();
+        for (int i = 0; i < size; i++)
         {
-            std::cout << "Loaded Enemy Snake Texture: " << &SNAKE_TEXTURE << "\n";
+            std::string texture = TEXTURES_LOCATION[i];
+            if (texture == texturePath)
+            {
+                //Find Texture
+                return TEXTURES[i];
+            }
         }
-        if (ROCK_TEXTURE.loadFromFile("..\\resources\\textures\\tile\\rock.png"))
+        //Load and Add texture
+        sf::Texture texture = sf::Texture();
+        if (texture.loadFromFile(texturePath))
         {
-            std::cout << "Loaded Tile Rock Texture: " << &ROCK_TEXTURE << "\n";
+            TEXTURES.push_back(texture);
+            TEXTURES_LOCATION.push_back(texturePath);
+            return texture;
         }
-        std::cout << "Resource Loaded\n================================\n";
+        else
+        {
+            std::cout << "Can't find or load texture: " << texturePath << "\n";
+            return DEFAULT_TEXTURE;
+        }
     }
 };
 #endif

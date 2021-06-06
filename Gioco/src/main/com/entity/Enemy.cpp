@@ -4,7 +4,7 @@
 #include "..\\Game.hpp"
 #include "Player.hpp"
 
-Enemy::Enemy() : LivingEntity(ResourceHandler::SNAKE_TEXTURE)
+Enemy::Enemy() : LivingEntity("enemy")
 {
     this->clock = 0;
     this->setMaxHealth(20.f);

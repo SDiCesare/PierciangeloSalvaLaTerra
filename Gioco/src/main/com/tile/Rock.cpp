@@ -1,8 +1,7 @@
 #include "Rock.hpp"
 #include <iostream>
-#include "..\\ResourceHandler.hpp"
 
-Rock::Rock() : Tile(ResourceHandler::ROCK_TEXTURE)
+Rock::Rock() : Tile("rock")
 {
 }
 

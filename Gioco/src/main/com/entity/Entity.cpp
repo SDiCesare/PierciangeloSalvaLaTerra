@@ -1,10 +1,11 @@
 #include "Entity.hpp"
 #include <iostream>
+#include "..\\ResourceHandler.hpp"
 
-Entity::Entity(sf::Texture texture) : textureBox(sf::TriangleStrip, 4)
+Entity::Entity(std::string name) : textureBox(sf::TriangleStrip, 4)
 {
     //Initialize Render
-    this->texture = texture;
+    this->texture = ResourceHandler::getOrCreate("entity", name);
     this->width = this->texture.getSize().x;
     this->height = this->texture.getSize().x;
     textureBox[0].position = sf::Vector2f(0, 0);

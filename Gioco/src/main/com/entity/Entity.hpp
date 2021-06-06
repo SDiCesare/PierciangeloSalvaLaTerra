@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "..\\Direction.hpp"
 #include "..\\tile\\Tile.hpp"
+#include <string>
 
 class Entity : public sf::Drawable, public sf::Transformable
 {
@@ -15,7 +16,7 @@ public:
     * @param world The world in which this entity lives
     * @param texture The Texture with size [(nX4n) or (nXn)]
     * */
-    Entity(sf::Texture texture);
+    Entity(std::string name);
 
     /**
      * @brief Called every tick from the World that contains this Entity

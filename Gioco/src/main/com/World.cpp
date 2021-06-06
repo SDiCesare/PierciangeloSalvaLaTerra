@@ -7,7 +7,8 @@
 World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.f, 250.f)
 {
     //load a font to pass to other class
-    if (!font.loadFromFile("..\\resources\\fonts\\ArialUnicodeMS.ttf")) {
+    if (!font.loadFromFile("..\\resources\\fonts\\ArialUnicodeMS.ttf"))
+    {
         // TODO create exception class
         throw 2;
     }
@@ -19,7 +20,7 @@ World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.
     winTextBox.setString("WIN");
     winTextBox.setCharTime(500);
     winTextBox.setFont(font);
-    
+
     sf::String temp[] = {"porcaporca", "porca", "porca", "porcaporca", "porca", "porca", "porca"};
     menu.setVoices(temp, 7);
     menu.setPosition(100.f, 200.f);
@@ -29,7 +30,7 @@ World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.
     menu.setSelectedVoiceColor(sf::Color::Red);
     menu.selectVoice(2);
     menu.setFont(font);
-    
+
     end = false;
     healthBar.setPosition(10.f, 10.f);
     healthBar.setFont(font);
@@ -169,13 +170,13 @@ void World::display(sf::RenderWindow &window)
 
         counter = 0;
     }
-    
+
     else if (counter % 120 == 0)
     {
     }
     // end debugging section
-    menu.makeMenu();
-    window.draw(menu);
+    //menu.makeMenu();
+    //window.draw(menu);
     if (end)
     {
         if (player->isAlive())
@@ -191,13 +192,14 @@ void World::display(sf::RenderWindow &window)
         return;
     }
     //Render Entities and Tiles
-    for (Tile *tile : tiles)
-    {
-        window.draw(*tile);
-    }
+    
     for (Entity *entity : entities)
     {
         window.draw(*entity);
+    }
+    for (Tile *tile : tiles)
+    {
+        window.draw(*tile);
     }
     //Render GUI
     window.draw(healthBar);

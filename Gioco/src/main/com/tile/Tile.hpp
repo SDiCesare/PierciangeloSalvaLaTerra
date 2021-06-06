@@ -2,7 +2,8 @@
 #define Tile_hpp
 
 #include <SFML/Graphics.hpp>
-//#include "..\\entity\\Entity.hpp"
+#include <string>
+#include "..\\ResourceHandler.hpp"
 
 class Entity;
 class Tile : public sf::Drawable, public sf::Transformable
@@ -12,9 +13,9 @@ public:
     /**
     * @brief Create a Tile with a representative Texture
     * 
-    * @param texture The Texture with size [nxn]
+    * @param name The Tile name
     * */
-    Tile(sf::Texture texture);
+    Tile(std::string name);
 
     /**
      * @return true if this tile has collision, false otherwise

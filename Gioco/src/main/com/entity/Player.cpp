@@ -2,7 +2,7 @@
 #include <iostream>
 #include "..\\ResourceHandler.hpp"
 
-Player::Player() : LivingEntity(ResourceHandler::PLAYER_TEXTURE), gun("", 0, 0, 0)
+Player::Player() : LivingEntity("player"), gun("", 0, 0, 0)
 {
     this->entityInit();
 }
