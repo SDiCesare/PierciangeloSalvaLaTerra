@@ -7,6 +7,12 @@ class Direction
 {
 
 private:
+    /**
+     * @brief Default and Private Constructor for the Direction
+     * 
+     * @param ordinal The Ordinal Value for a Direction [NORTH, SOUTH, WEST, EAST]
+     * @param normal A Rapresentative Vector for the Direction
+     * */
     Direction(int ordinal, sf::Vector2f normal)
     {
         this->normal = normal;
@@ -14,7 +20,14 @@ private:
     }
 
 public:
+    /**
+     * @return The Rapresentative vector of the Direction
+     * */
     sf::Vector2f getNormal() const { return normal; }
+
+    /**
+     * @return The Ordinal Value for the Direction [NORTH, SOUTH, WEST, EAST]
+     * */
     int getOrdinal() const { return ordinal; }
 
 private:

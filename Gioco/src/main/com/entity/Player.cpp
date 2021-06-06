@@ -24,12 +24,12 @@ void Player::damage(float amount)
     this->invincibilityTime = this->invincibilityFrames;
 }
 
-Bullet *Player::shoot()
+Projectile *Player::shoot()
 {
     if (this->gunDelay <= 0)
     {
         this->gunDelay = this->gun.getDelay();
-        Bullet *bullet = this->gun.generateBullet(this->getFacing(), *this);
+        Projectile *bullet = this->gun.generateBullet(this->getFacing(), *this);
         bullet->setPosition(this->getPosition().x, this->getPosition().y);
         return bullet;
     }

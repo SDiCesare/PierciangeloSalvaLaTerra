@@ -46,10 +46,10 @@ void Game::checkInput()
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
     {
-        Bullet *bullet = world->player->shoot();
-        if (bullet != NULL)
+        Projectile *projectile = world->player->shoot();
+        if (projectile != NULL)
         {
-            world->addEntity(*bullet);
+            world->addEntity(*projectile);
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))

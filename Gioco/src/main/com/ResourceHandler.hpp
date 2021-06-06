@@ -13,6 +13,9 @@ public:
     static std::vector<sf::Texture> TEXTURES;
     static sf::Texture DEFAULT_TEXTURE;
 
+    /**
+     * @brief Loads the default resources used in case of missing one
+     * */
     static void loadDefault()
     {
         if (DEFAULT_TEXTURE.loadFromFile("..\\resources\\textures\\default.png"))
@@ -21,6 +24,15 @@ public:
         }
     }
 
+    /**
+     * @brief Loads a Texture presents in vector TEXTURES.
+     *        If the Texture is not present in the vector, It try to load from the resources path.
+     * 
+     * @param textureDir The Texture Specific Directory
+     * @param textureName The Texture Name without the extension
+     * 
+     * @return The specified texture of the path if exists, the DEFAULT texture otherwise
+     * */
     static sf::Texture getOrCreate(std::string textureDir, std::string textureName)
     {
         std::string texturePath = "..\\resources\\textures\\" + textureDir + "\\" + textureName + ".png";
