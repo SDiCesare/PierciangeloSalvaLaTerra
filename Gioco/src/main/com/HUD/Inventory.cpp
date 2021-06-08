@@ -4,25 +4,25 @@
 #include <iostream>
 
 Inventory::Inventory() {
-    sizeIcon = 30.f;
+    sizeIcon = 80.f;
 }
 
-Inventory::Inventory(size_t rows, size_t columns, sf::Font& font) {
+Inventory::Inventory(size_t columns, size_t rows, sf::Font& font) {
     items = new InvItem[rows * columns];
     c = columns;
     r = rows;
     this->font = font;
     size = 0;
     hasBeenInitialize = true;
-    sizeIcon = 30.f;
+    sizeIcon = 80.f;
 }
 
-InvItem* Inventory::getItem(size_t row, size_t col) {
-    if (col >= c || row >= r)
+InvItem* Inventory::getItem(size_t x, size_t y) {
+    if (x >= c || y >= r)
         //TODO create exception
         throw(2);
 
-    return items + col + row * col;
+    return items + x + r * y;
 }
 
 InvItem* Inventory::getItemConst(size_t row, size_t col) const {
@@ -37,7 +37,7 @@ void Inventory::setFont(sf::Font& font) {
     this->font = font;
 }
 
-void Inventory::setTable(size_t rows, size_t columns) {
+void Inventory::setTable(size_t columns, size_t rows) {
     if (hasBeenInitialize)
         delete[] items;
     items = new InvItem[rows * columns];
@@ -75,7 +75,9 @@ void Inventory::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     sf::Text invNum;
     sf::Vector2f position;
     invNum.setFont(font);
-    invNum.setCharacterSize(12);
+    invNum.setCharacterSize(20);
+    // invNum.setOutlineColor(sf::Color::Black);
+    invNum.setOutlineThickness(4.f);
     invNum.setPosition(0.f, 0.f);
     for (size_t i = 0; i < r; i++) {
         for (size_t j = 0; j < c; j++) {
@@ -83,10 +85,16 @@ void Inventory::draw(sf::RenderTarget& target, sf::RenderStates states) const {
             position.y = static_cast<float>(i) * sizeIcon;
 
             InvItem* invItem = getItemConst(i, j);
-            target.draw(invItem->item, states);
+            if (invItem->quantity == 0) {
+                invNum.setString("EMPTY");
+                invNum.setPosition(position.x + 4.f, position.y);
+            } else {
+                target.draw(invItem->item, states);
 
-            invNum.setString(std::to_string(invItem->quantity));
-            invNum.setPosition(position);
+                invNum.setString(std::to_string(invItem->quantity));
+                invNum.setPosition(position.x + 4.f, position.y);
+            }
+
             target.draw(invNum, states);
         }
     }

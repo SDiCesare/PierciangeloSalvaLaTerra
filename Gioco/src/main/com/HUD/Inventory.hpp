@@ -17,9 +17,10 @@ struct InvItem {
 class Inventory : public sf::Transformable, public sf::Drawable {
    public:
     Inventory();
-    Inventory(size_t rows, size_t columns, sf::Font& font);
-    InvItem* getItem(size_t row, size_t col);
-    void setTable(size_t rows, size_t columns);
+    Inventory(size_t columns, size_t rows, sf::Font& font);
+    InvItem* getItem(size_t x, size_t y);
+    bool deleteItem(size_t x, size_t y);
+    void setTable(size_t columns, size_t rows);
     void setFont(sf::Font& font);
     bool addItem(Item item);
     virtual ~Inventory();
