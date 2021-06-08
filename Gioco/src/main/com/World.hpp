@@ -9,6 +9,7 @@
 #include <SFML/Graphics.hpp>
 #include <list>
 #include "Menu.hpp"
+#include "HUD\Inventory.hpp"
 
 //class Game;
 
@@ -113,6 +114,9 @@ private:
     sf::Font font;
     Menu menu;
     HealthBarNum healthBar;
+    Inventory inventory;
+    Item item;
+    sf::Texture itemTexture;
     int counter; //for debugging, it counts how many time the loop was executed
 };
 

@@ -37,6 +37,17 @@ World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.
     counter = 0; //debugging
     healthBar.setMaxHealth(70);
     healthBar.setBar(sf::Vector2f(200.f, 30.f));
+
+    inventory.setTable(4,3);
+    inventory.setPosition(100.f, 20.f);
+    inventory.setFont(font);
+    
+    itemTexture.loadFromFile("..\\resources\\textures\\item\\gun.png");
+    item = Item("abaco", "gun");
+    item.setPosition(50.f, 100.f);
+    inventory.addItem(item);
+    inventory.addItem(item);
+
 }
 
 void World::generateWorld()
@@ -175,7 +186,7 @@ void World::display(sf::RenderWindow &window)
     {
     }
     // end debugging section
-    //menu.makeMenu();
+    // menu.makeMenu();
     //window.draw(menu);
     if (end)
     {
@@ -203,6 +214,8 @@ void World::display(sf::RenderWindow &window)
     }
     //Render GUI
     window.draw(healthBar);
+    window.draw(inventory);
+    window.draw(item);
 }
 
 void World::addEntity(Entity &entity)
