@@ -1,24 +1,23 @@
 #ifndef Item_hpp
 #define Item_hpp
+#include <SFML/Graphics.hpp>
 #include <string>
 
-class Item
-{
-public:
-    /**
-     * @brief The constructor of the Class Item
-     * 
-     * @param name The rapresentative name of the Item
-     * */
+class Item : public sf::Transformable, public sf::Drawable {
+   public:
+    Item();
     Item(std::string name);
+    Item(std::string name, std::string fileName);
+    void setName(std::string name);
+    const std::string& getName() ;
+    void setTexture(std::string fileName);
+    const sf::Vector2f getSize();
 
-    /**
-     * @return The name of the Item
-     * */
-    std::string getName();
-
-private:
+   private:
+    sf::Texture texture;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     std::string name;
+    sf::VertexArray textureBox;
 };
 
 #endif
