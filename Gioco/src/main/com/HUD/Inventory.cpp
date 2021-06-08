@@ -76,14 +76,14 @@ void Inventory::removeItem(size_t x, size_t y) {
     if (idx >= size)
         return;
     
-    size_t sizeLess1 = size -1;
-
-    if (idx < size)
-        std::copy(items + idx + 1, items + sizeLess1, items + idx);
-    
-    (items + sizeLess1)->quantity = 0;
-    (items + sizeLess1)->item = Item();
     size--;
+    if (idx < size)
+        std::copy(items + idx + 1, items + size, items + idx);
+    
+    //set last element as default (that will be seen as empty slot by program)
+    (items + size)->quantity = 0;
+    (items + size)->item = Item();
+    
 }
 
 void Inventory::draw(sf::RenderTarget& target, sf::RenderStates states) const {
