@@ -178,12 +178,13 @@ void World::display(sf::RenderWindow &window)
     // debugging
     if (++counter % 240 == 0)
     {
-
+        inventory.addItem(item);
         counter = 0;
     }
 
     else if (counter % 120 == 0)
     {
+        inventory.removeItem(0,0);
     }
     // end debugging section
     // menu.makeMenu();

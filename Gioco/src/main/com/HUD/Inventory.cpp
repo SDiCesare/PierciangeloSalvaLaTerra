@@ -70,6 +70,22 @@ bool Inventory::addItem(Item item) {
     return true;
 }
 
+void Inventory::removeItem(size_t x, size_t y) {
+    size_t idx = x + y * c;
+
+    if (idx >= size)
+        return;
+    
+    size_t sizeLess1 = size -1;
+
+    if (idx < size)
+        std::copy(items + idx + 1, items + sizeLess1, items + idx);
+    
+    (items + sizeLess1)->quantity = 0;
+    (items + sizeLess1)->item = Item();
+    size--;
+}
+
 void Inventory::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     states.transform *= getTransform();
     sf::Text invNum;
@@ -103,3 +119,18 @@ void Inventory::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 Inventory::~Inventory() {
     delete[] items;
 }
+
+/*
+void Inventory::removeItem(size_t x, size_t y) {
+    size_t idx = x + y * c;
+
+    if (idx > size)
+        return;
+
+    if (idx < size)
+        std::copy(items + idx + 1, items + size, items + idx);
+    
+    (items + idx)->quantity = 0;
+    (items + idx)->item = Item();
+}
+*/

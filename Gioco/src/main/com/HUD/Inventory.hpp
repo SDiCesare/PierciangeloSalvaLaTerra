@@ -19,7 +19,7 @@ class Inventory : public sf::Transformable, public sf::Drawable {
     Inventory();
     Inventory(size_t columns, size_t rows, sf::Font& font);
     InvItem* getItem(size_t x, size_t y);
-    bool removeItem(size_t x, size_t y);
+    void removeItem(size_t x, size_t y);
     void setTable(size_t columns, size_t rows);
     void setFont(sf::Font& font);
     bool addItem(Item item);
