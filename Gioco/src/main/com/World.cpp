@@ -47,10 +47,8 @@ World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.
     inventory.addItem(item);
     inventory.addItem(item);
     inventory.addItem(Item("paolo", "idk"));
-    bool b;
-    do {
-        b = inventory.addItem(item);
-    } while (b);
+    inventory.addItem(item);
+    inventory.addItem(item);
 }
 
 void World::generateWorld() {
@@ -140,7 +138,7 @@ void World::display(sf::RenderWindow &window) {
     }
 
     else if (counter % 120 == 0) {
-        inventory.removeItem(0, 0);
+        inventory.useItem(0, 0);
     }
     // end debugging section
     // menu.makeMenu();

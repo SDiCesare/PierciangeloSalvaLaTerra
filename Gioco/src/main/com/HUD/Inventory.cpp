@@ -8,12 +8,18 @@ Inventory::Inventory() {
 }
 
 Inventory::Inventory(size_t columns, size_t rows, sf::Font& font) {
+    maxSize = rows * columns;
+    c = columns;
+    r = rows;
+    //create new pointers array
     items = new InvItem*[rows * columns];
+
+    //set for each pointer a Item instance
     for (int i = 0; i < columns * rows; i++) {
         items[i] = new InvItem();
     }
-    c = columns;
-    r = rows;
+
+    
     this->font = font;
     size = 0;
     hasBeenInitialize = true;
@@ -45,13 +51,21 @@ void Inventory::setSizeIcons(size_t size){
 }
 
 void Inventory::setTable(size_t columns, size_t rows) {
+    maxSize = rows * columns;
     if (hasBeenInitialize) {
+        //remove all associated objects to the pointers
         for (int i = 0; i < c * r; i++) {
             delete items[i];
         }
+
+        //remove the pointers array
+        delete[] items;
     }
 
-    items = new InvItem*[rows * columns];
+    //create new pointers array
+    items = new InvItem*[maxSize];
+
+    //set for each pointer a Item instance
     for (int i = 0; i < columns * rows; i++) {
         items[i] = new InvItem();
     }
@@ -59,12 +73,26 @@ void Inventory::setTable(size_t columns, size_t rows) {
     r = rows;
     size = 0;
     hasBeenInitialize = true;
+    
 }
 
 bool Inventory::addItem(Item item) {
+    //if inventory is full return false
     if (size >= c * r)
         return false;
 
+    //check if already exist
+    for (size_t i = 0; i < maxSize; i++)
+    {
+        InvItem* itemPtr = *(items+i);
+        if(!itemPtr->item.getName().compare(item.getName())){
+            itemPtr->quantity++;
+            return true;
+        }
+    }
+    
+
+    //get the longest size of item
     sf::Vector2f itemBounds = item.getSize();
     float max;
     if (itemBounds.y > itemBounds.x)
@@ -72,17 +100,36 @@ bool Inventory::addItem(Item item) {
     else
         max = itemBounds.x;
 
+    //scale item in order to get the longest size as long as sizeIcons
     float toScale = sizeIcons / max;
     item.setScale(toScale, toScale);
+
+    //set the position in the invetory drawing
     float sizeX = static_cast<float>(size % c);
     float sizeY = static_cast<float>(size / c);
-
     item.setPosition(sizeX * sizeIcons, sizeY * sizeIcons);
+
+    //set the item in the array and set quantity to 1
     InvItem* itemPtr = *(items + size);
     itemPtr->item = item;
     itemPtr->quantity = 1;
     size++;
     return true;
+}
+
+void Inventory::useItem(size_t x, size_t y) {
+     size_t idx = x + y * c;
+
+    if (idx >= size)
+        return;
+
+    InvItem* itemPtrIdx = *(items + idx);
+    itemPtrIdx->quantity--;
+    //if quantity reached 0 remove the item from inventory
+    if(itemPtrIdx->quantity > 0)
+        return;
+    
+    rmItem(idx, itemPtrIdx);
 }
 
 void Inventory::removeItem(size_t x, size_t y) {
@@ -92,7 +139,15 @@ void Inventory::removeItem(size_t x, size_t y) {
         return;
 
     InvItem* itemPtrIdx = *(items + idx);
-    itemPtrIdx->quantity = 0;
+    itemPtrIdx->quantity=0;
+    rmItem(idx, itemPtrIdx);
+    
+}
+
+void Inventory::rmItem(size_t idx, InvItem* itemPtrIdx){
+    if(itemPtrIdx == NULL){
+        itemPtrIdx = *(items + idx);
+    }
     itemPtrIdx->item = Item();
 
     if (size != idx) {
@@ -106,8 +161,6 @@ void Inventory::removeItem(size_t x, size_t y) {
         }
     }
     size--;
-
-    //set last element as default (that will be seen as empty slot by program)
 }
 
 void Inventory::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -144,6 +197,8 @@ Inventory::~Inventory() {
     for (int i = 0; i < c * r; i++) {
         delete items[i];
     }
+
+    delete[] items;
 }
 
 /*

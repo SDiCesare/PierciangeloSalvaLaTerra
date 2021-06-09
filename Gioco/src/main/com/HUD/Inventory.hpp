@@ -59,6 +59,15 @@ class Inventory : public sf::Transformable, public sf::Drawable {
     void removeItem(size_t x, size_t y);
 
     /**
+     * @brief Use the item
+     * 
+     * It will decrase its quantity and if it reaches 0 it will be removed
+     * @param x the X coordinate of the item in the inventory
+     * @param y the Y coordinate of the item in the inventory
+     */
+    void useItem(size_t x, size_t y);
+
+    /**
      * @brief Set the size of inventory
      * 
      * If the size was alredy set it will delete all items in inventory and
@@ -104,10 +113,12 @@ class Inventory : public sf::Transformable, public sf::Drawable {
     InvItem** items;
     sf::Font font;
     size_t size;
+    size_t maxSize;
     float sizeIcons;
     bool hasBeenInitialize = false;
     InvItem* getItemConst(size_t row, size_t col) const;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    void rmItem(size_t idx, InvItem* itemPtrIdx=NULL);
 };
 
 #endif
