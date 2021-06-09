@@ -4,7 +4,7 @@
 #include "..\\Game.hpp"
 #include "Player.hpp"
 
-Enemy::Enemy() : LivingEntity("enemy")
+Enemy::Enemy() : LivingEntity("test")
 {
     this->clock = 0;
     this->setMaxHealth(20.f);

@@ -1,6 +1,7 @@
 #include "Entity.hpp"
 #include <iostream>
 #include "..\\ResourceHandler.hpp"
+#include "..\\Game.hpp"
 
 Entity::Entity(std::string name) : textureBox(sf::TriangleStrip, 4)
 {
@@ -81,7 +82,6 @@ void Entity::updateFacing(Direction dir)
 
 void Entity::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    states.transform *= getTransform();
     states.texture = &texture;
     target.draw(textureBox, states);
 }
@@ -101,7 +101,15 @@ void Entity::setPosition(float x, float y)
 {
     this->oldPosition.x = this->getPosition().x;
     this->oldPosition.y = this->getPosition().y;
-    sf::Transformable::setPosition(x, y);
+    textureBox[0].position = sf::Vector2f(x, y);
+    textureBox[1].position = sf::Vector2f(x, this->height + y);
+    textureBox[2].position = sf::Vector2f(this->width + x, y);
+    textureBox[3].position = sf::Vector2f(this->width + x, this->height + y);
+}
+
+void Entity::resetPosition()
+{
+    this->setPosition(this->oldPosition.x, this->oldPosition.y);
 }
 
 //Getter
@@ -123,7 +131,7 @@ int Entity::getHeight()
 
 sf::Vector2f Entity::getPosition()
 {
-    return sf::Transformable::getPosition();
+    return textureBox[0].position;
 }
 
 sf::Vector2f Entity::getOldPosition()
@@ -134,4 +142,9 @@ sf::Vector2f Entity::getOldPosition()
 Direction Entity::getFacing()
 {
     return this->facing;
+}
+
+sf::VertexArray Entity::getTextureBox()
+{
+    return this->textureBox;
 }

@@ -6,7 +6,7 @@
 #include "..\\ResourceHandler.hpp"
 
 class Entity;
-class Tile : public sf::Drawable, public sf::Transformable
+class Tile : public sf::Drawable
 {
 
 public:
@@ -31,6 +31,11 @@ public:
     void setPosition(float x, float y);
 
     /**
+     * @return The Entity Texture Box
+     * */
+    sf::VertexArray getTextureBox();
+
+    /**
      * @return The current position of the Tile
      * */
     sf::Vector2f getPosition();
@@ -46,6 +51,38 @@ public:
     int getHeight();
 
     /**
+     * @brief set the yOff for the Texture
+     * 
+     * @param y the new yOff
+     * */
+    void setYOff(int y);
+
+    /**
+     * @brief set the texture offset
+     * 
+     * @param x the x Offset
+     * @param y the y Offset
+     * */
+    void setOffset(int x, int y);
+
+    /**
+     * @brief set the xOff for the Texture
+     * 
+     * @param x the new xOff
+     * */
+    void setXOff(int x);
+
+    /**
+     * @brief set The Bounds of the texture
+     * 
+     * @param x The x offset
+     * @param y The y offset
+     * @param width The width of the tile
+     * @param height The height of the tile
+     * */
+    void setBounds(int x, int y, float width, float height);
+
+    /**
      * @param entity The entity that trye
      * @return true If this tile can be broken by the entity
      * */
@@ -56,6 +93,13 @@ public:
      * @param entity The Entity that broke this tile
      * */
     virtual void onBreak(Entity &entity);
+
+    /**
+     * @brief Clone the Tile
+     * 
+     * @return a clone of the calling Tile
+     * */
+    virtual Tile clone();
 
 private:
     /**
@@ -68,11 +112,14 @@ private:
 
 protected:
     sf::Texture texture;
+    std::string name;
 
 private:
     sf::VertexArray textureBox;
     float width;
     float height;
+    int xOff;
+    int yOff;
 };
 
 #endif

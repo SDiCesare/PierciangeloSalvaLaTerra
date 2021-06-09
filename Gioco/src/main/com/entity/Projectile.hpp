@@ -16,6 +16,7 @@ protected:
     sf::Vector2f speed;
     float damage;
     Entity *source;
+    float lifeTime;
 
 private:
     float clock;
