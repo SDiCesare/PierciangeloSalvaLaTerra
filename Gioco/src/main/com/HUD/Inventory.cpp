@@ -48,7 +48,7 @@ void Inventory::setTable(size_t columns, size_t rows) {
 }
 
 bool Inventory::addItem(Item item) {
-    if (size >= c * r - 1)
+    if (size >= c * r)
         return false;
 
     sf::Vector2f itemBounds = item.getSize();
@@ -67,6 +67,7 @@ bool Inventory::addItem(Item item) {
     (items + size)->item = item;
     (items + size)->quantity = 1;
     size++;
+    std::cout << "add " << size << std::endl;
     return true;
 }
 
@@ -76,22 +77,39 @@ void Inventory::removeItem(size_t x, size_t y) {
     if (idx >= size)
         return;
 
-    size--;
     (items + idx)->quantity = 0;
     (items + idx)->item = Item();
 
     if (size != idx) {
         std::rotate(items + idx, items + idx + 1, items + size);
 
-        for (size_t i = idx; i < size - idx + 1; i++) {
+        for (size_t i = idx; i < size - idx; i++) {
             int row = i / c;
             int column = i % c;
             (items + i)->item.setPosition(static_cast<float>(column) * sizeIcon, static_cast<float>(row) * sizeIcon);
         }
     }
+    size--;
+    std::cout << "remove " << size << std::endl;
 
     //set last element as default (that will be seen as empty slot by program)
 }
+
+// void Inventory::removeItem(size_t x, size_t y) {
+//     size_t idx = x + y * c;
+
+//     if (idx >= size)
+//         return;
+
+//     size--;
+//     for (size_t i = idx; i < size - idx; i++) {
+//         InvItem* item = items + i;
+//         item->item.copyTexture((item+1)->item.getTexture());
+//         item->quantity = (item+1)->quantity;
+//     }
+//     (items+size)->item = Item();
+//     (items+size)->quantity = 0;
+// }
 
 void Inventory::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     states.transform *= getTransform();
