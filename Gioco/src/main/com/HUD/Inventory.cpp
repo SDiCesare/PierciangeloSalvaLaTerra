@@ -8,7 +8,10 @@ Inventory::Inventory() {
 }
 
 Inventory::Inventory(size_t columns, size_t rows, sf::Font& font) {
-    items = new InvItem[rows * columns];
+    items = new InvItem*[rows * columns];
+    for (int i = 0; i < columns * rows; i++) {
+        items[i] = new InvItem();
+    }
     c = columns;
     r = rows;
     this->font = font;
@@ -22,7 +25,7 @@ InvItem* Inventory::getItem(size_t x, size_t y) {
         //TODO create exception
         throw(2);
 
-    return items + x + r * y;
+    return *(items + x + r * y);
 }
 
 InvItem* Inventory::getItemConst(size_t row, size_t col) const {
@@ -30,7 +33,7 @@ InvItem* Inventory::getItemConst(size_t row, size_t col) const {
         //TODO create exception
         throw(2);
 
-    return items + col + row * c;
+    return *(items + col + row * c);
 }
 
 void Inventory::setFont(sf::Font& font) {
@@ -38,9 +41,16 @@ void Inventory::setFont(sf::Font& font) {
 }
 
 void Inventory::setTable(size_t columns, size_t rows) {
-    if (hasBeenInitialize)
-        delete[] items;
-    items = new InvItem[rows * columns];
+    if (hasBeenInitialize) {
+        for (int i = 0; i < c * r; i++) {
+            delete items[i];
+        }
+    }
+
+    items = new InvItem*[rows * columns];
+    for (int i = 0; i < columns * rows; i++) {
+        items[i] = new InvItem();
+    }
     c = columns;
     r = rows;
     size = 0;
@@ -64,10 +74,10 @@ bool Inventory::addItem(Item item) {
     float sizeY = static_cast<float>(size / c);
 
     item.setPosition(sizeX * sizeIcon, sizeY * sizeIcon);
-    (items + size)->item = item;
-    (items + size)->quantity = 1;
+    InvItem* itemPtr = *(items + size);
+    itemPtr->item = item;
+    itemPtr->quantity = 1;
     size++;
-    std::cout << "add " << size << std::endl;
     return true;
 }
 
@@ -77,8 +87,9 @@ void Inventory::removeItem(size_t x, size_t y) {
     if (idx >= size)
         return;
 
-    (items + idx)->quantity = 0;
-    (items + idx)->item = Item();
+    InvItem* itemPtrIdx = *(items + idx);
+    itemPtrIdx->quantity = 0;
+    itemPtrIdx->item = Item();
 
     if (size != idx) {
         std::rotate(items + idx, items + idx + 1, items + size);
@@ -86,30 +97,14 @@ void Inventory::removeItem(size_t x, size_t y) {
         for (size_t i = idx; i < size - idx; i++) {
             int row = i / c;
             int column = i % c;
-            (items + i)->item.setPosition(static_cast<float>(column) * sizeIcon, static_cast<float>(row) * sizeIcon);
+            InvItem* itemPtr = *(items + i);
+            itemPtr->item.setPosition(static_cast<float>(column) * sizeIcon, static_cast<float>(row) * sizeIcon);
         }
     }
     size--;
-    std::cout << "remove " << size << std::endl;
 
     //set last element as default (that will be seen as empty slot by program)
 }
-
-// void Inventory::removeItem(size_t x, size_t y) {
-//     size_t idx = x + y * c;
-
-//     if (idx >= size)
-//         return;
-
-//     size--;
-//     for (size_t i = idx; i < size - idx; i++) {
-//         InvItem* item = items + i;
-//         item->item.copyTexture((item+1)->item.getTexture());
-//         item->quantity = (item+1)->quantity;
-//     }
-//     (items+size)->item = Item();
-//     (items+size)->quantity = 0;
-// }
 
 void Inventory::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     states.transform *= getTransform();
@@ -142,7 +137,9 @@ void Inventory::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 }
 
 Inventory::~Inventory() {
-    delete[] items;
+    for (int i = 0; i < c * r; i++) {
+        delete items[i];
+    }
 }
 
 /*

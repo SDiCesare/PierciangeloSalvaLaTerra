@@ -28,7 +28,7 @@ class Inventory : public sf::Transformable, public sf::Drawable {
    private:
     size_t c;
     size_t r;
-    InvItem* items;
+    InvItem** items;
     sf::Font font;
     size_t size;
     float sizeIcon;
