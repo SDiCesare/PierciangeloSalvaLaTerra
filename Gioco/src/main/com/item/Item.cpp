@@ -36,6 +36,10 @@ void Item::setTexture(std::string fileName) {
     textureBox[3].texCoords = sf::Vector2f(width, height);
 }
 
+sf::Texture Item::getTexture(){
+    return texture;
+}
+
 const sf::Vector2f Item::getSize() {
     return sf::Vector2f(textureBox[3].position.x, textureBox[3].position.y);
 }

@@ -9,8 +9,9 @@ class Item : public sf::Transformable, public sf::Drawable {
     Item(std::string name);
     Item(std::string name, std::string fileName);
     void setName(std::string name);
-    const std::string& getName() ;
+    const std::string& getName();
     void setTexture(std::string fileName);
+    sf::Texture getTexture();
     const sf::Vector2f getSize();
 
    private:
