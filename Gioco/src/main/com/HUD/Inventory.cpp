@@ -75,15 +75,22 @@ void Inventory::removeItem(size_t x, size_t y) {
 
     if (idx >= size)
         return;
-    
+
     size--;
-    if (idx < size)
-        std::copy(items + idx + 1, items + size, items + idx);
-    
+    (items + idx)->quantity = 0;
+    (items + idx)->item = Item();
+
+    if (size != idx) {
+        std::rotate(items + idx, items + idx + 1, items + size);
+
+        for (size_t i = idx; i < size - idx + 1; i++) {
+            int row = i / c;
+            int column = i % c;
+            (items + i)->item.setPosition(static_cast<float>(column) * sizeIcon, static_cast<float>(row) * sizeIcon);
+        }
+    }
+
     //set last element as default (that will be seen as empty slot by program)
-    (items + size)->quantity = 0;
-    (items + size)->item = Item();
-    
 }
 
 void Inventory::draw(sf::RenderTarget& target, sf::RenderStates states) const {

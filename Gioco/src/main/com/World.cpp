@@ -1,14 +1,14 @@
 #include "World.hpp"
+
+#include <iostream>
+
+#include "Game.hpp"
 #include "entity\\Enemy.hpp"
 #include "tile\\Rock.hpp"
-#include <iostream>
-#include "Game.hpp"
 
-World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.f, 250.f)
-{
+World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.f, 250.f) {
     //load a font to pass to other class
-    if (!font.loadFromFile("..\\resources\\fonts\\ArialUnicodeMS.ttf"))
-    {
+    if (!font.loadFromFile("..\\resources\\fonts\\ArialUnicodeMS.ttf")) {
         // TODO create exception class
         throw 2;
     }
@@ -34,24 +34,27 @@ World::World() : deathTextBox(100, 100, 350.f, 250.f), winTextBox(100, 100, 350.
     end = false;
     healthBar.setPosition(10.f, 10.f);
     healthBar.setFont(font);
-    counter = 0; //debugging
+    counter = 0;  //debugging
     healthBar.setMaxHealth(70);
     healthBar.setBar(sf::Vector2f(200.f, 30.f));
 
-    inventory.setTable(4,3);
+    inventory.setTable(12, 12);
     inventory.setPosition(100.f, 20.f);
     inventory.setFont(font);
-    
+
     itemTexture.loadFromFile("..\\resources\\textures\\item\\gun.png");
     item = Item("abaco", "gun");
     item.setPosition(50.f, 100.f);
     inventory.addItem(item);
     inventory.addItem(item);
-
+    inventory.addItem(Item("paolo", "idk"));
+    bool b;
+    do {
+        b = inventory.addItem(item);
+    } while (b);
 }
 
-void World::generateWorld()
-{
+void World::generateWorld() {
     //Add Player to world
     player = new Player();
     player->setPosition(300, 100);
@@ -59,8 +62,7 @@ void World::generateWorld()
     //Add n[1-4] enemy to world
     int numEnemy = Game::getRandInt(1, 4);
     std::cout << "Adding " << numEnemy << " enemy\n";
-    for (int i = 0; i < numEnemy; i++)
-    {
+    for (int i = 0; i < numEnemy; i++) {
         Enemy *enemy = new Enemy();
         float x = Game::getRandInt(0, Game::width);
         float y = Game::getRandInt(0, Game::height);
@@ -70,8 +72,7 @@ void World::generateWorld()
     }
     //Tile Injection
     std::cout << "Adding 10 Rock\n";
-    for (int i = 0; i < 10; i++)
-    {
+    for (int i = 0; i < 10; i++) {
         Rock *rock = new Rock();
         float x = Game::getRandInt(0, Game::width);
         float y = Game::getRandInt(0, Game::height);
@@ -81,23 +82,18 @@ void World::generateWorld()
     }
 }
 
-void World::tick()
-{
-    if (end)
-    {
+void World::tick() {
+    if (end) {
         return;
     }
-    if (!player->isAlive() || entities.size() == 1)
-    {
+    if (!player->isAlive() || entities.size() == 1) {
         end = true;
         return;
     }
 
-    for (Entity *entity : entities)
-    {
+    for (Entity *entity : entities) {
         entity->tick();
-        if (!canMove(*entity, entity->getPosition().x, entity->getPosition().y, entity->getWidth(), entity->getHeight()))
-        {
+        if (!canMove(*entity, entity->getPosition().x, entity->getPosition().y, entity->getWidth(), entity->getHeight())) {
             entity->setPosition(entity->getOldPosition().x, entity->getOldPosition().y);
         }
     }
@@ -108,19 +104,15 @@ void World::tick()
 }
 
 //Check if an entity e can move to (x, y)
-bool World::canMove(Entity &e, float x, float y, float width, float height)
-{
-    for (Tile *tile : tiles)
-    {
+bool World::canMove(Entity &e, float x, float y, float width, float height) {
+    for (Tile *tile : tiles) {
         float x1 = tile->getPosition().x;
         float y1 = tile->getPosition().y;
         float width1 = tile->getWidth();
         float height1 = tile->getHeight();
-        if (collideRect(x, y, width, height, x1, y1, width1, height1) && tile->isSolid())
-        {
+        if (collideRect(x, y, width, height, x1, y1, width1, height1) && tile->isSolid()) {
             e.onHit(*tile);
-            if (tile->isBreakableTo(e))
-            {
+            if (tile->isBreakableTo(e)) {
                 tile->onBreak(e);
             }
             return false;
@@ -129,37 +121,29 @@ bool World::canMove(Entity &e, float x, float y, float width, float height)
     return true;
 }
 
-void World::checkCollision()
-{
-    for (Entity *entity : entities)
-    {
-        for (Entity *e : entities)
-        {
-            if (e != entity && isHitted(*entity, *e))
-            {
+void World::checkCollision() {
+    for (Entity *entity : entities) {
+        for (Entity *e : entities) {
+            if (e != entity && isHitted(*entity, *e)) {
                 entity->onHit(*e);
             }
         }
-        if (!entity->isAlive())
-        {
+        if (!entity->isAlive()) {
             entities.remove(entity);
             std::cout << "Removing Entity!\n";
         }
     }
 }
 
-bool World::collideRect(float x1, float y1, float width1, float height1, float x2, float y2, float width2, float height2)
-{
-    if (x1 < x2 + width2 && x1 + width1 > x2 && y1 < y2 + height2 && y1 + height1 > y2)
-    {
+bool World::collideRect(float x1, float y1, float width1, float height1, float x2, float y2, float width2, float height2) {
+    if (x1 < x2 + width2 && x1 + width1 > x2 && y1 < y2 + height2 && y1 + height1 > y2) {
         return true;
     }
 
     return false;
 }
 
-bool World::isHitted(Entity e1, Entity e2)
-{
+bool World::isHitted(Entity e1, Entity e2) {
     float x1 = e1.getPosition().x;
     float y1 = e1.getPosition().y;
     float width1 = e1.getWidth();
@@ -173,44 +157,35 @@ bool World::isHitted(Entity e1, Entity e2)
     return collideRect(x1, y1, width1, height1, x2, y2, width2, height2);
 }
 
-void World::display(sf::RenderWindow &window)
-{
+void World::display(sf::RenderWindow &window) {
     // debugging
-    if (++counter % 240 == 0)
-    {
+    if (++counter % 240 == 0) {
         inventory.addItem(item);
         counter = 0;
     }
 
-    else if (counter % 120 == 0)
-    {
-        inventory.removeItem(0,0);
+    else if (counter % 120 == 0) {
+        inventory.removeItem(0, 0);
     }
     // end debugging section
     // menu.makeMenu();
     //window.draw(menu);
-    if (end)
-    {
-        if (player->isAlive())
-        {
+    if (end) {
+        if (player->isAlive()) {
             winTextBox.typewriter();
             window.draw(winTextBox);
-        }
-        else
-        {
+        } else {
             deathTextBox.typewriter();
             window.draw(deathTextBox);
         }
         return;
     }
     //Render Entities and Tiles
-    
-    for (Entity *entity : entities)
-    {
+
+    for (Entity *entity : entities) {
         window.draw(*entity);
     }
-    for (Tile *tile : tiles)
-    {
+    for (Tile *tile : tiles) {
         window.draw(*tile);
     }
     //Render GUI
@@ -219,10 +194,8 @@ void World::display(sf::RenderWindow &window)
     window.draw(item);
 }
 
-void World::addEntity(Entity &entity)
-{
-    if (entities.size() == entities.max_size() - 1)
-    {
+void World::addEntity(Entity &entity) {
+    if (entities.size() == entities.max_size() - 1) {
         std::cout << "Too Much Entity!\n";
         return;
     }
