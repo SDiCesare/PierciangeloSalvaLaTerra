@@ -3,6 +3,16 @@
 
 #include <SFML/Graphics.hpp>
 #include "World.hpp"
+#include "entity\Player.hpp"
+#include "tile\Tile.hpp"
+#include "HUD\HealthBarNum.hpp"
+#include "HUD\HealthBar.hpp"
+#include "TextBox.hpp"
+#include <SFML/Graphics.hpp>
+#include <list>
+#include "Menu.hpp"
+#include "HUD\Inventory.hpp"
+#include "room\\FireRoom.hpp"
 
 class Game
 {
@@ -12,6 +22,7 @@ private:
     void tick();
     void draw();
     void checkInput();
+    
 
 public:
     /**

@@ -2,7 +2,7 @@
 #include <iostream>
 #include "..\\ResourceHandler.hpp"
 
-Player::Player() : LivingEntity("player"), gun("", 3.5f, 15.f, 1.5)
+Player::Player() : LivingEntity("test"), gun("", 3.5f, 15.f, 1.5)
 {
     this->entityInit();
 }
@@ -26,7 +26,7 @@ void Player::damage(float amount)
 
 Projectile *Player::shoot()
 {
-    if (this->gunDelay <= 0)
+    if (this->gunDelay <= 0 || true)
     {
         this->gunDelay = this->gun.getDelay();
         Projectile *bullet = this->gun.generateBullet(this->getFacing(), *this);

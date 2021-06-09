@@ -10,6 +10,7 @@
 #include <list>
 #include "Menu.hpp"
 #include "HUD\Inventory.hpp"
+#include "room\\FireRoom.hpp"
 
 //class Game;
 
@@ -25,6 +26,8 @@ public:
      * @brief The Player of the World
      * */
     Player *player;
+
+    FireRoom *room;
 
     /**
      * @brief Called for updating the world's entities and collision system
@@ -51,48 +54,14 @@ public:
     void addEntity(Entity &entity);
 
     /**
-     * @brief Check if 2 Rectangle are colliding
-     * 
-     * @param x1 The x Position of the first Rectangle
-     * @param y1 The y Position of the first Rectangle
-     * @param width1 The width of the first Rectangle
-     * @param height1 The height of the first Rectangle
-     * @param x2 The x Position of the second Rectangle
-     * @param y2 The y Position of the second Rectangle
-     * @param width2 The width of the second Rectangle
-     * @param height2 The height of the second Rectangle
-     * 
-     * @return True if the two rectangles are colliding, Flase otherwise 
-     * */
-    bool collideRect(float x1, float y1, float width1, float height1, float x2, float y2, float width2, float height2);
-
-    /**
      * @brief Called from tick() to check the Entities collision in this World
      * */
     void checkCollision();
 
     /**
-     * @brief Check if the entity can move to a new position (x, y)
-     * 
-     * @param e The Entity to move
-     * @param x The new x position of the Entity
-     * @param y The new y position of the Entity
-     * @param width The Entity width
-     * @param height The Entity height
-     * 
-     * @return True if the entity can move to (x, y), False otherwise
+     * @brief Called from tick() to check the Entities positions in this World
      * */
-    bool canMove(Entity &e, float x, float y, float width, float height);
-
-    /**
-     * @brief Check if e1 hits e2
-     * 
-     * @param e1 The Entity that hits
-     * @param e2 The Entity that is hitted
-     * 
-     * @return True if e1 hits e2, false otherwise
-     * */
-    bool isHitted(Entity e1, Entity e2);
+    void checkPositions();
 
     /**
      * @param end If the Game int this World is ended

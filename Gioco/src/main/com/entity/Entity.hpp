@@ -6,7 +6,7 @@
 #include "..\\tile\\Tile.hpp"
 #include <string>
 
-class Entity : public sf::Drawable, public sf::Transformable
+class Entity : public sf::Drawable
 {
 
 public:
@@ -51,6 +51,11 @@ public:
      * @param y The Y coordinate
      * */
     void setPosition(float x, float y);
+
+    /**
+     * @brief Set the position of the Entity at the previous one
+     * */
+    void resetPosition();
 
     /**
      * @return The current position of the Entity
@@ -98,6 +103,11 @@ public:
      * @return The Entity height
      * */
     int getHeight();
+
+    /**
+     * @return The Entity Texture Box
+     * */
+    sf::VertexArray getTextureBox();
 
     /**
      * @brief Set facing direction of this Entity

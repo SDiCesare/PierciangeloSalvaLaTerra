@@ -5,9 +5,7 @@
 int main(int argv, char **argc)
 {
     ResourceHandler::loadDefault();
-
     Game *game = new Game();
     game->run();
-
     return 0;
 }

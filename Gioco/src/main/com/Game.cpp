@@ -52,33 +52,22 @@ void Game::checkInput()
             world->addEntity(*projectile);
         }
     }
+    //TODO Check Movement
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        if (world->canMove(*world->player, world->player->getPosition().x - 3, world->player->getPosition().y, world->player->getWidth(), world->player->getHeight()))
-        {
-            world->player->move(-3, 0);
-        }
+        world->player->move(-3, 0);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        if (world->canMove(*world->player, world->player->getPosition().x + 3, world->player->getPosition().y, world->player->getWidth(), world->player->getHeight()))
-        {
-            world->player->move(3, 0);
-        }
+        world->player->move(3, 0);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
-        if (world->canMove(*world->player, world->player->getPosition().x, world->player->getPosition().y - 3, world->player->getWidth(), world->player->getHeight()))
-        {
-            world->player->move(0, -3);
-        }
+        world->player->move(0, -3);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
-        if (world->canMove(*world->player, world->player->getPosition().x, world->player->getPosition().y + 3, world->player->getWidth(), world->player->getHeight()))
-        {
-            world->player->move(0, 3);
-        }
+        world->player->move(0, 3);
     }
 }
 
