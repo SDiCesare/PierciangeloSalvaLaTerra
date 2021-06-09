@@ -22,6 +22,7 @@ class Inventory : public sf::Transformable, public sf::Drawable {
     void removeItem(size_t x, size_t y);
     void setTable(size_t columns, size_t rows);
     void setFont(sf::Font& font);
+    void setSizeIcons(size_t size);
     bool addItem(Item item);
     virtual ~Inventory();
 
@@ -31,7 +32,7 @@ class Inventory : public sf::Transformable, public sf::Drawable {
     InvItem** items;
     sf::Font font;
     size_t size;
-    float sizeIcon;
+    float sizeIcons;
     bool hasBeenInitialize = false;
     InvItem* getItemConst(size_t row, size_t col) const;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

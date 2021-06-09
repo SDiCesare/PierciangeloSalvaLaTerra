@@ -4,7 +4,7 @@
 #include <iostream>
 
 Inventory::Inventory() {
-    sizeIcon = 80.f;
+    sizeIcons = 80.f;
 }
 
 Inventory::Inventory(size_t columns, size_t rows, sf::Font& font) {
@@ -17,7 +17,7 @@ Inventory::Inventory(size_t columns, size_t rows, sf::Font& font) {
     this->font = font;
     size = 0;
     hasBeenInitialize = true;
-    sizeIcon = 80.f;
+    sizeIcons = 80.f;
 }
 
 InvItem* Inventory::getItem(size_t x, size_t y) {
@@ -38,6 +38,10 @@ InvItem* Inventory::getItemConst(size_t row, size_t col) const {
 
 void Inventory::setFont(sf::Font& font) {
     this->font = font;
+}
+
+void Inventory::setSizeIcons(size_t size){
+    sizeIcons = size;
 }
 
 void Inventory::setTable(size_t columns, size_t rows) {
@@ -68,12 +72,12 @@ bool Inventory::addItem(Item item) {
     else
         max = itemBounds.x;
 
-    float toScale = sizeIcon / max;
+    float toScale = sizeIcons / max;
     item.setScale(toScale, toScale);
     float sizeX = static_cast<float>(size % c);
     float sizeY = static_cast<float>(size / c);
 
-    item.setPosition(sizeX * sizeIcon, sizeY * sizeIcon);
+    item.setPosition(sizeX * sizeIcons, sizeY * sizeIcons);
     InvItem* itemPtr = *(items + size);
     itemPtr->item = item;
     itemPtr->quantity = 1;
@@ -98,7 +102,7 @@ void Inventory::removeItem(size_t x, size_t y) {
             int row = i / c;
             int column = i % c;
             InvItem* itemPtr = *(items + i);
-            itemPtr->item.setPosition(static_cast<float>(column) * sizeIcon, static_cast<float>(row) * sizeIcon);
+            itemPtr->item.setPosition(static_cast<float>(column) * sizeIcons, static_cast<float>(row) * sizeIcons);
         }
     }
     size--;
@@ -117,8 +121,8 @@ void Inventory::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     invNum.setPosition(0.f, 0.f);
     for (size_t i = 0; i < r; i++) {
         for (size_t j = 0; j < c; j++) {
-            position.x = static_cast<float>(j) * sizeIcon;
-            position.y = static_cast<float>(i) * sizeIcon;
+            position.x = static_cast<float>(j) * sizeIcons;
+            position.y = static_cast<float>(i) * sizeIcons;
 
             InvItem* invItem = getItemConst(i, j);
             if (invItem->quantity == 0) {
