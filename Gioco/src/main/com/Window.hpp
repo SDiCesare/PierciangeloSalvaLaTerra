@@ -2,9 +2,9 @@
 #define Window_hpp
 
 #include <SFML/Graphics.hpp>
-#include "World.hpp"
 #include "entity\\Entity.hpp"
 #include "tile\\Tile.hpp"
+#include <list>
 
 class Window
 {
@@ -13,7 +13,9 @@ public:
     void drawWorld(std::list<Entity *> &entities, std::list<Tile *> &tiles);
     void setPlayerPos(sf::Vector2f playerPos);
     bool isOpen();
-    void moveGameView(float x, float y);
+    void moveGameView(sf::Vector2f pos);
+    bool pollEvent(sf::Event &event);
+    void close();
 
 private:
     sf::RenderWindow window;

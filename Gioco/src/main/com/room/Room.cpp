@@ -58,8 +58,8 @@ void Room::makeEntrance(int index)
     }
     case 1:
     {
+        this->tiles[this->width / 2 - 1][this->height - 1] = 0;
         this->tiles[this->width / 2][this->height - 1] = 0;
-        this->tiles[this->width / 2 + 1][this->height - 1] = 0;
         break;
     }
     case 2:

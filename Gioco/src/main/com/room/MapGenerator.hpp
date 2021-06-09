@@ -21,7 +21,7 @@ public:
         for (int i = 0; i < connection; i++)
         {
             room.makeEntrance(i);
-            appendRoom(tiles, i, nRoom, 0, 0, room);
+            //appendRoom(tiles, i, nRoom, 0, 0, room);
         }
         for (int i = 0; i < room.getHeight(); i++)
         {
@@ -37,52 +37,54 @@ public:
 
     static void appendRoom(std::list<Tile *> &tiles, int entrance, int nRoom, int xOff, int yOff, Room parent)
     {
-        if (entrance <= 0)
-        {
-            return;
-        }
-        int connection = Game::getRandInt(1, 3);
         FireRoom room = FireRoom("test");
+        room.makeEntrance(entrance);
+        int connection = Game::getRandInt(1, 3);
         if (connection > nRoom)
         {
             connection = nRoom;
         }
         nRoom -= (connection + 1);
+        if (nRoom < 0)
+        {
+            nRoom = 0;
+        }
         switch (entrance)
         {
         case 0:
         {
-            entrance = 2;
             yOff = yOff - (room.getHeight() * 32);
             break;
         }
         case 1:
         {
-            entrance = 3;
             xOff = xOff + (parent.getWidth() * 32);
             break;
         }
         case 2:
         {
-            entrance = 0;
             yOff = yOff + (parent.getHeight() * 32);
             break;
         }
         case 3:
         {
-            entrance = 1;
-            xOff = xOff + (room.getWidth() * 32);
+            xOff = xOff - (room.getWidth() * 32);
             break;
         }
         }
-        for (int i = 0; i < connection; i++)
+        int count = 0;
+        for (int i = 0; i < 4; i++)
         {
-            if (i == entrance)
+            if (count == connection)
             {
-                continue;
+                break;
             }
-            room.makeEntrance(i);
-            appendRoom(tiles, i, nRoom, xOff, yOff, room);
+            if (i != entrance)
+            {
+                room.makeEntrance(i);
+                appendRoom(tiles, i, nRoom, xOff, yOff, room);
+                count++;
+            }
         }
         for (int i = 0; i < room.getWidth(); i++)
         {

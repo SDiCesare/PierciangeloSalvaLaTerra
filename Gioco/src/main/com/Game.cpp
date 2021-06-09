@@ -1,18 +1,47 @@
 #include "Game.hpp"
 #include <stdlib.h>
 #include <time.h>
-#include "item\\Gun.hpp"
+#include "entity\\Enemy.hpp"
+#include "room\\MapGenerator.hpp"
 
-Game::Game()
+Game::Game() : window(sf::Vector2f(0, 0))
 {
     srand(time(NULL));
-    world = new World();
+    //load a font to pass to other class
+    if (!font.loadFromFile("..\\resources\\fonts\\ArialUnicodeMS.ttf"))
+    {
+        // TODO create exception class
+        throw 2;
+    }
+    this->generateWorld();
+    //For Debugging
+    counter = 0;
+}
+
+void Game::generateWorld()
+{
+    //Add Player to world
+    player = new Player();
+    player->setPosition(200, 150);
+    entities.push_back(player);
+    //Add n[1-4] enemy to world
+    int numEnemy = 1; //Game::getRandInt(1, 4);
+    std::cout << "Adding " << numEnemy << " enemy\n";
+    for (int i = 0; i < numEnemy; i++)
+    {
+        Enemy *enemy = new Enemy();
+        float x = Game::getRandInt(0, Game::width);
+        float y = Game::getRandInt(0, Game::height);
+        std::cout << "Adding Enemy to " << x << "," << y << "\n";
+        enemy->setPosition(x, y);
+        entities.push_back(enemy);
+    }
+    //Tile Injection
+    this->tiles = MapGenerator::generateRoom(7);
 }
 
 void Game::run()
 {
-    window.create(sf::VideoMode(Game::width, Game::height), "My window");
-    window.setFramerateLimit(60);
     while (window.isOpen())
     {
         sf::Event event;
@@ -23,7 +52,7 @@ void Game::run()
                 window.close();
             }
         }
-        checkInput();
+        processInput();
         tick();
         draw();
     }
@@ -31,51 +60,103 @@ void Game::run()
 
 void Game::tick()
 {
-    world->tick();
+    for (Entity *entity : entities)
+    {
+        entity->tick();
+        if (!entity->isAlive())
+        {
+            entities.remove(entity);
+        }
+    }
+    this->checkPositions();
+    this->checkCollision();
 }
 
-void Game::checkInput()
+void Game::checkPositions()
 {
-    if (world->end)
+    for (Entity *entity : entities)
     {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+        for (Tile *t : tiles)
         {
-            world = new World();
+            if (!t->isSolid())
+            {
+                continue;
+            }
+            bool collide = entity->getTextureBox().getBounds().intersects(t->getTextureBox().getBounds());
+            if (collide)
+            {
+                entity->onHit(*t);
+                entity->resetPosition();
+            }
         }
-        return;
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+}
+
+void Game::checkCollision()
+{
+    for (Entity *entity : entities)
     {
-        Projectile *projectile = world->player->shoot();
-        if (projectile != NULL)
+        for (Entity *e : entities)
         {
-            world->addEntity(*projectile);
+            bool collide = entity->getTextureBox().getBounds().intersects(e->getTextureBox().getBounds());
+            if (collide)
+            {
+                entity->onHit(*e);
+            }
         }
-    }
-    //TODO Check Movement
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-    {
-        world->player->move(-3, 0);
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-    {
-        world->player->move(3, 0);
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-    {
-        world->player->move(0, -3);
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-    {
-        world->player->move(0, 3);
     }
 }
 
 void Game::draw()
 {
-    window.clear();
-    world->display(window);
-    window.display();
+    if (++counter % 240 == 0)
+    {
+        counter = 0;
+    }
+    else if (counter % 120 == 0)
+    {
+    }
+    this->window.moveGameView(player->getPosition());
+    this->window.drawWorld(this->entities, this->tiles);
+}
+
+void Game::processInput()
+{
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+    {
+        Projectile *projectile = this->player->shoot();
+        if (projectile != NULL)
+        {
+            this->addEntity(*projectile);
+        }
+    }
+    //TODO Check Movement
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    {
+        this->player->move(-3, 0);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    {
+        this->player->move(3, 0);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    {
+        this->player->move(0, -3);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    {
+        this->player->move(0, 3);
+    }
+}
+
+void Game::addEntity(Entity &entity)
+{
+    if (entities.size() == entities.max_size() - 1)
+    {
+        std::cout << "Too Much Entity!\n";
+        return;
+    }
+    entities.push_back(&entity);
 }
 
 int Game::getRandInt(int min, int max)
