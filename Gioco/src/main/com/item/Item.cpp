@@ -40,6 +40,10 @@ sf::Texture Item::getTexture(){
     return texture;
 }
 
+void Item::copyTexture(const sf::Texture& texture){
+    this->texture = texture;
+}
+
 const sf::Vector2f Item::getSize() {
     return sf::Vector2f(textureBox[3].position.x, textureBox[3].position.y);
 }
