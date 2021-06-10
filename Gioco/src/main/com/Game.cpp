@@ -3,6 +3,9 @@
 #include <time.h>
 #include "entity\\Enemy.hpp"
 #include "room\\MapGenerator.hpp"
+#include "HUD/HealthBarNum.hpp"
+#include "HUD/Inventory.hpp"
+#include "item/Item.hpp"
 
 Game::Game() : window(sf::Vector2f(0, 0))
 {
@@ -16,6 +19,28 @@ Game::Game() : window(sf::Vector2f(0, 0))
     this->generateWorld();
     //For Debugging
     counter = 0;
+
+    //create health bar
+    HealthBarNum* healthBar = new HealthBarNum();
+    healthBar->setPosition(10.f, 10.f);
+    healthBar->setFont(font);
+    healthBar->setMaxHealth(70);
+    healthBar->setBar(sf::Vector2f(200.f, 30.f));
+    hud.push_back(healthBar);
+
+    //create inventory
+    Inventory* inventory = new Inventory();
+    inventory->setTable(4, 3);
+    inventory->setPosition(100.f, 20.f);
+    inventory->setFont(font);
+    Item item = Item("abaco", "gun");
+    item.setPosition(50.f, 100.f);
+    inventory->addItem(item);
+    inventory->addItem(item);
+    inventory->addItem(Item("paolo", "idk"));
+    inventory->addItem(item);
+    inventory->addItem(item);
+    hud.push_back(inventory);
 }
 
 void Game::generateWorld()
@@ -116,8 +141,11 @@ void Game::draw()
     else if (counter % 120 == 0)
     {
     }
+    this->window.clear();
     this->window.moveGameView(player->getPosition());
     this->window.drawWorld(this->entities, this->tiles);
+    this->window.drawHUD(this->hud);
+    this->window.display();
 }
 
 void Game::processInput()

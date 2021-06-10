@@ -14,7 +14,7 @@ struct InvItem {
     size_t quantity = 0;
 };
 
-class Inventory : public sf::Transformable, public sf::Drawable {
+class Inventory : public sf::Drawable, public sf::Transformable {
    public:
     Inventory();
     Inventory(size_t rows, size_t columns, sf::Font& font);

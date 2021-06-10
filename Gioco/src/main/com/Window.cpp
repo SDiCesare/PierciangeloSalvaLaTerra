@@ -6,13 +6,21 @@ Window::Window(sf::Vector2f playerPos)
     window.create(sf::VideoMode(width, height), "Game");
     window.setFramerateLimit(60);
     gameView = sf::View(sf::FloatRect(0, 0, width, height));
+    hudView = window.getDefaultView();
     //TODO Set HUD View
+}
+
+void Window::clear(){
+    window.clear();
+}
+
+void Window::display(){
+    window.display();
 }
 
 void Window::drawWorld(std::list<Entity *> &entities, std::list<Tile *> &tiles)
 {
     window.setView(gameView);
-    window.clear();
     for (Tile *t : tiles)
     {
         window.draw(*t);
@@ -21,7 +29,15 @@ void Window::drawWorld(std::list<Entity *> &entities, std::list<Tile *> &tiles)
     {
         window.draw(*e);
     }
-    window.display();
+}
+
+void Window::drawHUD(std::list<sf::Drawable *> hud){
+    window.setView(hudView);
+    for (sf::Drawable *t : hud)
+    {
+        window.draw(*t);
+    }
+    
 }
 
 void Window::moveGameView(sf::Vector2f pos)

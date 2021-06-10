@@ -56,6 +56,7 @@ private:
     Player *player;
     std::list<Entity *> entities;
     std::list<Tile *> tiles;
+    std::list<sf::Drawable *> hud;
     sf::Font font;
     int counter; //for debugging, it counts how many time the loop was executed
 };

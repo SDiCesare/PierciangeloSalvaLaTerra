@@ -11,6 +11,9 @@ class Window
 public:
     Window(sf::Vector2f playerPos);
     void drawWorld(std::list<Entity *> &entities, std::list<Tile *> &tiles);
+    void drawHUD(std::list<sf::Drawable *> hud);
+    void display();
+    void clear();
     void setPlayerPos(sf::Vector2f playerPos);
     bool isOpen();
     void moveGameView(sf::Vector2f pos);
