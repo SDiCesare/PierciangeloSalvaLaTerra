@@ -20,6 +20,10 @@ const std::string& Item::getName() {
     return name;
 }
 
+void Item::setName(std::string name){
+    this->name = name;
+}
+
 void Item::setTexture(std::string fileName) {
     this->texture = ResourceHandler::getOrCreate("item", fileName);
     int width = this->texture.getSize().x;
