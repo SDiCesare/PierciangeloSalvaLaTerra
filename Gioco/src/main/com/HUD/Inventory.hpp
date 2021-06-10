@@ -39,7 +39,7 @@ class Inventory : public sf::Transformable, public sf::Drawable {
      * @param rows The number of inventory rows
      * @param font The font with which the number of quantity will be displayed
      */
-    Inventory(size_t columns, size_t rows, sf::Font& font);
+    Inventory(size_t columns, size_t rows, const sf::Font& font);
 
     /**
      * @brief Return the pointer of the selected item
@@ -84,7 +84,7 @@ class Inventory : public sf::Transformable, public sf::Drawable {
      * 
      * @param font The font to use
      */
-    void setFont(sf::Font& font);
+    void setFont(const sf::Font& font);
 
     /**
      * @brief Set the icons size
@@ -116,6 +116,8 @@ class Inventory : public sf::Transformable, public sf::Drawable {
     size_t size;
     size_t maxSize;
     float sizeIcons;
+
+    //necessary to avoid problem in cleaning memory
     bool hasBeenInitialize = false;
     InvItem* getItemConst(size_t row, size_t col) const;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

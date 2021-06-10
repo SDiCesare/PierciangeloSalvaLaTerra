@@ -7,7 +7,7 @@ Inventory::Inventory() {
     sizeIcons = 80.f;
 }
 
-Inventory::Inventory(size_t columns, size_t rows, sf::Font& font) {
+Inventory::Inventory(size_t columns, size_t rows, const sf::Font& font) {
     maxSize = rows * columns;
     c = columns;
     r = rows;
@@ -42,7 +42,7 @@ InvItem* Inventory::getItemConst(size_t row, size_t col) const {
     return *(items + col + row * c);
 }
 
-void Inventory::setFont(sf::Font& font) {
+void Inventory::setFont(const sf::Font& font) {
     this->font = font;
 }
 
@@ -85,6 +85,7 @@ bool Inventory::addItem(Item item) {
     for (size_t i = 0; i < maxSize; i++)
     {
         InvItem* itemPtr = *(items+i);
+        //if exist add 1 to quantity
         if(!itemPtr->item.getName().compare(item.getName())){
             itemPtr->quantity++;
             return true;
@@ -125,7 +126,7 @@ void Inventory::useItem(size_t x, size_t y) {
 
     InvItem* itemPtrIdx = *(items + idx);
     itemPtrIdx->quantity--;
-    //if quantity reached 0 remove the item from inventory
+    //if quantity reaches 0 remove the item from inventory
     if(itemPtrIdx->quantity > 0)
         return;
     
@@ -165,30 +166,41 @@ void Inventory::rmItem(size_t idx, InvItem* itemPtrIdx){
 
 void Inventory::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     states.transform *= getTransform();
+    //create these objects to avoid to recreate them each loop
     sf::Text invNum;
     sf::Vector2f position;
+
+    //set value for text that will draw the quantities
     invNum.setFont(font);
     invNum.setCharacterSize(20);
-    // invNum.setOutlineColor(sf::Color::Black);
     invNum.setOutlineThickness(4.f);
     invNum.setPosition(0.f, 0.f);
+
     for (size_t i = 0; i < r; i++) {
         for (size_t j = 0; j < c; j++) {
             position.x = static_cast<float>(j) * sizeIcons;
             position.y = static_cast<float>(i) * sizeIcons;
 
             InvItem* invItem = getItemConst(i, j);
+
+            //if item is empty
             if (invItem->quantity == 0) {
+                //EMPTY will be displayed until a background will be created
                 invNum.setString("EMPTY");
                 invNum.setPosition(position.x + 4.f, position.y);
+                target.draw(invNum, states);
+                //a break can be put because the inventory is ordered, so that meanign that
+                //all elements have been drawn
             } else {
+                //draw the item icon
                 target.draw(invItem->item, states);
 
+                //draw the quantity
                 invNum.setString(std::to_string(invItem->quantity));
                 invNum.setPosition(position.x + 4.f, position.y);
+                target.draw(invNum, states);
             }
 
-            target.draw(invNum, states);
         }
     }
 }
@@ -201,17 +213,3 @@ Inventory::~Inventory() {
     delete[] items;
 }
 
-/*
-void Inventory::removeItem(size_t x, size_t y) {
-    size_t idx = x + y * c;
-
-    if (idx > size)
-        return;
-
-    if (idx < size)
-        std::copy(items + idx + 1, items + size, items + idx);
-    
-    (items + idx)->quantity = 0;
-    (items + idx)->item = Item();
-}
-*/
