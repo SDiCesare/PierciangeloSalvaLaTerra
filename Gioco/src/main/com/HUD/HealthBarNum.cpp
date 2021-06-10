@@ -3,12 +3,12 @@
 #include <string>
 
 HealthBarNum::HealthBarNum() {
-    healthNum.setFont(font);
     healthNum.setCharacterSize(16);
 }
 
-HealthBarNum::HealthBarNum(int maxHealth, const sf::Vector2f& size) : HealthBar(maxHealth, size) {
+HealthBarNum::HealthBarNum(int maxHealth, const sf::Vector2f& size, const sf::Font& font) : HealthBar(maxHealth, size) {
     healthNum.setCharacterSize(16);
+    healthNum.setFont(font);
     updateNum();
 }
 
@@ -44,7 +44,7 @@ void HealthBarNum::setBar(const sf::Vector2f& size){
     healthNum.setPosition(rect.getLocalBounds().width - healthNum.getLocalBounds().width, 0.f);
 }
 
-void HealthBarNum::setFont(sf::Font& font){
+void HealthBarNum::setFont(const sf::Font& font){
     healthNum.setFont(font);
 }
 
