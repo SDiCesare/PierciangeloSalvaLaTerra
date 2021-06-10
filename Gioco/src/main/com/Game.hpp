@@ -2,39 +2,26 @@
 #define Game_hpp
 
 #include <SFML/Graphics.hpp>
-#include "World.hpp"
+#include <list>
 #include "entity\Player.hpp"
 #include "tile\Tile.hpp"
-#include "HUD\HealthBarNum.hpp"
-#include "HUD\HealthBar.hpp"
-#include "TextBox.hpp"
-#include <SFML/Graphics.hpp>
-#include <list>
-#include "Menu.hpp"
-#include "HUD\Inventory.hpp"
-#include "room\\FireRoom.hpp"
+#include "Window.hpp"
 
 class Game
 {
-private:
-    sf::RenderWindow window;
-    World *world;
-    void tick();
-    void draw();
-    void checkInput();
-    
 
 public:
-    /**
-     * @brief The Default Constructor of Game
-     * */
     Game();
-
-    /**
-     * @brief Start The Game
-     * */
     void run();
+    void tick();
+    void draw();
+    void processInput();
+    void addEntity(Entity &entity);
+    void checkCollision();
+    void checkPositions();
+    void generateWorld();
 
+public:
     /**
      * @brief Generates a random integer value from min to max 
      * //TODO Implements SEED SYSTEM
@@ -63,6 +50,15 @@ public:
      * @param height The height of the window
      * */
     const static int height = 600;
+
+private:
+    Window window;
+    Player *player;
+    std::list<Entity *> entities;
+    std::list<Tile *> tiles;
+    std::list<sf::Drawable *> hud;
+    sf::Font font;
+    int counter; //for debugging, it counts how many time the loop was executed
 };
 
 #endif

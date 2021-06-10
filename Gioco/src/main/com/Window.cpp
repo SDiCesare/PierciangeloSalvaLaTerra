@@ -1,20 +1,26 @@
 #include "Window.hpp"
-#include <list>
 
 Window::Window(sf::Vector2f playerPos)
 {
     this->playerPos = playerPos;
     window.create(sf::VideoMode(width, height), "Game");
-    int x = this->playerPos.x - 300;
-    int y = this->playerPos.y - 300;
-    gameView = sf::View(sf::FloatRect(x, y, x + 600, y + 600));
+    window.setFramerateLimit(60);
+    gameView = sf::View(sf::FloatRect(0, 0, width, height));
+    hudView = window.getDefaultView();
     //TODO Set HUD View
+}
+
+void Window::clear(){
+    window.clear();
+}
+
+void Window::display(){
+    window.display();
 }
 
 void Window::drawWorld(std::list<Entity *> &entities, std::list<Tile *> &tiles)
 {
     window.setView(gameView);
-    window.clear();
     for (Tile *t : tiles)
     {
         window.draw(*t);
@@ -23,14 +29,20 @@ void Window::drawWorld(std::list<Entity *> &entities, std::list<Tile *> &tiles)
     {
         window.draw(*e);
     }
-    window.display();
 }
 
-void Window::moveGameView(float x, float y)
+void Window::drawHUD(std::list<sf::Drawable *> hud){
+    window.setView(hudView);
+    for (sf::Drawable *t : hud)
+    {
+        window.draw(*t);
+    }
+    
+}
+
+void Window::moveGameView(sf::Vector2f pos)
 {
-    this->playerPos.x += x;
-    this->playerPos.y += y;
-    gameView.move(x, y);
+    gameView.setCenter(pos);
 }
 
 void Window::setPlayerPos(sf::Vector2f playerPos)
@@ -44,4 +56,14 @@ void Window::setPlayerPos(sf::Vector2f playerPos)
 bool Window::isOpen()
 {
     return this->window.isOpen();
+}
+
+bool Window::pollEvent(sf::Event &event)
+{
+    return this->window.pollEvent(event);
+}
+
+void Window::close()
+{
+    this->window.close();
 }

@@ -17,11 +17,15 @@ struct InvItem {
     size_t quantity = 0;
 };
 
+<<<<<<< HEAD
 /**
  * @class Inventory
  * Class for keep items in a inventory and display them on screen in SFML
  */
 class Inventory : public sf::Transformable, public sf::Drawable {
+=======
+class Inventory : public sf::Drawable, public sf::Transformable {
+>>>>>>> Beta
    public:
 
    /**
