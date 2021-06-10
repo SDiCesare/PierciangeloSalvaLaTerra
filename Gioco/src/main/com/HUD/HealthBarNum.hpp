@@ -19,7 +19,7 @@ class HealthBarNum : public HealthBar {
          * 
          * Create an empty HealthBar with health and max health equal to 0
          * 
-         * @see setBar, setFont, setHealthStat
+         * @see #setBar, #setFont, #setHealthStat
          */
         HealthBarNum();
 
