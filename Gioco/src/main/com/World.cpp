@@ -133,12 +133,10 @@ void World::checkCollision()
 void World::display(sf::RenderWindow &window) {
     // debugging
     if (++counter % 240 == 0) {
-        inventory.addItem(item);
         counter = 0;
     }
 
     else if (counter % 120 == 0) {
-        inventory.useItem(0, 0);
     }
     // end debugging section
     // menu.makeMenu();
@@ -164,7 +162,7 @@ void World::display(sf::RenderWindow &window) {
     }
     //Render GUI
     window.draw(healthBar);
-    window.draw(inventory);
+    // window.draw(inventory);
     // window.draw(item);
 }
 
