@@ -13,9 +13,13 @@ HealthBarNum::HealthBarNum(int maxHealth, const sf::Vector2f& size, const sf::Fo
 }
 
 void HealthBarNum::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    sf::Transform t = getTransform();
-    target.draw(rect, t);
-    target.draw(healthNum, t);
+    // sf::Transform t = getTransform();
+    // target.draw(rect, t);
+    // target.draw(healthNum, t);
+    states.transform *= getTransform();
+    states.texture = &textureHealth;
+    target.draw(textureBox, states);
+    target.draw(healthNum, states);
 }
 
 bool HealthBarNum::takeDamage(int damage) {
@@ -41,7 +45,7 @@ void HealthBarNum::setMaxHealth(int maxHealth, bool propotionalHealth){
 
 void HealthBarNum::setBar(const sf::Vector2f& size){
     HealthBar::setBar(size);
-    healthNum.setPosition(rect.getLocalBounds().width - healthNum.getLocalBounds().width, 0.f);
+    healthNum.setPosition(maxSize.x - healthNum.getLocalBounds().width, 0.f);
 }
 
 void HealthBarNum::setFont(const sf::Font& font){
@@ -50,4 +54,5 @@ void HealthBarNum::setFont(const sf::Font& font){
 
 void HealthBarNum::updateNum() {
     healthNum.setString(std::to_string(health) + "/" + std::to_string(maxHealth));
+    healthNum.setPosition(maxSize.x - healthNum.getLocalBounds().width, 0.f);
 }

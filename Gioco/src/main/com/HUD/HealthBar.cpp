@@ -1,11 +1,11 @@
 #include "HealthBar.hpp"
 
-HealthBar::HealthBar() {
+HealthBar::HealthBar() : textureBox(sf::TriangleStrip, 4){
     maxHealth = 0;
     health = 0;
 }
 
-HealthBar::HealthBar(int health, const sf::Vector2f& size) {
+HealthBar::HealthBar(int health, const sf::Vector2f& size) : textureBox(sf::TriangleStrip, 4){
     if(health < 0)
         maxHealth = 0;
     else
@@ -15,9 +15,9 @@ HealthBar::HealthBar(int health, const sf::Vector2f& size) {
 }
 
 void HealthBar::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    // You can draw other high-level objects
-    sf::Transform t = getTransform();
-    target.draw(rect, t);
+    states.transform *= getTransform();
+    states.texture = &textureHealth;
+    target.draw(textureBox, states);
 }
 
 bool HealthBar::takeDamage(int damage) {
@@ -99,14 +99,21 @@ void HealthBar::renderHealthBar() {
     if (maxHealth > 0)
         sizeBar = health * static_cast<int>(maxSize.x) / maxHealth;
 
-    rect.setSize(sf::Vector2f(static_cast<float>(sizeBar), maxSize.y));
-    rect.setTextureRect(sf::IntRect(0, 0, sizeBar, 30));
+    // rect.setSize(sf::Vector2f(static_cast<float>(sizeBar), maxSize.y));
+    // rect.setTextureRect(sf::IntRect(0, 0, sizeBar, 30));
+    float sizeB = static_cast<float>(sizeBar);
+    textureBox[0].position = sf::Vector2f(0, 0);
+    textureBox[1].position = sf::Vector2f(0,  maxSize.y);
+    textureBox[2].position = sf::Vector2f(sizeB, 0);
+    textureBox[3].position = sf::Vector2f(sizeB,  maxSize.y);
+    textureBox[0].texCoords = sf::Vector2f(0, 0);
+    textureBox[1].texCoords = sf::Vector2f(0, maxSize.y);;
+    textureBox[2].texCoords = sf::Vector2f(sizeB, 0);
+    textureBox[3].texCoords = sf::Vector2f(sizeB, maxSize.y);
 }
 
 void HealthBar::setBar(const sf::Vector2f& size) {
     maxSize = size;
-    rect.setSize(size);
-    rect.setPosition(0.f, 0.f);
 
     //generate rectangle, use 2 triangles because quad is deprecated
     sf::VertexArray tri1(sf::Triangles, 3);
@@ -131,6 +138,15 @@ void HealthBar::setBar(const sf::Vector2f& size) {
     rend.draw(tri2);
 
     textureHealth = rend.getTexture();
-    rect.setTexture(&textureHealth);
+    //set the dimension
+    textureBox[0].position = sf::Vector2f(0, 0);
+    textureBox[1].position = sf::Vector2f(0, size.y);
+    textureBox[2].position = sf::Vector2f(size.x, 0);
+    textureBox[3].position = size;
+    //set the texture position
+    textureBox[0].texCoords = sf::Vector2f(0, 0);
+    textureBox[1].texCoords = sf::Vector2f(0, size.y);;
+    textureBox[2].texCoords = sf::Vector2f(size.x, 0);
+    textureBox[3].texCoords = size;
     renderHealthBar();
 }

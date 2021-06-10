@@ -103,9 +103,9 @@ class HealthBar : public sf::Drawable, public sf::Transformable {
    protected:
     int maxHealth;
     int health;
-    sf::RectangleShape rect;
     sf::Texture textureHealth;
     sf::Vector2f maxSize;
+    sf::VertexArray textureBox;
     void renderHealthBar();
 
    private:
