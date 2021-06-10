@@ -18,6 +18,7 @@ struct InvItem {
 };
 
 /**
+ * @class Inventory
  * Class for keep items in a inventory and display them in screen in SFML
  */
 class Inventory : public sf::Transformable, public sf::Drawable {
