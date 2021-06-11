@@ -59,6 +59,7 @@ public:
         }
         else
         {
+            std::cout << "Can't load texture " + textureDir + "\\" + textureName + "\n";
             return DEFAULT_TEXTURE;
         }
     }

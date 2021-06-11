@@ -2,7 +2,7 @@
 #include <iostream>
 #include "..\\ResourceHandler.hpp"
 
-Player::Player() : LivingEntity("test"), gun("", 3.5f, 15.f, 1.5)
+Player::Player() : LivingEntity("test"), gun("gun", 3.5f, 15.f, 1.5)
 {
     this->entityInit();
 }

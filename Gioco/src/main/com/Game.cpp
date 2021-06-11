@@ -21,7 +21,7 @@ Game::Game() : window(sf::Vector2f(0, 0))
     counter = 0;
 
     //create health bar
-    HealthBarNum* healthBar = new HealthBarNum();
+    HealthBarNum *healthBar = new HealthBarNum();
     healthBar->setPosition(10.f, 10.f);
     healthBar->setFont(font);
     healthBar->setMaxHealth(70);
@@ -29,7 +29,7 @@ Game::Game() : window(sf::Vector2f(0, 0))
     hud.push_back(healthBar);
 
     //create inventory
-    Inventory* inventory = new Inventory();
+    Inventory *inventory = new Inventory();
     inventory->setTable(4, 3);
     inventory->setPosition(100.f, 20.f);
     inventory->setFont(font);
