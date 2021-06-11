@@ -21,7 +21,7 @@ public:
         for (int i = 0; i < connection; i++)
         {
             room.makeEntrance(i);
-            //appendRoom(tiles, i, nRoom, 0, 0, room);
+            appendRoom(tiles, i, nRoom, 0, 0, room);
         }
         for (int i = 0; i < room.getHeight(); i++)
         {
